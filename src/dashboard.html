@@ -317,7 +317,23 @@ let sortCol = 'cif', sortDir = -1;
 async function loadData() {
   const resp = await fetch('../data/plywood_market_data_cleaned.csv');
   const text = await resp.text();
-  const rows = text.split('\n').map(r => r.split(','));
+
+  // Proper CSV parser — handles quoted fields containing commas
+  function parseCSV(str) {
+    return str.split('\n').map(line => {
+      const row = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === ',' && !inQ) { row.push(cur.trim()); cur = ''; }
+        else cur += c;
+      }
+      row.push(cur.trim());
+      return row;
+    });
+  }
+  const rows = parseCSV(text);
 
   const countryCols = rows[3];
   const woodTypeCols = rows[1];
@@ -327,15 +343,21 @@ async function loadData() {
   const dutyCols = rows[11];
   const dutiableCols = rows[9];
 
+  const clean = v => (v||'').replace(/\r/g,'').trim();
+
   for (let col = 1; col < countryCols.length; col++) {
-    const country = (countryCols[col]||'').trim();
-    const woodType = (woodTypeCols[col]||'').trim().replace(/\r/g,'');
-    const productSpec = (productSpecCols[col]||'').trim();
-    const time = (timeCols[col]||'').trim();
-    const cif = parseFloat((cifCols[col]||'').trim()) || 0;
-    const duty = parseFloat((dutyCols[col]||'').trim()) || 0;
-    const dutiable = parseFloat((dutiableCols[col]||'').trim()) || 0;
-    if (country && time) RAW.data.push({country, woodType, productSpec, time, cif, duty, dutiable});
+    const country = clean(countryCols[col]);
+    const woodType = clean(woodTypeCols[col]);
+    const productSpec = clean(productSpecCols[col]);
+    const time = clean(timeCols[col]);
+    const cif = parseFloat(clean(cifCols[col])) || 0;
+    const duty = parseFloat(clean(dutyCols[col])) || 0;
+    const dutiable = parseFloat(clean(dutiableCols[col])) || 0;
+
+    // Skip annual summary rows (pure 4-digit year) — use only monthly rows to avoid double-counting
+    if (country && time && !/^\d{4}$/.test(time)) {
+      RAW.data.push({country, woodType, productSpec, time, cif, duty, dutiable});
+    }
   }
 
   RAW.uniqueCountries = [...new Set(RAW.data.map(d=>d.country))].filter(Boolean).sort();
@@ -381,15 +403,8 @@ function matchesFilter(d, f) {
   if (f.wood && d.woodType !== f.wood) return false;
   if (f.spec && d.productSpec !== f.spec) return false;
 
-  // Time matching: skip annual rows (just 4-digit year) when months are involved
+  // All rows are monthly format "Month YYYY" — annual summaries excluded at load time
   if (f.year || f.months.length > 0) {
-    const isAnnual = /^\d{4}$/.test(d.time);
-    if (isAnnual) {
-      if (f.months.length > 0) return false; // monthly filter active, skip annual rows
-      if (f.year && d.time !== f.year) return false;
-      return true;
-    }
-    // Monthly row
     const parts = d.time.split(' ');
     if (parts.length === 2) {
       const [mon, yr] = parts;
@@ -494,9 +509,7 @@ function updateCountryList(filtered) {
 
 // ── MONTHLY CHART ─────────────────────────────────────────────────────────────
 function updateMonthlyChart(filtered, f) {
-  // Get monthly periods only (skip annual)
   let periods = [...new Set(filtered.map(d=>d.time))]
-    .filter(t => !/^\d{4}$/.test(t))
     .sort((a,b)=>parseTime(a)-parseTime(b));
 
   // Top 10 countries by total CIF (or highlight selectedCountry)
@@ -599,7 +612,6 @@ function updateSpecChart(filtered) {
 // ── TREND CHART ───────────────────────────────────────────────────────────────
 function updateTrendChart(filtered, f) {
   const periods = [...new Set(filtered.map(d=>d.time))]
-    .filter(t => !/^\d{4}$/.test(t))
     .sort((a,b)=>parseTime(a)-parseTime(b));
 
   const totalByPeriod = periods.map(p =>
