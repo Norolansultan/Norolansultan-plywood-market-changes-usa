@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA Plywood Import Market Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222535;
+    --border: #2e3250;
+    --accent: #4f8ef7;
+    --accent2: #7c3aed;
+    --text: #e2e8f0;
+    --text-muted: #8892a4;
+    --green: #22c55e;
+    --red: #ef4444;
+    --nav-h: 56px;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    height: var(--nav-h);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px; padding: 0 24px;
+  }
+  nav .logo { font-size: 15px; font-weight: 700; color: var(--accent); margin-right: 24px; white-space: nowrap; }
+  nav a {
+    text-decoration: none; color: var(--text-muted); font-size: 13px; font-weight: 500;
+    padding: 6px 14px; border-radius: 6px; transition: all .15s;
+  }
+  nav a:hover, nav a.active { background: var(--surface2); color: var(--text); }
+
+  /* FILTERS */
+  .filters-bar {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 12px 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+  }
+  .filter-group { display: flex; flex-direction: column; gap: 4px; }
+  .filter-group label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
+  select, input[type=number] {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    padding: 6px 10px; border-radius: 6px; font-size: 13px; min-width: 140px; cursor: pointer;
+  }
+  select:focus, input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  .filter-group.months { min-width: 180px; }
+  .filter-group.months select { height: 80px; }
+  .btn-reset {
+    padding: 8px 16px; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text-muted); border-radius: 6px; cursor: pointer; font-size: 13px;
+    align-self: flex-end; transition: all .15s;
+  }
+  .btn-reset:hover { color: var(--text); border-color: var(--accent); }
+
+  /* MAIN */
+  main { padding: 0 24px 40px; }
+  section { padding-top: 32px; }
+  section h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+
+  /* OVERVIEW STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .stat-card .label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+  .stat-card .value { font-size: 22px; font-weight: 700; color: var(--accent); }
+  .stat-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* COUNTRIES SECTION */
+  .two-col { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .panel-header { padding: 14px 18px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
+  .panel-body { padding: 0; overflow-y: auto; max-height: 480px; }
+
+  /* COUNTRY LIST */
+  .country-list { list-style: none; }
+  .country-list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 18px; border-bottom: 1px solid var(--border);
+    cursor: pointer; transition: background .1s;
+  }
+  .country-list li:last-child { border-bottom: none; }
+  .country-list li:hover, .country-list li.selected { background: var(--surface2); }
+  .rank { width: 22px; text-align: right; font-size: 12px; color: var(--text-muted); font-weight: 600; }
+  .flag { font-size: 18px; width: 28px; text-align: center; }
+  .country-name { flex: 1; font-size: 13px; font-weight: 500; }
+  .cif-val { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; }
+  .trend { font-size: 13px; width: 20px; text-align: center; }
+  .trend.up { color: var(--green); }
+  .trend.down { color: var(--red); }
+  .trend.flat { color: var(--text-muted); }
+
+  /* CHART PANEL */
+  .chart-panel { padding: 18px; }
+  canvas { width: 100% !important; }
+
+  /* TRENDS SECTION */
+  .trend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .trend-grid { grid-template-columns: 1fr; } }
+  .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .chart-card h3 { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 14px; }
+
+  /* TABLE SECTION */
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--surface2); }
+  th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
+  th:hover { color: var(--text); }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .section-divider { height: 1px; background: var(--border); margin: 32px 0 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🪵 USA Plywood Imports</div>
+  <a href="#overview" class="active" onclick="setActiveNav(this)">Overview</a>
+  <a href="#countries" onclick="setActiveNav(this)">Countries</a>
+  <a href="#trends" onclick="setActiveNav(this)">Trends</a>
+  <a href="#table" onclick="setActiveNav(this)">Data Table</a>
+</nav>
+
+<div class="filters-bar">
+  <div class="filter-group">
+    <label>Wood Type</label>
+    <select id="f-wood" onchange="applyFilters()">
+      <option value="">All Wood Types</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Product Specification</label>
+    <select id="f-spec" onchange="applyFilters()">
+      <option value="">All Specifications</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Year</label>
+    <select id="f-year" onchange="applyFilters()">
+      <option value="">All Years</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+    </select>
+  </div>
+  <div class="filter-group months">
+    <label>Months (multi-select)</label>
+    <select id="f-months" multiple onchange="applyFilters()">
+      <option value="January">January</option>
+      <option value="February">February</option>
+      <option value="March">March</option>
+      <option value="April">April</option>
+      <option value="May">May</option>
+      <option value="June">June</option>
+      <option value="July">July</option>
+      <option value="August">August</option>
+      <option value="September">September</option>
+      <option value="October">October</option>
+      <option value="November">November</option>
+      <option value="December">December</option>
+    </select>
+  </div>
+  <button class="btn-reset" onclick="resetFilters()">Reset Filters</button>
+</div>
+
+<main>
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <h2>Overview</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total CIF Value</div>
+        <div class="value" id="stat-total-cif">—</div>
+        <div class="sub">Filtered period</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total Calculated Duty</div>
+        <div class="value" id="stat-total-duty">—</div>
+        <div class="sub">Filtered period</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Avg Duty Rate</div>
+        <div class="value" id="stat-duty-rate">—</div>
+        <div class="sub">Duty / Dutiable Value</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Active Countries</div>
+        <div class="value" id="stat-countries">—</div>
+        <div class="sub">Exporting to USA</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Top Country</div>
+        <div class="value" id="stat-top-country" style="font-size:16px">—</div>
+        <div class="sub" id="stat-top-cif">by CIF value</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- COUNTRIES -->
+  <section id="countries">
+    <h2>Countries</h2>
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header">
+          <span>Top 20 Countries by CIF Value</span>
+          <span id="country-count" style="font-size:11px"></span>
+        </div>
+        <div class="panel-body">
+          <ul class="country-list" id="country-list"></ul>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">Monthly CIF — Top 10 Countries</div>
+        <div class="chart-panel">
+          <canvas id="monthly-chart" height="380"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- TRENDS -->
+  <section id="trends">
+    <h2>Trends</h2>
+    <div class="trend-grid">
+      <div class="chart-card">
+        <h3>CIF Value by Wood Type</h3>
+        <canvas id="woodtype-chart" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>CIF Value by Product Specification</h3>
+        <canvas id="spec-chart" height="260"></canvas>
+      </div>
+      <div class="chart-card" style="grid-column: span 2">
+        <h3>Monthly CIF Trend — All Countries</h3>
+        <canvas id="trend-chart" height="200"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- TABLE -->
+  <section id="table">
+    <h2>Data Table</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable('country')">Country ⇅</th>
+            <th onclick="sortTable('woodType')">Wood Type ⇅</th>
+            <th onclick="sortTable('productSpec')">Product Spec ⇅</th>
+            <th onclick="sortTable('time')">Period ⇅</th>
+            <th onclick="sortTable('cif')" style="text-align:right">CIF Value ($US) ⇅</th>
+            <th onclick="sortTable('duty')" style="text-align:right">Calc. Duty ($US) ⇅</th>
+            <th onclick="sortTable('dutiable')" style="text-align:right">Dutiable Value ($US) ⇅</th>
+          </tr>
+        </thead>
+        <tbody id="data-table"></tbody>
+      </table>
+    </div>
+    <div id="table-info" style="padding:10px 4px; font-size:12px; color:var(--text-muted)"></div>
+  </section>
+</main>
+
+<script>
+// ── RAW DATA ──────────────────────────────────────────────────────────────────
+const RAW = {
+  data: [],
+  uniqueCountries: [],
+  uniqueWoodTypes: [],
+  uniqueProductSpecs: [],
+  sortedTimes: []
+};
+
+// Country flag map
+const FLAGS = {
+  Belgium:'🇧🇪', Brazil:'🇧🇷', Cambodia:'🇰🇭', Canada:'🇨🇦', Chile:'🇨🇱',
+  Ecuador:'🇪🇨', Finland:'🇫🇮', Gabon:'🇬🇦', Germany:'🇩🇪', Guatemala:'🇬🇹',
+  Indonesia:'🇮🇩', Italy:'🇮🇹', Latvia:'🇱🇻', Malaysia:'🇲🇾', Mexico:'🇲🇽',
+  Paraguay:'🇵🇾', Poland:'🇵🇱', Russia:'🇷🇺', Spain:'🇪🇸', Sweden:'🇸🇪',
+  'United Kingdom':'🇬🇧', China:'🇨🇳', Vietnam:'🇻🇳', Thailand:'🇹🇭',
+  Ukraine:'🇺🇦', India:'🇮🇳', Japan:'🇯🇵', Korea:'🇰🇷', Taiwan:'🇹🇼'
+};
+
+const COLORS = [
+  '#4f8ef7','#f59e0b','#22c55e','#ef4444','#a78bfa','#fb923c','#06b6d4',
+  '#ec4899','#84cc16','#14b8a6','#f43f5e','#8b5cf6','#0ea5e9','#d97706',
+  '#10b981','#dc2626','#7c3aed','#ea580c','#65a30d','#0891b2'
+];
+
+// Chart instances
+let monthlyChart, woodtypeChart, specChart, trendChart;
+let selectedCountry = null;
+let sortCol = 'cif', sortDir = -1;
+
+// ── PARSE CSV ─────────────────────────────────────────────────────────────────
+async function loadData() {
+  const resp = await fetch('../data/plywood_market_data_cleaned.csv');
+  const text = await resp.text();
+  const rows = text.split('\n').map(r => r.split(','));
+
+  const countryCols = rows[3];
+  const woodTypeCols = rows[1];
+  const productSpecCols = rows[2];
+  const timeCols = rows[7];
+  const cifCols = rows[10];
+  const dutyCols = rows[11];
+  const dutiableCols = rows[9];
+
+  for (let col = 1; col < countryCols.length; col++) {
+    const country = (countryCols[col]||'').trim();
+    const woodType = (woodTypeCols[col]||'').trim().replace(/\r/g,'');
+    const productSpec = (productSpecCols[col]||'').trim();
+    const time = (timeCols[col]||'').trim();
+    const cif = parseFloat((cifCols[col]||'').trim()) || 0;
+    const duty = parseFloat((dutyCols[col]||'').trim()) || 0;
+    const dutiable = parseFloat((dutiableCols[col]||'').trim()) || 0;
+    if (country && time) RAW.data.push({country, woodType, productSpec, time, cif, duty, dutiable});
+  }
+
+  RAW.uniqueCountries = [...new Set(RAW.data.map(d=>d.country))].filter(Boolean).sort();
+  RAW.uniqueWoodTypes = [...new Set(RAW.data.map(d=>d.woodType))].filter(Boolean).sort();
+  RAW.uniqueProductSpecs = [...new Set(RAW.data.map(d=>d.productSpec))].filter(Boolean).sort();
+
+  const allTimes = [...new Set(RAW.data.map(d=>d.time))].filter(Boolean);
+  RAW.sortedTimes = allTimes.sort((a,b) => parseTime(a) - parseTime(b));
+
+  // Populate filter dropdowns
+  const wSel = document.getElementById('f-wood');
+  RAW.uniqueWoodTypes.forEach(w => {
+    const o = document.createElement('option'); o.value = w; o.textContent = w;
+    wSel.appendChild(o);
+  });
+  const sSel = document.getElementById('f-spec');
+  RAW.uniqueProductSpecs.forEach(s => {
+    const o = document.createElement('option'); o.value = s; o.textContent = s;
+    sSel.appendChild(o);
+  });
+
+  applyFilters();
+}
+
+function parseTime(t) {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  if (/^\d{4}$/.test(t)) return new Date(parseInt(t), 0);
+  const parts = t.split(' ');
+  if (parts.length === 2) return new Date(parseInt(parts[1]), months.indexOf(parts[0]));
+  return new Date(0);
+}
+
+function getFilters() {
+  const wood = document.getElementById('f-wood').value;
+  const spec = document.getElementById('f-spec').value;
+  const year = document.getElementById('f-year').value;
+  const monthsSel = document.getElementById('f-months');
+  const months = [...monthsSel.options].filter(o=>o.selected).map(o=>o.value);
+  return {wood, spec, year, months};
+}
+
+function matchesFilter(d, f) {
+  if (f.wood && d.woodType !== f.wood) return false;
+  if (f.spec && d.productSpec !== f.spec) return false;
+
+  // Time matching: skip annual rows (just 4-digit year) when months are involved
+  if (f.year || f.months.length > 0) {
+    const isAnnual = /^\d{4}$/.test(d.time);
+    if (isAnnual) {
+      if (f.months.length > 0) return false; // monthly filter active, skip annual rows
+      if (f.year && d.time !== f.year) return false;
+      return true;
+    }
+    // Monthly row
+    const parts = d.time.split(' ');
+    if (parts.length === 2) {
+      const [mon, yr] = parts;
+      if (f.year && yr !== f.year) return false;
+      if (f.months.length > 0 && !f.months.includes(mon)) return false;
+    }
+  }
+  return true;
+}
+
+function applyFilters() {
+  const f = getFilters();
+  const filtered = RAW.data.filter(d => matchesFilter(d, f));
+  updateAll(filtered, f);
+}
+
+function resetFilters() {
+  document.getElementById('f-wood').value = '';
+  document.getElementById('f-spec').value = '';
+  document.getElementById('f-year').value = '';
+  const ms = document.getElementById('f-months');
+  [...ms.options].forEach(o => o.selected = false);
+  applyFilters();
+}
+
+function updateAll(filtered, f) {
+  updateStats(filtered);
+  updateCountryList(filtered);
+  updateMonthlyChart(filtered, f);
+  updateWoodTypeChart(filtered);
+  updateSpecChart(filtered);
+  updateTrendChart(filtered, f);
+  updateTable(filtered);
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────────
+function updateStats(filtered) {
+  const totalCIF = filtered.reduce((s,d)=>s+d.cif, 0);
+  const totalDuty = filtered.reduce((s,d)=>s+d.duty, 0);
+  const totalDutiable = filtered.reduce((s,d)=>s+d.dutiable, 0);
+  const activeCountries = new Set(filtered.map(d=>d.country)).size;
+
+  // Top country by CIF
+  const byCountry = {};
+  filtered.forEach(d => { byCountry[d.country] = (byCountry[d.country]||0) + d.cif; });
+  const sorted = Object.entries(byCountry).sort((a,b)=>b[1]-a[1]);
+  const topCountry = sorted[0] ? sorted[0][0] : '—';
+  const topCIF = sorted[0] ? sorted[0][1] : 0;
+
+  document.getElementById('stat-total-cif').textContent = fmtUSD(totalCIF);
+  document.getElementById('stat-total-duty').textContent = fmtUSD(totalDuty);
+  document.getElementById('stat-duty-rate').textContent = totalDutiable > 0
+    ? (totalDuty / totalDutiable * 100).toFixed(2) + '%' : '—';
+  document.getElementById('stat-countries').textContent = activeCountries;
+  document.getElementById('stat-top-country').textContent = (FLAGS[topCountry]||'') + ' ' + topCountry;
+  document.getElementById('stat-top-cif').textContent = fmtUSD(topCIF);
+}
+
+// ── COUNTRY LIST ──────────────────────────────────────────────────────────────
+function updateCountryList(filtered) {
+  const byCountry = {};
+  filtered.forEach(d => { byCountry[d.country] = (byCountry[d.country]||0) + d.cif; });
+  const sorted = Object.entries(byCountry).sort((a,b)=>b[1]-a[1]).slice(0,20);
+
+  // For trend: compare first half vs second half of filtered data (naive trend)
+  const times = [...new Set(filtered.map(d=>d.time))].sort((a,b)=>parseTime(a)-parseTime(b));
+  const mid = Math.floor(times.length/2);
+  const earlyTimes = new Set(times.slice(0,mid));
+  const lateTimes = new Set(times.slice(mid));
+  const earlyByCountry = {}, lateByCountry = {};
+  filtered.forEach(d => {
+    if (earlyTimes.has(d.time)) earlyByCountry[d.country] = (earlyByCountry[d.country]||0) + d.cif;
+    if (lateTimes.has(d.time)) lateByCountry[d.country] = (lateByCountry[d.country]||0) + d.cif;
+  });
+
+  const ul = document.getElementById('country-list');
+  ul.innerHTML = '';
+  sorted.forEach(([country, cif], i) => {
+    const early = earlyByCountry[country]||0, late = lateByCountry[country]||0;
+    let trendClass = 'flat', trendSymbol = '→';
+    if (late > early * 1.05) { trendClass = 'up'; trendSymbol = '↑'; }
+    else if (late < early * 0.95) { trendClass = 'down'; trendSymbol = '↓'; }
+
+    const li = document.createElement('li');
+    li.className = selectedCountry === country ? 'selected' : '';
+    li.innerHTML = `
+      <span class="rank">${i+1}</span>
+      <span class="flag">${FLAGS[country]||'🌍'}</span>
+      <span class="country-name">${country}</span>
+      <span class="cif-val">${fmtUSD(cif)}</span>
+      <span class="trend ${trendClass}">${trendSymbol}</span>
+    `;
+    li.onclick = () => {
+      selectedCountry = selectedCountry === country ? null : country;
+      applyFilters();
+    };
+    ul.appendChild(li);
+  });
+
+  document.getElementById('country-count').textContent = `${sorted.length} countries`;
+}
+
+// ── MONTHLY CHART ─────────────────────────────────────────────────────────────
+function updateMonthlyChart(filtered, f) {
+  // Get monthly periods only (skip annual)
+  let periods = [...new Set(filtered.map(d=>d.time))]
+    .filter(t => !/^\d{4}$/.test(t))
+    .sort((a,b)=>parseTime(a)-parseTime(b));
+
+  // Top 10 countries by total CIF (or highlight selectedCountry)
+  const byCountry = {};
+  filtered.forEach(d => { byCountry[d.country] = (byCountry[d.country]||0) + d.cif; });
+  let top10 = Object.entries(byCountry).sort((a,b)=>b[1]-a[1]).slice(0,10).map(e=>e[0]);
+  if (selectedCountry && !top10.includes(selectedCountry)) top10 = [selectedCountry, ...top10.slice(0,9)];
+
+  // Build datasets
+  const datasets = top10.map((country, i) => {
+    const values = periods.map(period => {
+      const match = filtered.find(d => d.country === country && d.time === period);
+      return match ? match.cif : 0;
+    });
+    return {
+      label: country,
+      data: values,
+      borderColor: COLORS[i % COLORS.length],
+      backgroundColor: COLORS[i % COLORS.length] + '22',
+      borderWidth: selectedCountry === country ? 3 : 1.5,
+      pointRadius: 3,
+      tension: 0.3,
+      fill: false
+    };
+  });
+
+  const ctx = document.getElementById('monthly-chart').getContext('2d');
+  if (monthlyChart) monthlyChart.destroy();
+  monthlyChart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: periods, datasets },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#8892a4', font: { size: 11 }, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${fmtUSD(ctx.raw)}`
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#8892a4', font: { size: 10 }, maxRotation: 45 }, grid: { color: '#2e325022' } },
+        y: { ticks: { color: '#8892a4', font: { size: 10 }, callback: v => fmtCompact(v) }, grid: { color: '#2e325044' } }
+      }
+    }
+  });
+}
+
+// ── WOOD TYPE CHART ───────────────────────────────────────────────────────────
+function updateWoodTypeChart(filtered) {
+  const byWood = {};
+  filtered.forEach(d => { byWood[d.woodType] = (byWood[d.woodType]||0) + d.cif; });
+  const sorted = Object.entries(byWood).filter(([k])=>k).sort((a,b)=>b[1]-a[1]);
+
+  const ctx = document.getElementById('woodtype-chart').getContext('2d');
+  if (woodtypeChart) woodtypeChart.destroy();
+  woodtypeChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sorted.map(e=>e[0]),
+      datasets: [{ data: sorted.map(e=>e[1]), backgroundColor: COLORS, borderRadius: 4 }]
+    },
+    options: {
+      responsive: true, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + fmtUSD(c.raw) } } },
+      scales: {
+        x: { ticks: { color: '#8892a4', font:{size:10}, callback: v=>fmtCompact(v) }, grid:{color:'#2e325044'} },
+        y: { ticks: { color: '#8892a4', font:{size:11} }, grid:{color:'#2e325022'} }
+      }
+    }
+  });
+}
+
+// ── SPEC CHART ────────────────────────────────────────────────────────────────
+function updateSpecChart(filtered) {
+  const bySpec = {};
+  filtered.forEach(d => { bySpec[d.productSpec] = (bySpec[d.productSpec]||0) + d.cif; });
+  const sorted = Object.entries(bySpec).filter(([k])=>k).sort((a,b)=>b[1]-a[1]);
+
+  const ctx = document.getElementById('spec-chart').getContext('2d');
+  if (specChart) specChart.destroy();
+  specChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: sorted.map(e=>e[0]),
+      datasets: [{ data: sorted.map(e=>e[1]), backgroundColor: COLORS, borderWidth: 0, hoverOffset: 6 }]
+    },
+    options: {
+      responsive: true, cutout: '60%',
+      plugins: {
+        legend: { position: 'right', labels: { color: '#8892a4', font:{size:10}, boxWidth:10 } },
+        tooltip: { callbacks: { label: c => ` ${c.label}: ${fmtUSD(c.raw)}` } }
+      }
+    }
+  });
+}
+
+// ── TREND CHART ───────────────────────────────────────────────────────────────
+function updateTrendChart(filtered, f) {
+  const periods = [...new Set(filtered.map(d=>d.time))]
+    .filter(t => !/^\d{4}$/.test(t))
+    .sort((a,b)=>parseTime(a)-parseTime(b));
+
+  const totalByPeriod = periods.map(p =>
+    filtered.filter(d=>d.time===p).reduce((s,d)=>s+d.cif,0)
+  );
+  const dutyByPeriod = periods.map(p =>
+    filtered.filter(d=>d.time===p).reduce((s,d)=>s+d.duty,0)
+  );
+
+  const ctx = document.getElementById('trend-chart').getContext('2d');
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: periods,
+      datasets: [
+        { label: 'CIF Value', data: totalByPeriod, backgroundColor: '#4f8ef788', borderColor: '#4f8ef7', borderWidth: 1, borderRadius: 3, yAxisID: 'y' },
+        { label: 'Calculated Duty', data: dutyByPeriod, backgroundColor: '#f59e0b88', borderColor: '#f59e0b', borderWidth: 1, borderRadius: 3, yAxisID: 'y' }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#8892a4', font:{size:11}, boxWidth:12 } },
+        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${fmtUSD(c.raw)}` } }
+      },
+      scales: {
+        x: { ticks: { color: '#8892a4', font:{size:10}, maxRotation:45 }, grid:{color:'#2e325022'} },
+        y: { ticks: { color: '#8892a4', font:{size:10}, callback: v=>fmtCompact(v) }, grid:{color:'#2e325044'} }
+      }
+    }
+  });
+}
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+function sortTable(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = col === 'cif' ? -1 : 1; }
+  applyFilters();
+}
+
+function updateTable(filtered) {
+  const sorted = [...filtered].sort((a,b) => {
+    let av = a[sortCol], bv = b[sortCol];
+    if (typeof av === 'string') av = av.toLowerCase(), bv = bv.toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+
+  const MAX_ROWS = 500;
+  const tbody = document.getElementById('data-table');
+  tbody.innerHTML = '';
+  sorted.slice(0, MAX_ROWS).forEach(d => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${FLAGS[d.country]||'🌍'} ${d.country}</td>
+      <td>${d.woodType}</td>
+      <td>${d.productSpec}</td>
+      <td>${d.time}</td>
+      <td style="text-align:right">${fmtUSD(d.cif)}</td>
+      <td style="text-align:right">${fmtUSD(d.duty)}</td>
+      <td style="text-align:right">${fmtUSD(d.dutiable)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('table-info').textContent =
+    `Showing ${Math.min(MAX_ROWS, sorted.length).toLocaleString()} of ${sorted.length.toLocaleString()} rows`;
+}
+
+// ── UTILITIES ─────────────────────────────────────────────────────────────────
+function fmtUSD(v) {
+  if (!v || isNaN(v)) return '$0';
+  if (v >= 1e9) return '$' + (v/1e9).toFixed(2) + 'B';
+  if (v >= 1e6) return '$' + (v/1e6).toFixed(2) + 'M';
+  if (v >= 1e3) return '$' + (v/1e3).toFixed(1) + 'K';
+  return '$' + v.toLocaleString();
+}
+function fmtCompact(v) {
+  if (v >= 1e9) return '$' + (v/1e9).toFixed(1) + 'B';
+  if (v >= 1e6) return '$' + (v/1e6).toFixed(0) + 'M';
+  if (v >= 1e3) return '$' + (v/1e3).toFixed(0) + 'K';
+  return '$' + v;
+}
+
+function setActiveNav(el) {
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
