@@ -1,0 +1,11 @@
+# Claude Flow runtime files
+.claude-flow/daemon.log
+.claude-flow/daemon.pid
+.claude-flow/logs/
+.claude-flow/swarm/
+
+# Swarm state
+.swarm/
+
+# Local Claude settings (machine-specific)
+.claude/settings.local.json
