@@ -1,0 +1,28 @@
+{
+  "name": "norolansultan-plywood-market-changes-usa",
+  "version": "1.0.0",
+  "description": "US Plywood Market Intelligence System\r A BI platform that automates collection and analysis of macroeconomic, trade, pricing, and regulatory data for the US plywood industry. Built with Power Query, Power Pivot, and DAX — designed to run on any corporate laptop with zero licensing costs.\r Full design rationale and architecture details are in specs/.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Norolansultan/Norolansultan-plywood-market-changes-usa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Norolansultan/Norolansultan-plywood-market-changes-usa/issues"
+  },
+  "homepage": "https://github.com/Norolansultan/Norolansultan-plywood-market-changes-usa#readme",
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "agentic-flow": "^2.0.7",
+    "sql.js": "^1.14.1"
+  }
+}
