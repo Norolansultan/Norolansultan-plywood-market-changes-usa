@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self';">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plywood Supply Chain — Inflation Risk Analysis</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0f1117; --surface: #1a1d27; --surface2: #222535; --border: #2e3250;
+  --accent: #4f8ef7; --text: #e2e8f0; --text-muted: #8892a4;
+  --green: #22c55e; --red: #ef4444; --yellow: #f59e0b; --nav-h: 56px;
+  --c-low: #22c55e; --c-mod: #f59e0b; --c-high: #ef4444; --c-sanc: #f87171; --c-unr: #64748b;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+nav {
+  position: sticky; top: 0; z-index: 100; height: var(--nav-h);
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 2px; padding: 0 20px;
+}
+nav .logo { font-size: 15px; font-weight: 700; color: var(--yellow); margin-right: 16px; white-space: nowrap; }
+nav a { text-decoration: none; color: var(--text-muted); font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: all .15s; }
+nav a:hover, nav a.active { background: var(--surface2); color: var(--text); }
+nav .nav-ext { margin-left: auto; display: flex; gap: 4px; }
+nav .nav-ext a { color: var(--accent); font-size: 12px; border: 1px solid var(--border); border-radius: 6px; }
+.note-bar { background: #1c1f2e; border-bottom: 1px solid var(--border); padding: 8px 24px; font-size: 12px; color: var(--text-muted); border-left: 4px solid var(--yellow); }
+main { padding: 20px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+section { scroll-margin-top: calc(var(--nav-h) + 48px); }
+.section-title { font-size: 17px; font-weight: 700; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+.stat-card .label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.stat-card .value { font-size: 28px; font-weight: 700; line-height: 1.1; }
+.stat-card .sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.alert-banner { background: #451a0340; border: 1px solid var(--yellow); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--yellow); margin-top: 12px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; }
+.badge-low { background: #14532d40; color: var(--c-low); }
+.badge-mod { background: #451a0340; color: var(--c-mod); }
+.badge-high { background: #450a0a40; color: var(--c-high); }
+.badge-sanc { background: #1c080840; color: var(--c-sanc); }
+.badge-unr { background: var(--surface2); color: var(--c-unr); }
+.tier-low { color: var(--c-low); } .tier-mod { color: var(--c-mod); } .tier-high { color: var(--c-high); } .tier-sanc { color: var(--c-sanc); } .tier-unr { color: var(--c-unr); }
+.cards-toggle { display: flex; gap: 6px; margin-bottom: 14px; }
+.btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all .15s; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.active, .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.scorecard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.scorecard {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px;
+  transition: border-color .15s;
+}
+.scorecard:hover { border-color: var(--accent); }
+.sc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.sc-country { font-size: 14px; font-weight: 600; }
+.sc-overall { font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+.sc-sub { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+.sc-sub span { display: flex; flex-direction: column; }
+.sc-sub .sv { font-size: 13px; font-weight: 600; }
+.sc-sub .sl { font-size: 10px; color: var(--text-muted); }
+.sc-cif { font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 6px; margin-top: 6px; }
+.sc-expl { font-size: 11px; color: var(--text-muted); font-style: italic; margin-top: 6px; border-top: 1px solid var(--border); padding-top: 6px; }
+.sc-link { font-size: 11px; color: var(--accent); cursor: pointer; margin-top: 4px; display: inline-block; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.panel-header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.chart-wrap { padding: 14px; }
+canvas { max-height: 380px; }
+.table-wrap { overflow-x: auto; max-height: 460px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { padding: 9px 10px; text-align: left; font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); cursor: pointer; white-space: nowrap; }
+th:hover { color: var(--accent); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+tr.tier-row-low { border-left: 3px solid #22c55e22; } tr.tier-row-mod { border-left: 3px solid #f59e0b22; }
+tr.tier-row-high { border-left: 3px solid #ef444422; } tr.tier-row-sanc { border-left: 3px solid #f8717122; }
+.sort-btns { display: flex; gap: 4px; margin-bottom: 12px; }
+.quad-guide { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.quad-item { background: var(--surface2); border-radius: 6px; padding: 10px 12px; font-size: 12px; }
+.quad-item strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+.totals-row td { font-weight: 700; background: var(--surface2); border-top: 1px solid var(--border); }
+.note { font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">⚠ Risk Analysis</span>
+  <a href="#risk-overview" data-section="risk-overview">Risk Overview</a>
+  <a href="#scorecards" data-section="scorecards">Scorecards</a>
+  <a href="#breakdown" data-section="breakdown">Breakdown</a>
+  <a href="#projection" data-section="projection">Projection</a>
+  <a href="#sensitivity" data-section="sensitivity">Sensitivity</a>
+  <a href="#rationale" data-section="rationale">Rationale</a>
+  <div class="nav-ext">
+    <a href="dashboard.html">Full Dashboard</a>
+    <a href="executive-summary.html">Executive Brief</a>
+  </div>
+</nav>
+<div class="note-bar">Forward-cost projections apply inflation multipliers to the prior full-year average price/unit (<span id="note-base-year"></span>). CIF volumes reflect the most recent year. Not a forecast — treat as directional risk signal.</div>
+
+<main>
+  <section id="risk-overview">
+    <div class="section-title">Risk Overview</div>
+    <div class="stat-grid" id="kpi-grid"></div>
+    <div id="risk-banner"></div>
+  </section>
+
+  <section id="scorecards">
+    <div class="section-title">Country Risk Scorecards</div>
+    <div class="cards-toggle">
+      <button class="btn btn-primary" data-sort="risk" id="sort-risk">By Risk</button>
+      <button class="btn" data-sort="cif" id="sort-cif">By CIF</button>
+    </div>
+    <div class="scorecard-grid" id="scorecard-grid"></div>
+  </section>
+
+  <section id="breakdown">
+    <div class="section-title">Inflation Impact Breakdown by Component</div>
+    <div class="panel">
+      <div class="panel-header">
+        Component Breakdown (Sorted by Overall Risk)
+        <div>
+          <button class="btn btn-primary" id="toggle-all">All Countries</button>
+          <button class="btn" id="toggle-active">Active Importers Only</button>
+        </div>
+      </div>
+      <div class="chart-wrap" style="max-height:480px;overflow-y:auto"><canvas id="chart-breakdown"></canvas></div>
+    </div>
+  </section>
+
+  <section id="projection">
+    <div class="section-title">Price-per-Unit Forward Projection</div>
+    <div class="panel">
+      <div class="panel-header">Forward Cost Estimates <span style="font-size:11px;color:var(--text-muted)">(Click column headers to sort)</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th data-pcol="country">Country</th>
+            <th data-pcol="price">Avg Price/Unit (<span id="ppu-base-year"></span>)</th>
+            <th data-pcol="mult">Inflation Multiplier</th>
+            <th data-pcol="proj">Projected Price/Unit</th>
+            <th data-pcol="delta">Delta $/Unit</th>
+            <th data-pcol="cif">Annual CIF Volume</th>
+            <th data-pcol="impact">Projected Cost Impact</th>
+          </tr></thead>
+          <tbody id="proj-table"></tbody>
+          <tfoot><tr class="totals-row" id="proj-totals"></tr></tfoot>
+        </table>
+      </div>
+      <p class="note" style="padding:8px 12px">Delta assumes current import volumes are maintained. Multipliers reflect directional risk, not contracted price changes.</p>
+    </div>
+  </section>
+
+  <section id="sensitivity">
+    <div class="section-title">Shipping vs. Production Sensitivity Map</div>
+    <div class="panel">
+      <div class="chart-wrap"><canvas id="chart-scatter" style="max-height:460px"></canvas></div>
+      <div class="quad-guide" style="padding:0 14px 14px">
+        <div class="quad-item"><strong style="color:var(--red)">Dual Risk</strong>High shipping + high production costs under simultaneous pressure.</div>
+        <div class="quad-item"><strong style="color:var(--yellow)">Production Risk</strong>Energy and resin costs are the primary driver.</div>
+        <div class="quad-item"><strong style="color:#06b6d4">Logistics Risk</strong>Freight and routing volatility is the primary driver.</div>
+        <div class="quad-item"><strong style="color:var(--c-low)">Lower Exposure</strong>Relatively insulated from fuel and war-related pressures.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rationale">
+    <div class="section-title">Risk Rationale — Full Detail</div>
+    <div class="sort-btns">
+      <button class="btn btn-primary" data-rsort="risk" id="rsort-risk">By Risk</button>
+      <button class="btn" data-rsort="az" id="rsort-az">A–Z</button>
+      <button class="btn" data-rsort="driver" id="rsort-driver">By Main Driver</button>
+    </div>
+    <div class="panel">
+      <div class="table-wrap" style="max-height:none">
+        <table>
+          <thead><tr><th>#</th><th>Country</th><th>Risk Tier</th><th>Overall %</th><th>Main Driver</th><th style="min-width:300px;white-space:normal">Explanation</th></tr></thead>
+          <tbody id="rationale-table"></tbody>
+        </table>
+      </div>
+      <p class="note" style="padding:8px 12px">Source: Norolansultan internal inflation estimates. Reflects fuel/war premium assumptions as of data preparation date.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+const MARKET_DATA = []; // <<MARKET_DATA>>
+const INFLATION_DATA = []; // <<INFLATION_DATA>>
+
+const MONTHS_LIST = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const FLAGS = {
+  'Belgium':'🇧🇪','Brazil':'🇧🇷','Canada':'🇨🇦','Chile':'🇨🇱','China':'🇨🇳',
+  'Finland':'🇫🇮','France':'🇫🇷','Germany':'🇩🇪','Indonesia':'🇮🇩','Italy':'🇮🇹',
+  'Japan':'🇯🇵','Malaysia':'🇲🇾','Mexico':'🇲🇽','Netherlands':'🇳🇱','New Zealand':'🇳🇿',
+  'Philippines':'🇵🇭','Poland':'🇵🇱','Portugal':'🇵🇹','Romania':'🇷🇴','Russia':'🇷🇺',
+  'South Korea':'🇰🇷','Spain':'🇪🇸','Sweden':'🇸🇪','Thailand':'🇹🇭','Ukraine':'🇺🇦',
+  'United Kingdom':'🇬🇧','Vietnam':'🇻🇳','India':'🇮🇳','Turkey':'🇹🇷',
+  'Latvia':'🇱🇻','Uruguay':'🇺🇾','Cambodia':'🇰🇭','Ecuador':'🇪🇨','Guatemala':'🇬🇹',
+  'Taiwan':'🇹🇼','Gabon':'🇬🇦','Paraguay':'🇵🇾',
+};
+const flag = c => FLAGS[c] || '🌐';
+const escHtml = s => { if (typeof s !== 'string') return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;'); };
+const fmtUSD = n => '$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
+const fmtPct = n => n.toFixed(1)+'%';
+
+function parseTime(t) { const p=t.split(' '); return {month:MONTHS_LIST.indexOf(p[0])+1,year:parseInt(p[1])}; }
+
+const DATA = MARKET_DATA.filter(r => r[3] && r[3].indexOf(' ') > 0);
+const allYears = [...new Set(DATA.map(r=>parseTime(r[3]).year))].filter(y=>!isNaN(y)).sort();
+const latestYear = Math.max(...allYears);
+const yearData = DATA.filter(r=>parseTime(r[3]).year===latestYear);
+
+// Price/unit baseline: use prior full year (latestYear-1) so we have a complete
+// 12-month average rather than a partial year. CIF volumes still use latestYear.
+const priceBaseYear = latestYear - 1;
+const priceBaseData = DATA.filter(r=>parseTime(r[3]).year===priceBaseYear);
+const ppuAgg = {};
+priceBaseData.forEach(r=>{
+  if(r[7]>0){const c=r[0];if(!ppuAgg[c])ppuAgg[c]={sum:0,n:0};ppuAgg[c].sum+=r[7];ppuAgg[c].n++;}
+});
+
+const mktAgg = {};
+yearData.forEach(r=>{
+  const c=r[0];if(!mktAgg[c])mktAgg[c]={cif:0,duty:0};
+  mktAgg[c].cif+=r[4];mktAgg[c].duty+=r[5];
+});
+const totalCif=Object.values(mktAgg).reduce((s,v)=>s+v.cif,0);
+const activeCountries=new Set(yearData.map(r=>r[0]));
+
+function inflTier(d,c) {
+  if(c==='Russia') return 'sanc';
+  if(!d) return 'unr';
+  if(d.overall>=9) return 'high'; if(d.overall>=6) return 'mod'; return 'low';
+}
+const tierColor = t=>({'low':'var(--c-low)','mod':'var(--c-mod)','high':'var(--c-high)','sanc':'var(--c-sanc)','unr':'var(--c-unr)'}[t]||'inherit');
+const tierBg = t=>({'low':'#14532d','mod':'#451a03','high':'#450a0a','sanc':'#1c0808','unr':'#1e293b'}[t]||'inherit');
+const tierLabel = t=>({'low':'Low Risk','mod':'Medium Risk','high':'High Risk','sanc':'Sanctions Premium','unr':'Unrated'}[t]||t);
+
+// Enrich inflation data — avgPrice from priceBaseYear (full year), CIF from latestYear
+const inflData = INFLATION_DATA.map(r => ({
+  rank:r[0], country:r[1], log:r[2], ship:r[3], prod:r[4], overall:r[5], expl:r[6],
+  tier: inflTier({overall:r[5]},r[1]),
+  slug: r[1].toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,''),
+  cif: mktAgg[r[1]]?.cif || (Object.keys(mktAgg).find(k=>k.toLowerCase()===r[1].toLowerCase()) ? mktAgg[Object.keys(mktAgg).find(k=>k.toLowerCase()===r[1].toLowerCase())]?.cif : 0) || 0,
+  avgPrice: (()=>{const p=ppuAgg[r[1]];return p&&p.n>0?Math.round(p.sum/p.n*100)/100:0;})()
+}));
+
+// ── SECTION 1: KPI ────────────────────────────────────────────────────────────
+const wSum=inflData.filter(d=>d.cif>0).reduce((s,d)=>s+d.cif*(d.overall/100),0);
+const wTotal=inflData.filter(d=>d.cif>0).reduce((s,d)=>s+d.cif,0);
+const portfInfl=wTotal>0?wSum/wTotal*100:0;
+const highRiskCif=inflData.filter(d=>d.tier==='high'||d.tier==='sanc').reduce((s,d)=>s+d.cif,0);
+const highRiskPct=totalCif>0?highRiskCif/totalCif*100:0;
+const projCost=totalCif*(portfInfl/100);
+
+const vColor=portfInfl>9?'var(--c-high)':portfInfl>6?'var(--c-mod)':'var(--c-low)';
+document.getElementById('kpi-grid').innerHTML=`
+  <div class="stat-card" title="CIF-weighted avg of overallEstIncrease across rated active suppliers">
+    <div class="label">Portfolio Weighted Inflation Risk</div>
+    <div class="value" style="color:${vColor}">${portfInfl.toFixed(1)}%</div>
+    <div class="sub">Blended supply-side inflation exposure</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">High-Risk Supplier Exposure</div>
+    <div class="value" style="color:var(--c-high)">${highRiskPct.toFixed(1)}%</div>
+    <div class="sub">% import value from High/Sanctions origins</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Projected Additional Annual Cost</div>
+    <div class="value" style="color:var(--yellow)">${fmtUSD(projCost)}</div>
+    <div class="sub">Estimated additional landed cost at current volumes</div>
+  </div>`;
+
+// Alert banner: top 3 CIF countries with High/Sanctions risk
+const top3Sorted=Object.entries(mktAgg).sort((a,b)=>b[1].cif-a[1].cif).slice(0,3).map(([c])=>c);
+const dangerTop3=top3Sorted.filter(c=>{const d=inflData.find(r=>r.country===c||r.country.toLowerCase()===c.toLowerCase());return d&&(d.tier==='high'||d.tier==='sanc');});
+if(dangerTop3.length>0){
+  document.getElementById('risk-banner').innerHTML=`<div class="alert-banner">⚠ High inflation risk detected in top-3 CIF suppliers: ${dangerTop3.map(c=>flag(c)+' '+c).join(', ')}. Immediate sourcing review recommended.</div>`;
+}
+
+// ── SECTION 2: SCORECARDS ─────────────────────────────────────────────────────
+let scSortBy = 'risk';
+function renderScorecards() {
+  let cards = [...inflData];
+  if(scSortBy==='risk') cards.sort((a,b)=>b.overall-a.overall);
+  else cards.sort((a,b)=>b.cif-a.cif);
+  document.getElementById('scorecard-grid').innerHTML = cards.map(d=>`
+    <div class="scorecard">
+      <div class="sc-header">
+        <div class="sc-country">${flag(d.country)} ${d.country}</div>
+        <span class="badge badge-${d.tier}">${tierLabel(d.tier)}</span>
+      </div>
+      <div class="sc-overall" style="color:${tierColor(d.tier)}">${d.overall.toFixed(1)}%</div>
+      <div class="sc-sub">
+        <span><span class="sv" style="color:#4f8ef7">${d.log.toFixed(1)}%</span><span class="sl">Log Price</span></span>
+        <span><span class="sv" style="color:#f97316">${d.ship.toFixed(1)}%</span><span class="sl">Shipping</span></span>
+        <span><span class="sv" style="color:#22c55e">${d.prod.toFixed(1)}%</span><span class="sl">Production</span></span>
+      </div>
+      <div class="sc-cif">${d.cif>0?'CIF: '+fmtUSD(d.cif)+' ('+latestYear+')':'Not in top importers'}</div>
+      ${d.expl?`<div class="sc-expl">${escHtml(d.expl).substring(0,100)}${d.expl.length>100?'…':''}</div>`:''}
+      <a class="sc-link" href="#rationale-${d.slug}">See full rationale ↓</a>
+    </div>`).join('');
+}
+renderScorecards();
+document.getElementById('sort-risk').onclick=()=>{scSortBy='risk';document.getElementById('sort-risk').classList.add('btn-primary');document.getElementById('sort-cif').classList.remove('btn-primary');renderScorecards();};
+document.getElementById('sort-cif').onclick=()=>{scSortBy='cif';document.getElementById('sort-cif').classList.add('btn-primary');document.getElementById('sort-risk').classList.remove('btn-primary');renderScorecards();};
+
+// ── SECTION 3: BREAKDOWN CHART ────────────────────────────────────────────────
+let activeOnly = false;
+function renderBreakdown() {
+  const data = activeOnly ? inflData.filter(d=>d.cif>0) : inflData;
+  const sorted = [...data].sort((a,b)=>b.overall-a.overall);
+  const labels = sorted.map(d=>d.country);
+  Chart.getChart('chart-breakdown')?.destroy();
+  new Chart(document.getElementById('chart-breakdown').getContext('2d'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Log Price Impact',data:sorted.map(d=>d.log),backgroundColor:'#4f8ef799',stack:'s'},
+      {label:'Shipping Impact',data:sorted.map(d=>d.ship),backgroundColor:'#f9731699',stack:'s'},
+      {label:'Production Impact',data:sorted.map(d=>d.prod),backgroundColor:'#22c55e99',stack:'s'},
+      {label:'Overall Est. Increase',data:sorted.map(d=>d.overall),type:'line',borderColor:'#f59e0b',backgroundColor:'#f59e0b33',borderWidth:2,pointRadius:4,fill:false,stack:undefined}
+    ]},
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:'#8892a4',font:{size:11}}},
+        tooltip:{backgroundColor:'#1a1d27',borderColor:'#2e3250',borderWidth:1,titleColor:'#e2e8f0',bodyColor:'#8892a4',
+          callbacks:{afterBody:ctx=>{const d=sorted[ctx[0].dataIndex];return d.expl?[d.expl.substring(0,120)+'…']:[];}}}
+      },
+      scales:{
+        x:{ticks:{color:'#8892a4',font:{size:11},callback:v=>v.toFixed(0)+'%'},grid:{color:'#2e3250'},max:30},
+        y:{ticks:{color:'#8892a4',font:{size:10}},grid:{color:'#2e3250'}}
+      }
+    }
+  });
+  document.getElementById('chart-breakdown').style.height=(sorted.length*32+60)+'px';
+}
+renderBreakdown();
+document.getElementById('toggle-all').onclick=()=>{activeOnly=false;document.getElementById('toggle-all').classList.add('btn-primary');document.getElementById('toggle-active').classList.remove('btn-primary');renderBreakdown();};
+document.getElementById('toggle-active').onclick=()=>{activeOnly=true;document.getElementById('toggle-active').classList.add('btn-primary');document.getElementById('toggle-all').classList.remove('btn-primary');renderBreakdown();};
+
+// ── SECTION 4: PROJECTION TABLE ───────────────────────────────────────────────
+let pSortCol='impact', pSortDir=-1;
+function renderProjection() {
+  const rows=inflData.map(d=>{
+    const price=d.avgPrice;
+    const mult=d.overall/100;
+    const projPrice=price>0?price*(1+mult):null;
+    const delta=price>0?projPrice-price:null;
+    const impact=d.cif>0?(delta!==null?delta*(d.cif/Math.max(price,0.01)):d.cif*mult):d.cif*mult;
+    return{...d,price,projPrice,delta,impact};
+  });
+  rows.sort((a,b)=>{
+    const v=pSortCol==='country'?a.country.localeCompare(b.country):pSortCol==='price'?b.price-a.price:pSortCol==='mult'?b.overall-a.overall:pSortCol==='proj'?(b.projPrice||0)-(a.projPrice||0):pSortCol==='delta'?(b.delta||0)-(a.delta||0):pSortCol==='cif'?b.cif-a.cif:b.impact-a.impact;
+    return pSortDir*(pSortCol==='country'?-v:v);
+  });
+  const totCif=rows.reduce((s,r)=>s+r.cif,0);
+  const totImpact=rows.reduce((s,r)=>s+r.impact,0);
+  document.getElementById('proj-table').innerHTML=rows.map(r=>`
+    <tr class="tier-row-${r.tier}" style="background:${tierBg(r.tier)}18">
+      <td>${flag(r.country)} ${r.country} <span class="badge badge-${r.tier}">${tierLabel(r.tier)}</span></td>
+      <td>${r.price>0?'$'+r.price.toFixed(2):'N/A'}</td>
+      <td style="color:${tierColor(r.tier)};font-weight:600">${r.overall.toFixed(1)}%</td>
+      <td>${r.projPrice?'$'+r.projPrice.toFixed(2):'N/A'}</td>
+      <td>${r.delta!==null?'+$'+r.delta.toFixed(2):'N/A'}</td>
+      <td>${r.cif>0?fmtUSD(r.cif):'—'}</td>
+      <td>${r.impact>0?fmtUSD(r.impact):'—'}</td>
+    </tr>`).join('');
+  document.getElementById('proj-totals').innerHTML=`<td colspan="5"><strong>Totals</strong></td><td><strong>${fmtUSD(totCif)}</strong></td><td><strong>${fmtUSD(totImpact)}</strong></td>`;
+}
+renderProjection();
+document.getElementById('ppu-base-year').textContent = priceBaseYear;
+document.getElementById('note-base-year').textContent = priceBaseYear;
+document.querySelectorAll('th[data-pcol]').forEach(th=>{
+  th.onclick=()=>{if(pSortCol===th.dataset.pcol)pSortDir*=-1;else{pSortCol=th.dataset.pcol;pSortDir=-1;}renderProjection();};
+});
+
+// ── SECTION 5: SCATTER ────────────────────────────────────────────────────────
+const TIER_COLORS_MAP = {low:'#22c55e',mod:'#f59e0b',high:'#ef4444',sanc:'#f87171',unr:'#64748b'};
+new Chart(document.getElementById('chart-scatter').getContext('2d'),{
+  type:'bubble',
+  data:{datasets:[{
+    label:'Countries',
+    data:inflData.map(d=>({x:d.ship,y:d.prod,r:Math.max(5,d.overall*2.5),country:d.country,tier:d.tier,overall:d.overall})),
+    backgroundColor:inflData.map(d=>TIER_COLORS_MAP[d.tier]+'aa'),
+    borderColor:inflData.map(d=>TIER_COLORS_MAP[d.tier]),
+    borderWidth:1,
+  }]},
+  options:{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{
+      legend:{display:false},
+      tooltip:{backgroundColor:'#1a1d27',borderColor:'#2e3250',borderWidth:1,titleColor:'#e2e8f0',bodyColor:'#8892a4',
+        callbacks:{
+          title:ctx=>`${flag(ctx[0].raw.country)} ${ctx[0].raw.country}`,
+          label:ctx=>[`Shipping: ${ctx.raw.x.toFixed(1)}%`,`Production: ${ctx.raw.y.toFixed(1)}%`,`Overall: ${ctx.raw.overall.toFixed(1)}%`,`Tier: ${tierLabel(ctx.raw.tier)}`]
+        }
+      },
+      annotation:{annotations:{}}
+    },
+    scales:{
+      x:{title:{display:true,text:'Shipping Impact (%)',color:'#8892a4'},ticks:{color:'#8892a4',font:{size:11},callback:v=>v+'%'},grid:{color:'#2e3250'},min:0,max:30},
+      y:{title:{display:true,text:'Production Impact (%)',color:'#8892a4'},ticks:{color:'#8892a4',font:{size:11},callback:v=>v+'%'},grid:{color:'#2e3250'},min:0,max:20}
+    }
+  }
+});
+
+// ── SECTION 6: RATIONALE ─────────────────────────────────────────────────────
+let rSortBy='risk';
+function mainDriver(d){
+  const vals=[{v:d.log,l:'Log Price Dominant'},{v:d.ship,l:'Shipping Dominant'},{v:d.prod,l:'Production Dominant'}];
+  const mx=Math.max(...vals.map(v=>v.v));
+  const top=vals.filter(v=>v.v>=mx-2);
+  return top.length>1?'Balanced':top[0].l;
+}
+function renderRationale(){
+  let rows=[...inflData];
+  if(rSortBy==='risk') rows.sort((a,b)=>b.overall-a.overall);
+  else if(rSortBy==='az') rows.sort((a,b)=>a.country.localeCompare(b.country));
+  else rows.sort((a,b)=>mainDriver(a).localeCompare(mainDriver(b)));
+  document.getElementById('rationale-table').innerHTML=rows.map((d,i)=>`
+    <tr class="tier-row-${d.tier}" id="rationale-${d.slug}" style="background:${tierBg(d.tier)}15">
+      <td>${i+1}</td>
+      <td>${flag(d.country)} <strong>${d.country}</strong></td>
+      <td><span class="badge badge-${d.tier}">${tierLabel(d.tier)}</span></td>
+      <td style="font-size:18px;font-weight:700;color:${tierColor(d.tier)}">${d.overall.toFixed(1)}%</td>
+      <td><span style="font-size:11px;color:var(--text-muted)">${mainDriver(d)}</span></td>
+      <td style="font-size:12px;color:var(--text-muted);white-space:normal;min-width:280px">${escHtml(d.expl||'—')}</td>
+    </tr>`).join('');
+}
+renderRationale();
+['rsort-risk','rsort-az','rsort-driver'].forEach(id=>{
+  document.getElementById(id).onclick=function(){
+    rSortBy=this.dataset.rsort;
+    ['rsort-risk','rsort-az','rsort-driver'].forEach(i=>document.getElementById(i).classList.remove('btn-primary'));
+    this.classList.add('btn-primary');renderRationale();
+  };
+});
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+document.querySelectorAll('nav a[data-section]').forEach(a=>{
+  a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.section)?.scrollIntoView({behavior:'smooth'});};
+});
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('nav a[data-section]').forEach(a=>a.classList.toggle('active',a.dataset.section===e.target.id));});
+},{rootMargin:'-20% 0px -70% 0px',threshold:0});
+document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

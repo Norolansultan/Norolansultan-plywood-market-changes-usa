@@ -2,120 +2,132 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self';">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>USA Plywood Import Market Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0f1117; --surface: #1a1d27; --surface2: #222535; --border: #2e3250;
-    --accent: #4f8ef7; --accent2: #7c3aed; --text: #e2e8f0; --text-muted: #8892a4;
-    --green: #22c55e; --red: #ef4444; --yellow: #f59e0b; --nav-h: 56px;
-  }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
-  nav {
-    position: sticky; top: 0; z-index: 100; height: var(--nav-h);
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 4px; padding: 0 24px;
-  }
-  nav .logo { font-size: 15px; font-weight: 700; color: var(--accent); margin-right: 20px; white-space: nowrap; }
-  nav a {
-    text-decoration: none; color: var(--text-muted); font-size: 13px; font-weight: 500;
-    padding: 6px 14px; border-radius: 6px; transition: all .15s; cursor: pointer;
-  }
-  nav a:hover, nav a.active { background: var(--surface2); color: var(--text); }
-  .filters-bar {
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    padding: 12px 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
-    position: sticky; top: var(--nav-h); z-index: 90;
-  }
-  .filter-group { display: flex; flex-direction: column; gap: 4px; }
-  .filter-group label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
-  select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 13px; min-width: 140px; cursor: pointer; }
-  select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-  .month-select { display: flex; flex-wrap: wrap; gap: 4px; max-width: 340px; }
-  .month-btn {
-    background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted);
-    padding: 4px 9px; border-radius: 4px; font-size: 12px; cursor: pointer; transition: all .15s;
-  }
-  .month-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all .15s; }
-  .btn:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #3a7ee8; }
-  main { padding: 24px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
-  section { scroll-margin-top: calc(var(--nav-h) + 56px); }
-  .section-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-  /* STAT CARDS */
-  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-  .stat-card .label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
-  .stat-card .value { font-size: 26px; font-weight: 700; color: var(--accent); line-height: 1.1; }
-  .stat-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-  /* COUNTRIES */
-  .countries-layout { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
-  @media (max-width: 900px) { .countries-layout { grid-template-columns: 1fr; } }
-  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .panel-header { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .country-list { overflow-y: auto; max-height: 460px; }
-  .country-row {
-    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
-    border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s;
-  }
-  .country-row:hover { background: var(--surface2); }
-  .country-row.selected { background: rgba(79,142,247,.12); }
-  .country-row .rank { font-size: 12px; color: var(--text-muted); width: 22px; text-align: right; flex-shrink: 0; }
-  .country-row .flag { font-size: 18px; flex-shrink: 0; }
-  .country-row .name { flex: 1; font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .country-row .cif-val { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
-  .trend { font-size: 14px; flex-shrink: 0; }
-  .trend.up { color: var(--green); }
-  .trend.down { color: var(--red); }
-  .trend.flat { color: var(--text-muted); }
-  .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; }
-  .breadcrumb-pill { background: var(--accent); color: #fff; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 12px; }
-  .breadcrumb-pill .x { cursor: pointer; opacity: .7; font-size: 14px; }
-  .breadcrumb-pill .x:hover { opacity: 1; }
-  .chart-wrap { padding: 16px; position: relative; }
-  .chart-toggle { display: flex; gap: 4px; }
-  .chart-toggle .btn { padding: 4px 10px; font-size: 12px; }
-  /* TRENDS */
-  .trends-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .trends-grid .full-width { grid-column: 1 / -1; }
-  @media (max-width: 900px) { .trends-grid { grid-template-columns: 1fr; } }
-  /* LANDED COST */
-  .landed-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  @media (max-width: 900px) { .landed-layout { grid-column: 1fr; } }
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); }
-  td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--surface2); }
-  /* TRADE ALERTS */
-  .alerts-controls { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-  .slider-group { display: flex; align-items: center; gap: 10px; }
-  .slider-group label { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
-  input[type=range] { width: 160px; accent-color: var(--accent); cursor: pointer; }
-  .slider-val { font-size: 13px; font-weight: 600; color: var(--accent); min-width: 36px; }
-  .alert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-  .alert-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
-  .alert-card.spike { border-left: 3px solid var(--green); }
-  .alert-card.drop { border-left: 3px solid var(--red); }
-  .alert-card.duty { border-left: 3px solid var(--yellow); }
-  .alert-card .alert-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .alert-card .alert-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
-  .alert-card.spike .alert-type { color: var(--green); }
-  .alert-card.drop .alert-type { color: var(--red); }
-  .alert-card.duty .alert-type { color: var(--yellow); }
-  .alert-card .alert-country { font-size: 14px; font-weight: 600; }
-  .alert-card .alert-detail { font-size: 12px; color: var(--text-muted); }
-  .alert-card .alert-magnitude { font-size: 20px; font-weight: 700; margin-top: 4px; }
-  .alert-card.spike .alert-magnitude { color: var(--green); }
-  .alert-card.drop .alert-magnitude { color: var(--red); }
-  .alert-card.duty .alert-magnitude { color: var(--yellow); }
-  .no-alerts { padding: 40px; text-align: center; color: var(--text-muted); font-size: 14px; }
-  canvas { max-height: 340px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0f1117; --surface: #1a1d27; --surface2: #222535; --border: #2e3250;
+  --accent: #4f8ef7; --accent2: #7c3aed; --text: #e2e8f0; --text-muted: #8892a4;
+  --green: #22c55e; --red: #ef4444; --yellow: #f59e0b; --orange: #f97316;
+  --blue: #06b6d4; --nav-h: 56px;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+nav {
+  position: sticky; top: 0; z-index: 100; height: var(--nav-h);
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 2px; padding: 0 20px;
+}
+nav .logo { font-size: 15px; font-weight: 700; color: var(--accent); margin-right: 16px; white-space: nowrap; }
+nav a {
+  text-decoration: none; color: var(--text-muted); font-size: 13px; font-weight: 500;
+  padding: 6px 12px; border-radius: 6px; transition: all .15s; cursor: pointer; white-space: nowrap;
+}
+nav a:hover, nav a.active { background: var(--surface2); color: var(--text); }
+nav .nav-ext { margin-left: auto; display: flex; gap: 4px; }
+nav .nav-ext a { color: var(--accent); font-size: 12px; border: 1px solid var(--border); }
+.filters-bar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;
+  position: sticky; top: var(--nav-h); z-index: 90;
+}
+.filter-group { display: flex; flex-direction: column; gap: 4px; }
+.filter-group label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
+select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 5px 8px; border-radius: 6px; font-size: 13px; min-width: 130px; cursor: pointer; }
+.month-select { display: flex; flex-wrap: wrap; gap: 3px; max-width: 320px; }
+.month-btn, .btn {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted);
+  padding: 4px 9px; border-radius: 5px; font-size: 12px; cursor: pointer; transition: all .15s;
+}
+.month-btn:hover, .btn:hover { border-color: var(--accent); color: var(--accent); }
+.month-btn.active, .btn.active, .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pill-row { width: 100%; padding: 4px 20px 6px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 6px; flex-wrap: wrap; min-height: 28px; }
+.pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: 11px; color: var(--text-muted); }
+main { padding: 20px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; }
+section { scroll-margin-top: calc(var(--nav-h) + 96px); }
+.section-title { font-size: 17px; font-weight: 700; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; position: relative; }
+.stat-card .label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.stat-card .value { font-size: 24px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.stat-card .sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+.badge-low { background: #14532d; color: var(--green); }
+.badge-mod { background: #451a03; color: var(--yellow); }
+.badge-high { background: #450a0a; color: var(--red); }
+.badge-sanc { background: #1c0808; color: #f87171; }
+.badge-unr { background: var(--surface2); color: var(--text-muted); }
+.mini-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 8px; gap: 1px; }
+.mini-bar span { display: block; }
+.countries-layout { display: grid; grid-template-columns: 360px 1fr; gap: 16px; }
+@media (max-width: 960px) { .countries-layout { grid-template-columns: 1fr; } }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.panel-header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.country-list { overflow-y: auto; max-height: 480px; }
+.country-row {
+  display: grid; grid-template-columns: 22px 24px 1fr auto auto auto; align-items: center; gap: 8px;
+  padding: 9px 14px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s;
+}
+.country-row:hover { background: var(--surface2); }
+.country-row.selected { background: rgba(79,142,247,.12); }
+.country-row.warn { border-left: 3px solid var(--yellow); padding-left: 11px; }
+.crank { font-size: 12px; color: var(--text-muted); text-align: right; }
+.cflag { font-size: 17px; }
+.cname { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ccif { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+.cshare { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+.ctrend { font-size: 14px; }
+.ctrend.up { color: var(--green); } .ctrend.down { color: var(--red); } .ctrend.flat { color: var(--text-muted); }
+.breadcrumb-pill { background: var(--accent); color: #fff; padding: 3px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+.breadcrumb-pill .x { cursor: pointer; opacity: .7; font-size: 14px; }
+.breadcrumb-pill .x:hover { opacity: 1; }
+.chart-wrap { padding: 14px; position: relative; }
+.chart-toggle { display: flex; gap: 3px; flex-wrap: wrap; }
+.chart-toggle .btn { padding: 3px 9px; font-size: 11px; }
+.trends-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.trends-grid .full { grid-column: 1 / -1; }
+@media (max-width: 900px) { .trends-grid { grid-template-columns: 1fr; } }
+.landed-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .landed-layout { grid-template-columns: 1fr; } }
+.table-wrap { overflow-x: auto; max-height: 400px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { padding: 9px 10px; text-align: left; font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); cursor: pointer; white-space: nowrap; }
+th:hover { color: var(--accent); }
+td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface2); }
+.alerts-controls { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+.slider-group { display: flex; align-items: center; gap: 8px; }
+.slider-group label { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+input[type=range] { width: 120px; accent-color: var(--accent); cursor: pointer; }
+.slider-val { font-size: 13px; font-weight: 600; color: var(--accent); min-width: 34px; }
+.alerts-section { margin-bottom: 16px; }
+.alerts-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; padding: 4px 0; }
+.alerts-section-title.warn { color: var(--yellow); } .alerts-section-title.info { color: var(--blue); }
+.alert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 8px; }
+.alert-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+.alert-card.spike { border-left: 3px solid var(--green); } .alert-card.drop { border-left: 3px solid var(--red); }
+.alert-card.duty { border-left: 3px solid var(--yellow); } .alert-card.price { border-left: 3px solid var(--orange); }
+.alert-card.entry { border-left: 3px solid var(--blue); } .alert-card.exit { border-left: 3px solid #a855f7; }
+.alert-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.alert-type { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-left: auto; }
+.spike .alert-type { color: var(--green); } .drop .alert-type { color: var(--red); }
+.duty .alert-type { color: var(--yellow); } .price .alert-type { color: var(--orange); }
+.entry .alert-type { color: var(--blue); } .exit .alert-type { color: #a855f7; }
+.alert-country { font-size: 14px; font-weight: 600; }
+.alert-detail { font-size: 11px; color: var(--text-muted); }
+.alert-magnitude { font-size: 18px; font-weight: 700; margin-top: 2px; }
+.spike .alert-magnitude { color: var(--green); } .drop .alert-magnitude { color: var(--red); }
+.duty .alert-magnitude, .price .alert-magnitude { color: var(--yellow); }
+.entry .alert-magnitude { color: var(--blue); } .exit .alert-magnitude { color: #a855f7; }
+.no-alerts { padding: 32px; text-align: center; color: var(--text-muted); font-size: 14px; }
+canvas { max-height: 320px; }
+.subst-panel { margin-top: 12px; padding: 12px; background: var(--surface2); border-radius: 8px; border: 1px solid var(--border); }
+.subst-title { font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); }
+.duty-ref { border-top: 1px dashed var(--yellow); position: relative; }
+.duty-ref::after { content: attr(data-label); position: absolute; right: 4px; top: -18px; font-size: 10px; color: var(--yellow); }
 </style>
 </head>
 <body>
@@ -127,6 +139,10 @@
   <a href="#trends" data-section="trends">Trends</a>
   <a href="#landed-cost" data-section="landed-cost">Landed Cost</a>
   <a href="#trade-alerts" data-section="trade-alerts">Trade Alerts</a>
+  <div class="nav-ext">
+    <a href="executive-summary.html">Executive Brief</a>
+    <a href="inflation-risk.html">Risk Analysis</a>
+  </div>
 </nav>
 
 <div class="filters-bar">
@@ -146,12 +162,22 @@
     <label>Month</label>
     <div class="month-select" id="f-months"></div>
   </div>
-  <button class="btn" id="btn-reset">Reset Filters</button>
+  <div class="filter-group">
+    <label>Quick Range</label>
+    <div style="display:flex;gap:4px">
+      <button class="btn" data-range="3">Last 3M</button>
+      <button class="btn" data-range="6">Last 6M</button>
+      <button class="btn active" data-range="12">Last 12M</button>
+      <button class="btn" data-range="ytd">YTD</button>
+    </div>
+  </div>
+  <button class="btn" id="btn-reset" style="align-self:flex-end">Reset</button>
 </div>
+<div class="pill-row" id="pill-row"></div>
 
 <main>
   <section id="overview">
-    <div class="section-title">Overview</div>
+    <div class="section-title">Overview <small id="data-badge" style="font-size:12px;font-weight:400;color:var(--text-muted)"></small></div>
     <div class="stat-grid" id="stat-grid"></div>
   </section>
 
@@ -160,18 +186,25 @@
     <div class="countries-layout">
       <div class="panel">
         <div class="panel-header">
-          Top 20 Countries by CIF
-          <div id="country-breadcrumb"></div>
+          <span>Top 20 Countries</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="chart-toggle" id="rank-toggle">
+              <button class="btn btn-primary" data-rank="cif">By CIF</button>
+              <button class="btn" data-rank="proj">By Projected Cost</button>
+            </div>
+            <div id="country-breadcrumb"></div>
+          </div>
         </div>
         <div class="country-list" id="country-list"></div>
       </div>
       <div class="panel">
         <div class="panel-header">
           Monthly Chart
-          <div class="chart-toggle">
-            <button class="btn btn-primary" data-metric="cif" id="toggle-cif">CIF</button>
-            <button class="btn" data-metric="duty" id="toggle-duty">Duty</button>
-            <button class="btn" data-metric="landed" id="toggle-landed">Landed Cost</button>
+          <div class="chart-toggle" id="metric-toggle">
+            <button class="btn btn-primary" data-metric="cif">CIF</button>
+            <button class="btn" data-metric="duty">Duty</button>
+            <button class="btn" data-metric="landed">Landed</button>
+            <button class="btn" data-metric="price">Price/Unit</button>
           </div>
         </div>
         <div class="chart-wrap"><canvas id="chart-countries"></canvas></div>
@@ -190,9 +223,17 @@
         <div class="panel-header">CIF by Product Specification</div>
         <div class="chart-wrap"><canvas id="chart-spec"></canvas></div>
       </div>
-      <div class="panel full-width">
+      <div class="panel full">
         <div class="panel-header">Monthly CIF + Duty (All Countries)</div>
         <div class="chart-wrap"><canvas id="chart-monthly"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">Price per Unit Trend</div>
+        <div class="chart-wrap"><canvas id="chart-price"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">Market Share Composition</div>
+        <div class="chart-wrap"><canvas id="chart-share"></canvas></div>
       </div>
     </div>
   </section>
@@ -201,28 +242,58 @@
     <div class="section-title">Landed Cost</div>
     <div class="landed-layout">
       <div class="panel">
-        <div class="panel-header">Top 10 Countries — Landed Cost Over Time</div>
+        <div class="panel-header">
+          Top 10 — Landed Cost Over Time
+        </div>
         <div class="chart-wrap"><canvas id="chart-landed"></canvas></div>
       </div>
       <div class="panel">
-        <div class="panel-header">Landed Cost Table</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>#</th><th>Country</th><th>CIF</th><th>Duty</th><th>Landed Cost</th><th>Duty Rate</th></tr></thead>
-            <tbody id="landed-table"></tbody>
-          </table>
+        <div class="panel-header">
+          Duty Rate Comparison
+          <small style="font-size:11px;color:var(--text-muted)">— median ref line</small>
         </div>
+        <div class="chart-wrap" style="max-height:320px;overflow-y:auto"><canvas id="chart-duty-rate"></canvas></div>
       </div>
     </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="panel-header">
+        Landed Cost Table
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="btn" id="btn-zero-duty">0% Duty Only</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th data-col="rank">#</th>
+            <th data-col="country">Country</th>
+            <th data-col="cif">CIF</th>
+            <th data-col="duty">Duty</th>
+            <th data-col="landed">Landed Cost</th>
+            <th data-col="rate">Duty Rate</th>
+            <th data-col="effrank">Eff. Rank</th>
+            <th data-col="price">Avg Price/Unit</th>
+            <th data-col="lcunit">Landed/Unit</th>
+          </tr></thead>
+          <tbody id="landed-table"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="subst-container"></div>
   </section>
 
   <section id="trade-alerts">
     <div class="section-title">Trade Alerts</div>
     <div class="alerts-controls">
       <div class="slider-group">
-        <label>MoM Threshold:</label>
+        <label>CIF MoM Threshold:</label>
         <input type="range" id="alert-threshold" min="5" max="75" value="25" step="5">
         <span class="slider-val" id="threshold-val">25%</span>
+      </div>
+      <div class="slider-group">
+        <label>Price/Unit YoY Threshold:</label>
+        <input type="range" id="price-threshold" min="5" max="75" value="20" step="5">
+        <span class="slider-val" id="price-thresh-val">20%</span>
       </div>
     </div>
     <div id="alert-cards"></div>
@@ -230,9 +301,26 @@
 </main>
 
 <script>
-const EMBEDDED_DATA=[]; // WILL_BE_REPLACED
+const MARKET_DATA = []; // <<MARKET_DATA>>
+const INFLATION_DATA = []; // <<INFLATION_DATA>>
 
-// ── DATA INIT ────────────────────────────────────────────────────────────────
+// ── INFLATION LOOKUP ──────────────────────────────────────────────────────────
+const INFL_MAP = {};
+INFLATION_DATA.forEach(r => {
+  INFL_MAP[r[1].toLowerCase().trim()] = { log: r[2], ship: r[3], prod: r[4], overall: r[5], expl: r[6] };
+  if (r[1] === 'Russia') INFL_MAP['russia'] = { ...INFL_MAP['russia'], tier: 'sanc' };
+});
+function inflFor(country) { return INFL_MAP[country.toLowerCase().trim()] || null; }
+function inflTier(country) {
+  if (country === 'Russia') return 'sanc';
+  const d = inflFor(country);
+  if (!d) return 'unr';
+  if (d.overall >= 9) return 'high';
+  if (d.overall >= 6) return 'mod';
+  return 'low';
+}
+
+// ── BASE DATA ─────────────────────────────────────────────────────────────────
 const MONTHS_LIST = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const FLAGS = {
   'Belgium':'🇧🇪','Brazil':'🇧🇷','Canada':'🇨🇦','Chile':'🇨🇱','China':'🇨🇳',
@@ -242,51 +330,63 @@ const FLAGS = {
   'South Korea':'🇰🇷','Spain':'🇪🇸','Sweden':'🇸🇪','Thailand':'🇹🇭','Ukraine':'🇺🇦',
   'United Kingdom':'🇬🇧','Vietnam':'🇻🇳','India':'🇮🇳','Turkey':'🇹🇷','Czech Republic':'🇨🇿',
   'Latvia':'🇱🇻','Lithuania':'🇱🇹','Estonia':'🇪🇪','Hungary':'🇭🇺','Slovakia':'🇸🇰',
-  'Austria':'🇦🇹','Switzerland':'🇨🇭','Denmark':'🇩🇰','Norway':'🇳🇴','Greece':'🇬🇷',
-  'Croatia':'🇭🇷','Slovenia':'🇸🇮','Serbia':'🇷🇸','Bulgaria':'🇧🇬','Uruguay':'🇺🇾',
-  'Argentina':'🇦🇷','Peru':'🇵🇪','Colombia':'🇨🇴','Ecuador':'🇪🇨','Honduras':'🇭🇳',
-  'Guatemala':'🇬🇹','Costa Rica':'🇨🇷','New Guinea':'🇵🇬','Papua New Guinea':'🇵🇬',
-  'Myanmar':'🇲🇲','Cambodia':'🇰🇭','Laos':'🇱🇦','Bangladesh':'🇧🇩','Pakistan':'🇵🇰',
-  'Sri Lanka':'🇱🇰','Kenya':'🇰🇪','South Africa':'🇿🇦','Morocco':'🇲🇦','Egypt':'🇪🇬',
+  'Austria':'🇦🇹','Switzerland':'🇨🇭','Denmark':'🇩🇰','Norway':'🇳🇴','Uruguay':'🇺🇾',
+  'Argentina':'🇦🇷','Peru':'🇵🇪','Colombia':'🇨🇴','Ecuador':'🇪🇨','Guatemala':'🇬🇹',
+  'Cambodia':'🇰🇭','Myanmar':'🇲🇲','Taiwan':'🇹🇼','Gabon':'🇬🇦','Paraguay':'🇵🇾',
 };
-function flag(c) { return FLAGS[c] || '🌐'; }
+const flag = c => FLAGS[c] || '🌐';
 
 function parseTime(t) {
   const parts = t.split(' ');
-  const mon = MONTHS_LIST.indexOf(parts[0]) + 1;
-  const yr = parseInt(parts[1]);
-  return { month: mon, year: yr };
+  return { month: MONTHS_LIST.indexOf(parts[0]) + 1, year: parseInt(parts[1]) };
 }
 
+// Filter out annual rows (just a year like "2023")
+const RAW = MARKET_DATA.filter(r => r[3] && isNaN(parseInt(r[3])) === false ? false : r[3].indexOf(' ') > 0);
 // Deduplicate
 const seen = new Set();
-const RAW = EMBEDDED_DATA.filter(r => {
-  const k = r[0] + '|' + r[1] + '|' + r[2] + '|' + r[3];
-  if (seen.has(k)) return false;
-  seen.add(k); return true;
+const DATA = RAW.filter(r => {
+  const k = r[0]+'|'+r[1]+'|'+r[2]+'|'+r[3];
+  if (seen.has(k)) return false; seen.add(k); return true;
 });
 
-// Extract unique values
-const allYears = [...new Set(RAW.map(r => parseTime(r[3]).year))].sort((a,b)=>a-b);
+const allYears = [...new Set(DATA.map(r => parseTime(r[3]).year))].filter(y=>!isNaN(y)).sort((a,b)=>a-b);
 const latestYear = Math.max(...allYears);
-const allWoodTypes = [...new Set(RAW.map(r => r[1]))].sort();
-const allSpecs = [...new Set(RAW.map(r => r[2]))].sort();
-const allCountries = [...new Set(RAW.map(r => r[0]))].sort();
+const allWoodTypes = [...new Set(DATA.map(r => r[1]))].sort();
+const allSpecs = [...new Set(DATA.map(r => r[2]))].sort();
+const allCountries = [...new Set(DATA.map(r => r[0]))].sort();
 
-// ── STATE ────────────────────────────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────────────────────────────────
 let state = {
-  woodType: '',
-  spec: '',
-  year: latestYear,
-  months: [],  // empty = all
-  drillCountry: null,
-  countryMetric: 'cif',
-  alertThreshold: 25,
+  woodType: '', spec: '', year: latestYear, months: [],
+  range: '12', drillCountry: null, countryMetric: 'cif',
+  rankBy: 'cif', alertThreshold: 25, priceThreshold: 20,
+  zeroDutyOnly: false, landedSortCol: 'landed', landedSortDir: -1,
 };
 
-// ── FILTER & AGGREGATE ───────────────────────────────────────────────────────
+// Apply quick range to state.months
+function applyRange(range) {
+  const now = new Date();
+  if (range === 'ytd') {
+    state.months = Array.from({length: now.getMonth()+1}, (_,i) => i+1);
+  } else if (['3','6','12'].includes(range)) {
+    const n = parseInt(range);
+    // Most recent n months in latest year (or across year boundary)
+    const lastMonthInData = Math.max(...DATA.filter(r=>parseTime(r[3]).year===latestYear).map(r=>parseTime(r[3]).month));
+    state.months = [];
+    for (let i=0;i<n;i++) {
+      const m = lastMonthInData - i;
+      if (m > 0) state.months.push(m);
+    }
+  } else {
+    state.months = [];
+  }
+  state.range = range;
+}
+
+// ── FILTER ────────────────────────────────────────────────────────────────────
 function filtered() {
-  return RAW.filter(r => {
+  return DATA.filter(r => {
     const {month, year} = parseTime(r[3]);
     if (state.year && year !== state.year) return false;
     if (state.woodType && r[1] !== state.woodType) return false;
@@ -300,91 +400,86 @@ function aggByCountry(rows) {
   const m = {};
   rows.forEach(r => {
     const c = r[0];
-    if (!m[c]) m[c] = {cif:0, duty:0, dutiable:0};
+    if (!m[c]) m[c] = {cif:0,duty:0,dutiable:0,price:0,priceN:0};
     m[c].cif += r[4]; m[c].duty += r[5]; m[c].dutiable += r[6];
-  });
-  return m;
-}
-
-function aggByMonth(rows) {
-  const m = {};
-  rows.forEach(r => {
-    const {month} = parseTime(r[3]);
-    if (!m[month]) m[month] = {cif:0, duty:0};
-    m[month].cif += r[4]; m[month].duty += r[5];
+    if (r[7] > 0) { m[c].price += r[7]; m[c].priceN++; }
   });
   return m;
 }
 
 function getMonthsInData(rows) {
   const s = new Set(rows.map(r => parseTime(r[3]).month));
-  return MONTHS_LIST.map((n,i)=>i+1).filter(m=>s.has(m));
+  return MONTHS_LIST.map((_,i)=>i+1).filter(m=>s.has(m));
 }
 
-function yoyTrend(country, rows) {
-  const prevYear = state.year - 1;
-  const curCif = rows.filter(r=>r[0]===country).reduce((s,r)=>s+r[4],0);
-  const prevCif = RAW.filter(r=>{
-    if (r[0]!==country) return false;
-    const {year,month}=parseTime(r[3]);
-    if (year!==prevYear) return false;
+function yoyData(country, curYear) {
+  const prevYear = curYear - 1;
+  const prevCif = DATA.filter(r => {
+    if (r[0] !== country) return false;
+    const {year, month} = parseTime(r[3]);
+    if (year !== prevYear) return false;
     if (state.months.length && !state.months.includes(month)) return false;
-    if (state.woodType && r[1]!==state.woodType) return false;
-    if (state.spec && r[2]!==state.spec) return false;
+    if (state.woodType && r[1] !== state.woodType) return false;
+    if (state.spec && r[2] !== state.spec) return false;
     return true;
   }).reduce((s,r)=>s+r[4],0);
-  if (!prevCif) return 'flat';
-  const pct = (curCif - prevCif) / prevCif;
-  if (pct > 0.05) return 'up';
-  if (pct < -0.05) return 'down';
-  return 'flat';
+  return prevCif;
 }
 
-// ── CHART HELPERS ────────────────────────────────────────────────────────────
-const COLORS = [
-  '#4f8ef7','#7c3aed','#22c55e','#f59e0b','#ef4444',
-  '#06b6d4','#ec4899','#84cc16','#f97316','#a78bfa',
-  '#34d399','#fb7185','#fbbf24','#60a5fa','#c084fc',
-];
+// ── FORMAT ────────────────────────────────────────────────────────────────────
+const fmtK = n => n>=1e9?(n/1e9).toFixed(1)+'B':n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(0)+'K':n.toString();
+const fmtUSD = n => '$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
+const fmtPct = n => (n*100).toFixed(1)+'%';
+const fmtPctN = n => n.toFixed(1)+'%';
 
-function destroyChart(id) {
-  const c = Chart.getChart(id);
-  if (c) c.destroy();
-}
+// ── CHART HELPERS ─────────────────────────────────────────────────────────────
+const COLORS = ['#4f8ef7','#22c55e','#f59e0b','#ef4444','#7c3aed','#06b6d4','#ec4899','#84cc16','#f97316','#a78bfa','#34d399','#fb7185','#fbbf24','#60a5fa','#c084fc'];
+const destroyChart = id => { const c = Chart.getChart(id); if (c) c.destroy(); };
+const baseOpts = () => ({
+  responsive:true, maintainAspectRatio:true,
+  plugins:{
+    legend:{labels:{color:'#8892a4',font:{size:11}}},
+    tooltip:{backgroundColor:'#1a1d27',borderColor:'#2e3250',borderWidth:1,titleColor:'#e2e8f0',bodyColor:'#8892a4'}
+  },
+  scales:{
+    x:{ticks:{color:'#8892a4',font:{size:11}},grid:{color:'#2e3250'}},
+    y:{ticks:{color:'#8892a4',font:{size:11},callback:v=>'$'+fmtK(v)},grid:{color:'#2e3250'}}
+  }
+});
 
-function chartDefaults() {
-  return {
-    responsive: true,
-    maintainAspectRatio: true,
-    plugins: {
-      legend: { labels: { color: '#8892a4', font: { size: 11 } } },
-      tooltip: { backgroundColor: '#1a1d27', borderColor: '#2e3250', borderWidth: 1, titleColor: '#e2e8f0', bodyColor: '#8892a4' }
-    },
-    scales: {
-      x: { ticks: { color: '#8892a4', font:{size:11} }, grid: { color: '#2e3250' } },
-      y: { ticks: { color: '#8892a4', font:{size:11}, callback: v => '$'+fmtK(v) }, grid: { color: '#2e3250' } }
-    }
-  };
-}
-
-function fmtK(n) {
-  if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
-  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
-  if (n >= 1e3) return (n/1e3).toFixed(0)+'K';
-  return n.toString();
-}
-function fmtUSD(n) { return '$' + n.toLocaleString('en-US', {maximumFractionDigits:0}); }
-function fmtPct(n) { return (n*100).toFixed(2)+'%'; }
-
-// ── RENDER OVERVIEW ──────────────────────────────────────────────────────────
+// ── RENDER OVERVIEW ───────────────────────────────────────────────────────────
 function renderOverview(rows) {
   const agg = aggByCountry(rows);
-  let totalCif=0, totalDuty=0, totalDutiable=0;
-  Object.values(agg).forEach(v=>{totalCif+=v.cif; totalDuty+=v.duty; totalDutiable+=v.dutiable;});
-  const avgDutyRate = totalDutiable > 0 ? totalDuty/totalDutiable : 0;
-  const landed = totalCif + totalDuty;
+  let totalCif=0,totalDuty=0,totalDutiable=0;
+  Object.values(agg).forEach(v=>{totalCif+=v.cif;totalDuty+=v.duty;totalDutiable+=v.dutiable;});
+  const avgDutyRate = totalDutiable>0 ? totalDuty/totalDutiable : 0;
+  const landed = totalCif+totalDuty;
   const active = Object.keys(agg).length;
-  const topCountry = Object.entries(agg).sort((a,b)=>b[1].cif-a[1].cif)[0];
+  const sorted = Object.entries(agg).sort((a,b)=>b[1].cif-a[1].cif);
+  const topC = sorted[0];
+
+  // HHI
+  const hhi = Math.round(sorted.reduce((s,[,v])=>s+Math.pow(v.cif/totalCif,2),0)*10000);
+  const hhiBadge = hhi<1500?'<span class="badge badge-low">Low</span>':hhi<2500?'<span class="badge badge-mod">Moderate</span>':'<span class="badge badge-high">High</span>';
+
+  // Top 3 share
+  const top3 = sorted.slice(0,3);
+  const top3Sum = top3.reduce((s,[,v])=>s+v.cif,0);
+  const top3Pct = totalCif>0 ? top3Sum/totalCif*100 : 0;
+  const top3Bar = top3.map(([,v],i)=>`<span style="flex:${v.cif/totalCif*100};background:${COLORS[i]}"></span>`).join('');
+
+  // Portfolio inflation exposure
+  let wSum=0, wTotal=0, inflN=0;
+  sorted.forEach(([c,v])=>{ const d=inflFor(c); if(d){wSum+=v.cif*(d.overall/100);wTotal+=v.cif;inflN++;} });
+  const portfolioInfl = wTotal>0 ? (wSum/wTotal*100) : null;
+  const inflColor = portfolioInfl===null?'var(--text-muted)':portfolioInfl>9?'var(--red)':portfolioInfl>6?'var(--yellow)':'var(--green)';
+
+  // Avg price/unit weighted
+  let priceSum=0,priceW=0;
+  sorted.forEach(([,v])=>{ if(v.priceN>0){priceSum+=v.price*v.cif;priceW+=v.cif;} });
+  const avgPrice = priceW>0 ? priceSum/priceW : null;
+
+  document.getElementById('data-badge').textContent = `${active} active suppliers · ${rows.length.toLocaleString()} records`;
 
   document.getElementById('stat-grid').innerHTML = `
     <div class="stat-card"><div class="label">Total CIF Value</div><div class="value">${fmtUSD(totalCif)}</div></div>
@@ -394,86 +489,129 @@ function renderOverview(rows) {
     <div class="stat-card"><div class="label">Active Countries</div><div class="value">${active}</div></div>
     <div class="stat-card">
       <div class="label">Top Country by CIF</div>
-      <div class="value" style="font-size:18px">${topCountry ? flag(topCountry[0])+' '+topCountry[0] : '—'}</div>
-      <div class="sub">${topCountry ? fmtUSD(topCountry[1].cif) : ''}</div>
+      <div class="value" style="font-size:17px">${topC?flag(topC[0])+' '+topC[0]:'—'}</div>
+      <div class="sub">${topC?fmtUSD(topC[1].cif)+' · '+(topC[1].cif/totalCif*100).toFixed(1)+'% share':''}</div>
+    </div>
+    <div class="stat-card" title="Herfindahl-Hirschman Index: Σ(share²)×10000. Low < 1500, Moderate 1500–2500, High > 2500.">
+      <div class="label">HHI Concentration</div>
+      <div class="value" style="font-size:20px">${hhi.toLocaleString()} ${hhiBadge}</div>
+      <div class="sub">Supplier concentration index</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Top 3 Share</div>
+      <div class="value" style="font-size:20px">${top3Pct.toFixed(1)}%</div>
+      <div class="sub">${top3.map(([c])=>c).join(', ')}</div>
+      <div class="mini-bar">${top3Bar}</div>
+    </div>
+    <div class="stat-card" title="CIF-weighted avg inflation multiplier across rated suppliers. Based on ${inflN} of ${active} active suppliers.">
+      <div class="label">Portfolio Inflation Exposure</div>
+      <div class="value" style="color:${inflColor}">${portfolioInfl!==null?portfolioInfl.toFixed(1)+'%':'N/A'}</div>
+      <div class="sub">${inflN} of ${active} suppliers rated</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Price / Unit</div>
+      <div class="value">${avgPrice!==null?'$'+avgPrice.toFixed(2):'N/A'}</div>
+      <div class="sub">Weighted avg (excl. zero records)</div>
     </div>
   `;
 }
 
-// ── RENDER COUNTRIES ─────────────────────────────────────────────────────────
-let countriesChart = null;
+// ── RENDER COUNTRIES ──────────────────────────────────────────────────────────
 function renderCountries(rows) {
   const agg = aggByCountry(rows);
-  const sorted = Object.entries(agg).sort((a,b)=>b[1].cif-a[1].cif).slice(0,20);
+  const totalCif = Object.values(agg).reduce((s,v)=>s+v.cif,0);
+
+  // Prior year shares for YoY
+  const prevAgg = aggByCountry(DATA.filter(r => {
+    const {year,month}=parseTime(r[3]);
+    if (year!==state.year-1) return false;
+    if (state.months.length && !state.months.includes(month)) return false;
+    if (state.woodType && r[1]!==state.woodType) return false;
+    if (state.spec && r[2]!==state.spec) return false;
+    return true;
+  }));
+  const prevTotal = Object.values(prevAgg).reduce((s,v)=>s+v.cif,0);
+
+  let sorted = Object.entries(agg).sort((a,b)=>b[1].cif-a[1].cif);
+  if (state.rankBy === 'proj') {
+    sorted.sort((a,b) => {
+      const da = inflFor(a[0]), db = inflFor(b[0]);
+      const pa = a[1].cif * (1 + (da ? da.overall/100 : 0));
+      const pb = b[1].cif * (1 + (db ? db.overall/100 : 0));
+      if (!da && !db) return b[1].cif - a[1].cif;
+      if (!da) return 1; if (!db) return -1;
+      return pb - pa;
+    });
+  }
+  const top20 = sorted.slice(0,20);
 
   // Breadcrumb
   const bc = document.getElementById('country-breadcrumb');
   if (state.drillCountry) {
     bc.innerHTML = `<div class="breadcrumb-pill">${flag(state.drillCountry)} ${state.drillCountry} <span class="x" id="clear-drill">×</span></div>`;
-    document.getElementById('clear-drill').onclick = () => { state.drillCountry = null; renderAll(); };
-  } else { bc.innerHTML = ''; }
+    document.getElementById('clear-drill').onclick = () => { state.drillCountry=null; renderAll(); };
+  } else bc.innerHTML = '';
 
-  // Country list
   const list = document.getElementById('country-list');
-  list.innerHTML = sorted.map(([c, v], i) => {
-    const t = yoyTrend(c, rows);
+  list.innerHTML = top20.map(([c,v],i) => {
+    const share = totalCif>0 ? v.cif/totalCif*100 : 0;
+    const prevShare = prevTotal>0 && prevAgg[c] ? prevAgg[c].cif/prevTotal*100 : null;
+    const shareDelta = prevShare!==null ? share-prevShare : null;
+    const prevCif = prevAgg[c]?.cif || 0;
+    const yoyPct = prevCif>0 ? (v.cif-prevCif)/prevCif : null;
+    const t = yoyPct===null?'flat':yoyPct>0.05?'up':yoyPct<-0.05?'down':'flat';
     const tIcon = t==='up'?'↑':t==='down'?'↓':'→';
-    const tClass = t==='up'?'up':t==='down'?'down':'flat';
-    const sel = state.drillCountry === c ? ' selected' : '';
-    return `<div class="country-row${sel}" data-country="${c}">
-      <span class="rank">${i+1}</span>
-      <span class="flag">${flag(c)}</span>
-      <span class="name">${c}</span>
-      <span class="cif-val">${fmtUSD(v.cif)}</span>
-      <span class="trend ${tClass}">${tIcon}</span>
+    const warn = share > 30;
+    const infl = inflFor(c);
+    const inflTip = infl ? ` Inflation: ${infl.overall.toFixed(1)}% (${inflTier(c)})` : '';
+    const deltaStr = shareDelta!==null ? `<span style="font-size:10px;color:${shareDelta>0?'var(--green)':shareDelta<0?'var(--red)':'var(--text-muted)'}">${shareDelta>0?'+':''}${shareDelta.toFixed(1)}pp</span>` : '';
+    const projCifVal = infl ? v.cif * (1 + infl.overall/100) : null;
+    const showProj = state.rankBy === 'proj' && projCifVal !== null;
+    const cifDisplay = showProj
+      ? `<span style="font-size:10px;color:var(--text-muted)">CIF ${fmtUSD(v.cif)}</span><br><span style="color:var(--yellow);font-weight:600">${fmtUSD(projCifVal)}</span>`
+      : fmtUSD(v.cif);
+    return `<div class="country-row${state.drillCountry===c?' selected':''}${warn?' warn':''}" data-country="${c}" title="${c}: CIF ${fmtUSD(v.cif)}${showProj?' · Projected '+fmtUSD(projCifVal):''} · ${share.toFixed(1)}% share${warn?' ⚠ >30% concentration':''}${inflTip}">
+      <span class="crank">${i+1}</span>
+      <span class="cflag">${flag(c)}</span>
+      <span class="cname">${warn?'⚠ ':''} ${c}</span>
+      <span class="ccif" style="line-height:1.3">${cifDisplay}</span>
+      <span class="cshare">${share.toFixed(1)}%${deltaStr}</span>
+      <span class="ctrend ${t}">${tIcon}</span>
     </div>`;
   }).join('');
+
   list.querySelectorAll('.country-row').forEach(el => {
     el.addEventListener('click', () => {
       const c = el.dataset.country;
-      state.drillCountry = state.drillCountry === c ? null : c;
+      state.drillCountry = state.drillCountry===c ? null : c;
       renderAll();
     });
   });
 
-  // Chart
-  const chartRows = state.drillCountry ? rows.filter(r=>r[0]===state.drillCountry) : rows;
-  const chartCountries = state.drillCountry
-    ? [state.drillCountry]
-    : Object.entries(agg).sort((a,b)=>b[1].cif-a[1].cif).slice(0,10).map(e=>e[0]);
-
+  // Monthly chart
   const months = getMonthsInData(rows);
-  const labels = months.map(m=>MONTHS_LIST[m-1].slice(0,3));
+  const chartCountries = state.drillCountry ? [state.drillCountry] : sorted.slice(0,10).map(e=>e[0]);
   const metric = state.countryMetric;
-
-  const datasets = chartCountries.map((c, i) => ({
+  const datasets = chartCountries.map((c,i) => ({
     label: c,
     data: months.map(mo => {
-      const mRows = chartRows.filter(r=>r[0]===c && parseTime(r[3]).month===mo);
-      if (metric==='cif') return mRows.reduce((s,r)=>s+r[4],0);
-      if (metric==='duty') return mRows.reduce((s,r)=>s+r[5],0);
-      return mRows.reduce((s,r)=>s+r[4]+r[5],0);
+      const mr = rows.filter(r=>r[0]===c&&parseTime(r[3]).month===mo);
+      if (metric==='cif') return mr.reduce((s,r)=>s+r[4],0);
+      if (metric==='duty') return mr.reduce((s,r)=>s+r[5],0);
+      if (metric==='landed') return mr.reduce((s,r)=>s+r[4]+r[5],0);
+      // price
+      const pRows = mr.filter(r=>r[7]>0);
+      return pRows.length ? pRows.reduce((s,r)=>s+r[7],0)/pRows.length : null;
     }),
-    borderColor: COLORS[i % COLORS.length],
-    backgroundColor: COLORS[i % COLORS.length] + '33',
-    tension: 0.3, fill: false, pointRadius: 3,
+    borderColor: COLORS[i%COLORS.length], backgroundColor: COLORS[i%COLORS.length]+'33',
+    tension:0.3, fill:false, pointRadius:3, spanGaps:true,
   }));
 
+  const yLabel = metric==='price' ? v=>'$'+fmtK(v) : v=>'$'+fmtK(v);
   destroyChart('chart-countries');
-  const ctx = document.getElementById('chart-countries').getContext('2d');
-  countriesChart = new Chart(ctx, {
-    type: 'line',
-    data: { labels, datasets },
-    options: {
-      ...chartDefaults(),
-      plugins: { ...chartDefaults().plugins, tooltip: { ...chartDefaults().plugins.tooltip,
-        callbacks: { label: ctx => {
-          const r = chartRows.find(r=>r[0]===ctx.dataset.label && MONTHS_LIST[parseTime(r[3]).month-1].slice(0,3)===ctx.label);
-          if (!r) return ctx.dataset.label+': '+fmtUSD(ctx.parsed.y);
-          return [ctx.dataset.label, 'CIF: '+fmtUSD(r[4]), 'Duty: '+fmtUSD(r[5]), 'Landed: '+fmtUSD(r[4]+r[5])];
-        }}
-      }}
-    }
+  new Chart(document.getElementById('chart-countries').getContext('2d'), {
+    type:'line', data:{labels:months.map(m=>MONTHS_LIST[m-1].slice(0,3)),datasets},
+    options:{...baseOpts(),scales:{...baseOpts().scales,y:{...baseOpts().scales.y,ticks:{...baseOpts().scales.y.ticks,callback:yLabel}}}}
   });
 }
 
@@ -481,155 +619,274 @@ function renderCountries(rows) {
 function renderTrends(rows) {
   // Wood type bar
   const wtMap = {};
-  rows.forEach(r=>{ if(!wtMap[r[1]]) wtMap[r[1]]=0; wtMap[r[1]]+=r[4]; });
-  const wtEntries = Object.entries(wtMap).sort((a,b)=>b[1]-a[1]);
+  rows.forEach(r=>{if(!wtMap[r[1]])wtMap[r[1]]=0;wtMap[r[1]]+=r[4];});
+  const wte = Object.entries(wtMap).sort((a,b)=>b[1]-a[1]);
   destroyChart('chart-woodtype');
-  new Chart(document.getElementById('chart-woodtype').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: wtEntries.map(e=>e[0]),
-      datasets: [{ label:'CIF Value', data: wtEntries.map(e=>e[1]), backgroundColor: COLORS }]
-    },
-    options: { ...chartDefaults(), indexAxis:'y', plugins:{...chartDefaults().plugins, legend:{display:false}} }
+  new Chart(document.getElementById('chart-woodtype').getContext('2d'),{
+    type:'bar',data:{labels:wte.map(e=>e[0]),datasets:[{label:'CIF',data:wte.map(e=>e[1]),backgroundColor:COLORS}]},
+    options:{...baseOpts(),indexAxis:'y',plugins:{...baseOpts().plugins,legend:{display:false}},scales:{x:{ticks:{color:'#8892a4',font:{size:11},callback:v=>'$'+fmtK(v)},grid:{color:'#2e3250'}},y:{ticks:{color:'#8892a4',font:{size:10}},grid:{color:'#2e3250'}}}}
   });
 
   // Spec doughnut
   const spMap = {};
-  rows.forEach(r=>{ if(!spMap[r[2]]) spMap[r[2]]=0; spMap[r[2]]+=r[4]; });
-  const spEntries = Object.entries(spMap).sort((a,b)=>b[1]-a[1]);
+  rows.forEach(r=>{if(!spMap[r[2]])spMap[r[2]]=0;spMap[r[2]]+=r[4];});
+  const spe = Object.entries(spMap).sort((a,b)=>b[1]-a[1]);
+  const top8 = spe.slice(0,8), rest = spe.slice(8).reduce((s,[,v])=>s+v,0);
+  const dLabels = top8.map(e=>e[0]); if(rest>0) dLabels.push('Other');
+  const dData = top8.map(e=>e[1]); if(rest>0) dData.push(rest);
   destroyChart('chart-spec');
-  new Chart(document.getElementById('chart-spec').getContext('2d'), {
-    type: 'doughnut',
-    data: {
-      labels: spEntries.map(e=>e[0]),
-      datasets: [{ data: spEntries.map(e=>e[1]), backgroundColor: COLORS }]
-    },
-    options: {
-      responsive:true, maintainAspectRatio:true,
-      plugins: {
-        legend: { position:'right', labels:{color:'#8892a4',font:{size:11}} },
-        tooltip: { callbacks: { label: ctx => ctx.label+': '+fmtUSD(ctx.parsed) } }
-      }
-    }
+  new Chart(document.getElementById('chart-spec').getContext('2d'),{
+    type:'doughnut',data:{labels:dLabels,datasets:[{data:dData,backgroundColor:COLORS}]},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'right',labels:{color:'#8892a4',font:{size:10}}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+fmtUSD(ctx.parsed)}}}}
   });
 
-  // Monthly grouped bar
+  // Monthly CIF + Duty
   const months = getMonthsInData(rows);
-  const mAgg = aggByMonth(rows);
+  const mAgg = {};
+  rows.forEach(r=>{const{month}=parseTime(r[3]);if(!mAgg[month])mAgg[month]={cif:0,duty:0};mAgg[month].cif+=r[4];mAgg[month].duty+=r[5];});
   destroyChart('chart-monthly');
-  new Chart(document.getElementById('chart-monthly').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: months.map(m=>MONTHS_LIST[m-1].slice(0,3)),
-      datasets: [
-        { label:'CIF Value', data: months.map(m=>(mAgg[m]||{cif:0}).cif), backgroundColor: '#4f8ef7aa' },
-        { label:'Calculated Duty', data: months.map(m=>(mAgg[m]||{duty:0}).duty), backgroundColor: '#7c3aedaa' },
-      ]
-    },
-    options: { ...chartDefaults(), plugins: { ...chartDefaults().plugins },
-      scales: { ...chartDefaults().scales, x: { ...chartDefaults().scales.x, stacked: false } } }
+  new Chart(document.getElementById('chart-monthly').getContext('2d'),{
+    type:'bar',
+    data:{labels:months.map(m=>MONTHS_LIST[m-1].slice(0,3)),datasets:[
+      {label:'CIF Value',data:months.map(m=>(mAgg[m]||{cif:0}).cif),backgroundColor:'#4f8ef7aa'},
+      {label:'Calculated Duty',data:months.map(m=>(mAgg[m]||{duty:0}).duty),backgroundColor:'#7c3aedaa'},
+    ]},
+    options:baseOpts()
+  });
+
+  // Price per unit trend
+  const pAgg = {};
+  rows.forEach(r=>{if(r[7]>0){const{month}=parseTime(r[3]);if(!pAgg[month])pAgg[month]={sum:0,n:0};pAgg[month].sum+=r[7];pAgg[month].n++;}});
+  const pMonths = months.filter(m=>pAgg[m]);
+  destroyChart('chart-price');
+  if(pMonths.length > 0) {
+    new Chart(document.getElementById('chart-price').getContext('2d'),{
+      type:'line',
+      data:{labels:pMonths.map(m=>MONTHS_LIST[m-1].slice(0,3)),datasets:[{label:'Avg Price/Unit',data:pMonths.map(m=>pAgg[m].sum/pAgg[m].n),borderColor:'#f59e0b',backgroundColor:'#f59e0b33',tension:0.3,fill:true,pointRadius:3}]},
+      options:{...baseOpts(),scales:{...baseOpts().scales,y:{ticks:{color:'#8892a4',font:{size:11},callback:v=>'$'+v.toFixed(2)},grid:{color:'#2e3250'}}}}
+    });
+  } else {
+    document.getElementById('chart-price').parentElement.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted);font-size:13px">No price/unit data available for this period</div>';
+  }
+
+  // Market share composition (100% stacked bar, top 8 + Other)
+  const cAgg = {};
+  rows.forEach(r=>{const{month}=parseTime(r[3]);if(!cAgg[month])cAgg[month]={};if(!cAgg[month][r[0]])cAgg[month][r[0]]=0;cAgg[month][r[0]]+=r[4];});
+  const allC = Object.entries(aggByCountry(rows)).sort((a,b)=>b[1].cif-a[1].cif);
+  const top8c = allC.slice(0,8).map(e=>e[0]);
+  destroyChart('chart-share');
+  new Chart(document.getElementById('chart-share').getContext('2d'),{
+    type:'bar',
+    data:{labels:months.map(m=>MONTHS_LIST[m-1].slice(0,3)),datasets:[
+      ...top8c.map((c,i)=>({
+        label:c,
+        data:months.map(m=>{const mo=cAgg[m]||{};const tot=Object.values(mo).reduce((s,v)=>s+v,0);return tot>0?(mo[c]||0)/tot*100:0;}),
+        backgroundColor:COLORS[i],stack:'s'
+      })),
+      {label:'Other',data:months.map(m=>{const mo=cAgg[m]||{};const tot=Object.values(mo).reduce((s,v)=>s+v,0);const top8sum=top8c.reduce((s,c)=>s+(mo[c]||0),0);return tot>0?(tot-top8sum)/tot*100:0;}),backgroundColor:'#444c6e',stack:'s'}
+    ]},
+    options:{...baseOpts(),scales:{...baseOpts().scales,x:{...baseOpts().scales.x,stacked:true},y:{ticks:{color:'#8892a4',font:{size:11},callback:v=>v+'%'},grid:{color:'#2e3250'},stacked:true,max:100}},plugins:{...baseOpts().plugins,tooltip:{...baseOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`}}}}
   });
 }
 
-// ── RENDER LANDED COST ───────────────────────────────────────────────────────
+// ── RENDER LANDED COST ────────────────────────────────────────────────────────
 function renderLanded(rows) {
   const agg = aggByCountry(rows);
-  const sorted = Object.entries(agg).map(([c,v])=>({
+  let entries = Object.entries(agg).map(([c,v])=>({
     country:c, cif:v.cif, duty:v.duty, dutiable:v.dutiable,
-    landed:v.cif+v.duty, rate: v.dutiable>0 ? v.duty/v.dutiable : 0
-  })).sort((a,b)=>b.landed-a.landed);
-  const top10 = sorted.slice(0,10);
-
-  // Line chart
-  const months = getMonthsInData(rows);
-  const datasets = top10.map((c,i)=>({
-    label: c.country,
-    data: months.map(m=>{
-      const mRows = rows.filter(r=>r[0]===c.country && parseTime(r[3]).month===m);
-      return mRows.reduce((s,r)=>s+r[4]+r[5],0);
-    }),
-    borderColor: COLORS[i%COLORS.length], backgroundColor: COLORS[i%COLORS.length]+'33',
-    tension:0.3, fill:false, pointRadius:3,
+    landed:v.cif+v.duty, rate:v.dutiable>0?v.duty/v.dutiable:0,
+    avgPrice:v.priceN>0?v.price/v.priceN:0
   }));
+
+  // Duty efficiency rank (within same woodType+spec for current filter)
+  // Sort by duty rate ascending, rank 1 = lowest rate
+  const ratedEntries = entries.filter(e=>e.dutiable>0).sort((a,b)=>a.rate-b.rate);
+  ratedEntries.forEach((e,i)=>{ e.effRank = i+1; e.effOf = ratedEntries.length; });
+  entries.filter(e=>e.dutiable===0).forEach(e=>{ e.effRank=0; e.effOf=ratedEntries.length; });
+
+  entries.sort((a,b) => state.landedSortDir*(
+    state.landedSortCol==='rank'?a.effRank-b.effRank:
+    state.landedSortCol==='country'?a.country.localeCompare(b.country):
+    state.landedSortCol==='cif'?b.cif-a.cif:
+    state.landedSortCol==='duty'?b.duty-a.duty:
+    state.landedSortCol==='rate'?b.rate-a.rate:
+    state.landedSortCol==='price'?b.avgPrice-a.avgPrice:
+    b.landed-a.landed
+  ));
+
+  if (state.zeroDutyOnly) entries = entries.filter(e=>e.duty===0);
+  const top10 = entries.slice(0,10);
+
+  // Landed cost over time chart
+  const months = getMonthsInData(rows);
   destroyChart('chart-landed');
-  new Chart(document.getElementById('chart-landed').getContext('2d'), {
+  new Chart(document.getElementById('chart-landed').getContext('2d'),{
     type:'line',
-    data:{ labels: months.map(m=>MONTHS_LIST[m-1].slice(0,3)), datasets },
-    options: chartDefaults()
+    data:{labels:months.map(m=>MONTHS_LIST[m-1].slice(0,3)),datasets:top10.map((c,i)=>({
+      label:c.country,
+      data:months.map(m=>rows.filter(r=>r[0]===c.country&&parseTime(r[3]).month===m).reduce((s,r)=>s+r[4]+r[5],0)),
+      borderColor:COLORS[i%COLORS.length],backgroundColor:COLORS[i%COLORS.length]+'33',tension:0.3,fill:false,pointRadius:3
+    }))},
+    options:baseOpts()
+  });
+
+  // Duty rate comparison chart
+  const dutyEntries = [...entries].filter(e=>e.dutiable>0).sort((a,b)=>b.rate-a.rate);
+  const medianRate = dutyEntries.length ? dutyEntries[Math.floor(dutyEntries.length/2)].rate : 0;
+  destroyChart('chart-duty-rate');
+  new Chart(document.getElementById('chart-duty-rate').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:dutyEntries.map(e=>e.country),
+      datasets:[
+        {label:'Effective Duty Rate',data:dutyEntries.map(e=>e.rate*100),backgroundColor:dutyEntries.map(e=>e.rate>medianRate*1.5?'#ef444499':'#4f8ef799'),indexAxis:'y'},
+        {label:`Median (${fmtPctN(medianRate*100)})`,data:dutyEntries.map(()=>medianRate*100),type:'line',borderColor:'#f59e0b',borderDash:[4,3],borderWidth:2,pointRadius:0,fill:false}
+      ]
+    },
+    options:{...baseOpts(),indexAxis:'y',scales:{...baseOpts().scales,x:{...baseOpts().scales.x,ticks:{color:'#8892a4',font:{size:11},callback:v=>v.toFixed(1)+'%'}},y:{ticks:{color:'#8892a4',font:{size:10}},grid:{color:'#2e3250'}}},plugins:{...baseOpts().plugins,legend:{labels:{color:'#8892a4',font:{size:11}}}}}
   });
 
   // Table
-  document.getElementById('landed-table').innerHTML = sorted.slice(0,15).map((c,i)=>`
+  document.getElementById('landed-table').innerHTML = entries.slice(0,25).map((e,i)=>`
     <tr>
       <td>${i+1}</td>
-      <td>${flag(c.country)} ${c.country}</td>
-      <td>${fmtUSD(c.cif)}</td>
-      <td>${fmtUSD(c.duty)}</td>
-      <td><strong>${fmtUSD(c.landed)}</strong></td>
-      <td>${fmtPct(c.rate)}</td>
+      <td>${flag(e.country)} ${e.country}</td>
+      <td>${fmtUSD(e.cif)}</td>
+      <td>${fmtUSD(e.duty)}</td>
+      <td><strong>${fmtUSD(e.landed)}</strong></td>
+      <td>${fmtPct(e.rate)}</td>
+      <td>${e.effRank>0?e.effRank+' of '+e.effOf:'0% duty'}</td>
+      <td>${e.avgPrice>0?'$'+e.avgPrice.toFixed(2):'N/A'}</td>
+      <td>${e.avgPrice>0&&e.cif>0?'$'+(e.landed/e.cif*e.avgPrice).toFixed(2):'N/A'}</td>
     </tr>`).join('');
+
+  // Substitution analysis panel (if drilled)
+  const sc = document.getElementById('subst-container');
+  if (state.drillCountry && agg[state.drillCountry]) {
+    const drillRows = rows.filter(r=>r[0]===state.drillCountry);
+    const wt = [...new Set(drillRows.map(r=>r[1]))];
+    const sp = [...new Set(drillRows.map(r=>r[2]))];
+    const alts = entries.filter(e => e.country!==state.drillCountry &&
+      rows.some(r=>r[0]===e.country&&wt.includes(r[1])&&sp.includes(r[2]))).slice(0,10);
+    if (alts.length < 2) {
+      sc.innerHTML = `<div class="subst-panel"><div class="subst-title">Substitution Analysis — ${flag(state.drillCountry)} ${state.drillCountry}</div><div style="color:var(--text-muted);font-size:13px">No direct substitutes found for the same wood type and specification.</div></div>`;
+    } else {
+      sc.innerHTML = `<div class="subst-panel">
+        <div class="subst-title">Substitution Alternatives for ${flag(state.drillCountry)} ${state.drillCountry}</div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Country</th><th>Landed Cost</th><th>Duty Rate</th><th>Active Months</th><th>Risk Tier</th><th>Est. Multiplier</th></tr></thead>
+          <tbody>${alts.map(e=>{
+            const tier=inflTier(e.country);const infl=inflFor(e.country);
+            const activeMo=months.filter(m=>rows.some(r=>r[0]===e.country&&parseTime(r[3]).month===m&&r[4]>0)).length;
+            return `<tr><td>${flag(e.country)} ${e.country}</td><td>${fmtUSD(e.landed)}</td><td>${fmtPct(e.rate)}</td><td>${activeMo}</td><td><span class="badge badge-${tier}">${tier==='sanc'?'Sanctions':tier==='unr'?'Unrated':tier.charAt(0).toUpperCase()+tier.slice(1)}</span></td><td>${infl?infl.overall.toFixed(1)+'%':'—'}</td></tr>`;
+          }).join('')}</tbody>
+        </table></div></div>`;
+    }
+  } else sc.innerHTML = '';
 }
 
-// ── RENDER TRADE ALERTS ──────────────────────────────────────────────────────
+// ── RENDER TRADE ALERTS ───────────────────────────────────────────────────────
 function renderAlerts(rows) {
-  const thresh = state.alertThreshold / 100;
-  const alerts = [];
+  const thresh = state.alertThreshold/100;
+  const pThresh = state.priceThreshold/100;
+  const warnings=[], notices=[];
 
-  // Build per-country per-month data
+  // Per-country per-month
   const byCM = {};
   rows.forEach(r=>{
-    const {month,year}=parseTime(r[3]);
-    const key=r[0]+'|'+year+'|'+month;
-    if(!byCM[key]) byCM[key]={cif:0,duty:0,dutiable:0,country:r[0],year,month};
-    byCM[key].cif+=r[4]; byCM[key].duty+=r[5]; byCM[key].dutiable+=r[6];
+    const{month,year}=parseTime(r[3]);
+    const k=r[0]+'|'+year+'|'+month;
+    if(!byCM[k])byCM[k]={cif:0,duty:0,dutiable:0,price:0,priceN:0,country:r[0],year,month};
+    byCM[k].cif+=r[4];byCM[k].duty+=r[5];byCM[k].dutiable+=r[6];
+    if(r[7]>0){byCM[k].price+=r[7];byCM[k].priceN++;}
   });
 
-  // Per-country average duty rate
-  const avgDuty = {};
+  const avgDutyByC = {};
   allCountries.forEach(c=>{
-    const cRows = RAW.filter(r=>r[0]===c);
-    const totDuty = cRows.reduce((s,r)=>s+r[5],0);
-    const totDutiable = cRows.reduce((s,r)=>s+r[6],0);
-    avgDuty[c] = totDutiable>0 ? totDuty/totDutiable : 0;
+    const cr=DATA.filter(r=>r[0]===c);
+    const td=cr.reduce((s,r)=>s+r[6],0),tdu=cr.reduce((s,r)=>s+r[5],0);
+    avgDutyByC[c]=td>0?tdu/td:0;
   });
 
-  const countries = [...new Set(rows.map(r=>r[0]))];
-  const yr = state.year;
-
+  const countries=[...new Set(rows.map(r=>r[0]))];
   countries.forEach(c=>{
-    const cMonths = Object.values(byCM).filter(e=>e.country===c).sort((a,b)=>a.month-b.month);
-    for (let i=1;i<cMonths.length;i++) {
-      const prev = cMonths[i-1], cur = cMonths[i];
-      if (!prev.cif) continue;
-      const pct = (cur.cif - prev.cif) / prev.cif;
-      if (pct > thresh) alerts.push({type:'spike', country:c, month:MONTHS_LIST[cur.month-1], pct, cif:cur.cif});
-      else if (pct < -thresh) alerts.push({type:'drop', country:c, month:MONTHS_LIST[cur.month-1], pct, cif:cur.cif});
-      // Duty rate anomaly
-      if (cur.dutiable > 0) {
-        const curRate = cur.duty / cur.dutiable;
-        const avg = avgDuty[c];
-        if (avg > 0 && curRate > avg * 2) {
-          alerts.push({type:'duty', country:c, month:MONTHS_LIST[cur.month-1], pct:curRate/avg, cif:cur.cif});
-        }
+    const cMonths=Object.values(byCM).filter(e=>e.country===c).sort((a,b)=>a.year*12+a.month-(b.year*12+b.month));
+
+    for(let i=1;i<cMonths.length;i++){
+      const prev=cMonths[i-1],cur=cMonths[i];
+      if(!prev.cif) continue;
+      const pct=(cur.cif-prev.cif)/prev.cif;
+      if(pct>thresh) warnings.push({type:'spike',country:c,month:MONTHS_LIST[cur.month-1]+' '+cur.year,pct,cif:cur.cif});
+      else if(pct<-thresh) warnings.push({type:'drop',country:c,month:MONTHS_LIST[cur.month-1]+' '+cur.year,pct,cif:cur.cif});
+      if(cur.dutiable>0){
+        const cr2=cur.duty/cur.dutiable,avg=avgDutyByC[c];
+        if(avg>0&&cr2>avg*2) warnings.push({type:'duty',country:c,month:MONTHS_LIST[cur.month-1]+' '+cur.year,pct:cr2/avg,cif:cur.cif});
       }
     }
+
+    // Price/unit YoY spike
+    if(cMonths.length >= 2){
+      const prevYear=DATA.filter(r=>{
+        if(r[0]!==c||r[7]===0)return false;
+        const{year,month}=parseTime(r[3]);
+        return year===state.year-1&&(!state.months.length||state.months.includes(month));
+      });
+      const curYear=rows.filter(r=>r[0]===c&&r[7]>0);
+      if(prevYear.length&&curYear.length){
+        const avgPrev=prevYear.reduce((s,r)=>s+r[7],0)/prevYear.length;
+        const avgCur=curYear.reduce((s,r)=>s+r[7],0)/curYear.length;
+        if(avgPrev>0&&(avgCur-avgPrev)/avgPrev>pThresh)
+          warnings.push({type:'price',country:c,month:'YoY',pct:(avgCur-avgPrev)/avgPrev,cif:curYear.reduce((s,r)=>s+r[4],0)});
+      }
+    }
+
+    // New supplier entry (present now, absent previous 3 months)
+    const allMonthsForC=Object.values(byCM).filter(e=>e.country===c).sort((a,b)=>a.year*12+a.month-(b.year*12+b.month));
+    if(allMonthsForC.length>=2){
+      const last=allMonthsForC[allMonthsForC.length-1];
+      const prev3=allMonthsForC.slice(-4,-1);
+      if(last.cif>0&&prev3.length>0&&prev3.every(e=>e.cif===0))
+        notices.push({type:'entry',country:c,month:MONTHS_LIST[last.month-1]+' '+last.year,pct:null,cif:last.cif});
+    }
+
+    // Supplier exit risk (6+ consecutive months active, then zero)
+    let streak=0,hadStreak=false;
+    allMonthsForC.forEach(e=>{if(e.cif>0){streak++;if(streak>=6)hadStreak=true;}else{if(hadStreak)warnings.push({type:'exit',country:c,month:MONTHS_LIST[e.month-1]+' '+e.year,pct:null,cif:0});streak=0;hadStreak=false;}});
   });
 
   const container = document.getElementById('alert-cards');
-  if (!alerts.length) {
-    container.innerHTML = '<div class="no-alerts">No anomalies detected in this period</div>';
-    return;
+  const mkCard = (a,i) => {
+    const mag = a.type==='spike'?`+${(a.pct*100).toFixed(1)}% MoM`:
+                a.type==='drop'?`${(a.pct*100).toFixed(1)}% MoM`:
+                a.type==='duty'?`${a.pct.toFixed(1)}× avg`:
+                a.type==='price'?`+${(a.pct*100).toFixed(1)}% YoY`:
+                a.type==='entry'?'New entry':
+                a.type==='exit'?'Exit risk':'';
+    const typeLabel = a.type==='spike'?'CIF Spike':a.type==='drop'?'CIF Drop':a.type==='duty'?'Duty Anomaly':a.type==='price'?'Price Spike':a.type==='entry'?'New Supplier':'Exit Risk';
+    return `<div class="alert-card ${a.type}">
+      <div class="alert-header"><span>${flag(a.country)}</span><span class="alert-country">${a.country}</span><span class="alert-type">${typeLabel}</span></div>
+      <div class="alert-detail">${a.month}${a.cif?` — ${fmtUSD(a.cif)}`:''}</div>
+      ${mag?`<div class="alert-magnitude">${mag}</div>`:''}
+    </div>`;
+  };
+
+  if(!warnings.length && !notices.length){
+    container.innerHTML='<div class="no-alerts">No anomalies detected in this period</div>'; return;
   }
-  container.innerHTML = `<div class="alert-grid">${alerts.slice(0,30).map(a=>{
-    if (a.type==='spike') return `<div class="alert-card spike"><div class="alert-header"><span class="flag">${flag(a.country)}</span><span class="alert-country">${a.country}</span><span class="alert-type">CIF Spike</span></div><div class="alert-detail">${a.month} — ${fmtUSD(a.cif)}</div><div class="alert-magnitude">+${(a.pct*100).toFixed(1)}% MoM</div></div>`;
-    if (a.type==='drop') return `<div class="alert-card drop"><div class="alert-header"><span class="flag">${flag(a.country)}</span><span class="alert-country">${a.country}</span><span class="alert-type">CIF Drop</span></div><div class="alert-detail">${a.month} — ${fmtUSD(a.cif)}</div><div class="alert-magnitude">${(a.pct*100).toFixed(1)}% MoM</div></div>`;
-    return `<div class="alert-card duty"><div class="alert-header"><span class="flag">${flag(a.country)}</span><span class="alert-country">${a.country}</span><span class="alert-type">Duty Anomaly</span></div><div class="alert-detail">${a.month} — ${fmtUSD(a.cif)}</div><div class="alert-magnitude">${a.pct.toFixed(1)}× avg rate</div></div>`;
-  }).join('')}</div>`;
+  let html='';
+  if(warnings.length){
+    html+=`<div class="alerts-section"><div class="alerts-section-title warn">⚠ Warnings (${warnings.length})</div><div class="alert-grid">${warnings.slice(0,30).map(mkCard).join('')}</div></div>`;
+  }
+  if(notices.length){
+    html+=`<div class="alerts-section"><div class="alerts-section-title info">ℹ Notices (${notices.length})</div><div class="alert-grid">${notices.slice(0,15).map(mkCard).join('')}</div></div>`;
+  }
+  container.innerHTML=html;
 }
 
 // ── RENDER ALL ────────────────────────────────────────────────────────────────
 function renderAll() {
   const rows = filtered();
+  updatePills();
   renderOverview(rows);
   renderCountries(rows);
   renderTrends(rows);
@@ -637,87 +894,124 @@ function renderAll() {
   renderAlerts(rows);
 }
 
-// ── INIT FILTERS ─────────────────────────────────────────────────────────────
+// ── PILL ROW ──────────────────────────────────────────────────────────────────
+function updatePills() {
+  const pills = [];
+  if(state.range==='ytd') pills.push('YTD');
+  else if(state.range==='12') pills.push('Last 12M');
+  else if(state.range==='6') pills.push('Last 6M');
+  else if(state.range==='3') pills.push('Last 3M');
+  if(state.woodType) pills.push(state.woodType);
+  if(state.spec) pills.push(state.spec);
+  if(state.year) pills.push(''+state.year);
+  if(state.drillCountry) pills.push(flag(state.drillCountry)+' '+state.drillCountry);
+  if(state.zeroDutyOnly) pills.push('0% Duty Only');
+  document.getElementById('pill-row').innerHTML = pills.map(p=>`<span class="pill">${p}</span>`).join('');
+}
+
+// ── INIT FILTERS ──────────────────────────────────────────────────────────────
 function initFilters() {
-  // Wood type
-  const fw = document.getElementById('f-wood');
-  fw.innerHTML = '<option value="">All Types</option>' + allWoodTypes.map(t=>`<option value="${t}">${t}</option>`).join('');
-  fw.addEventListener('change', ()=>{ state.woodType=fw.value; state.drillCountry=null; renderAll(); });
+  const fw=document.getElementById('f-wood');
+  fw.innerHTML='<option value="">All Types</option>'+allWoodTypes.map(t=>`<option>${t}</option>`).join('');
+  fw.onchange=()=>{state.woodType=fw.value;state.drillCountry=null;renderAll();};
 
-  // Spec
-  const fs = document.getElementById('f-spec');
-  fs.innerHTML = '<option value="">All Specifications</option>' + allSpecs.map(s=>`<option value="${s}">${s}</option>`).join('');
-  fs.addEventListener('change', ()=>{ state.spec=fs.value; state.drillCountry=null; renderAll(); });
+  const fs=document.getElementById('f-spec');
+  fs.innerHTML='<option value="">All Specifications</option>'+allSpecs.map(t=>`<option>${t}</option>`).join('');
+  fs.onchange=()=>{state.spec=fs.value;state.drillCountry=null;renderAll();};
 
-  // Year
-  const fy = document.getElementById('f-year');
-  fy.innerHTML = allYears.map(y=>`<option value="${y}"${y===latestYear?' selected':''}>${y}</option>`).join('');
-  fy.addEventListener('change', ()=>{ state.year=parseInt(fy.value); state.drillCountry=null; renderAll(); });
+  const fy=document.getElementById('f-year');
+  fy.innerHTML=allYears.map(y=>`<option${y===latestYear?' selected':''}>${y}</option>`).join('');
+  fy.onchange=()=>{state.year=parseInt(fy.value);state.drillCountry=null;renderAll();};
 
-  // Months
-  const fm = document.getElementById('f-months');
-  fm.innerHTML = MONTHS_LIST.map((m,i)=>`<button class="month-btn" data-month="${i+1}">${m.slice(0,3)}</button>`).join('');
+  const fm=document.getElementById('f-months');
+  fm.innerHTML=MONTHS_LIST.map((m,i)=>`<button class="month-btn" data-month="${i+1}">${m.slice(0,3)}</button>`).join('');
   fm.querySelectorAll('.month-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const mo = parseInt(btn.dataset.month);
-      const idx = state.months.indexOf(mo);
-      if (idx>=0) state.months.splice(idx,1); else state.months.push(mo);
-      btn.classList.toggle('active', state.months.includes(mo));
-      state.drillCountry=null; renderAll();
-    });
+    btn.onclick=()=>{
+      const mo=parseInt(btn.dataset.month);
+      const idx=state.months.indexOf(mo);
+      if(idx>=0)state.months.splice(idx,1);else state.months.push(mo);
+      btn.classList.toggle('active',state.months.includes(mo));
+      state.range='';document.querySelectorAll('[data-range]').forEach(b=>b.classList.remove('active'));
+      state.drillCountry=null;renderAll();
+    };
   });
 
-  // Reset
-  document.getElementById('btn-reset').addEventListener('click', ()=>{
-    state = { woodType:'', spec:'', year:latestYear, months:[], drillCountry:null, countryMetric:'cif', alertThreshold:25 };
-    fw.value=''; fs.value=''; fy.value=latestYear;
+  document.querySelectorAll('[data-range]').forEach(btn=>{
+    btn.onclick=()=>{
+      applyRange(btn.dataset.range);
+      document.querySelectorAll('[data-range]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      fm.querySelectorAll('.month-btn').forEach(b=>b.classList.toggle('active',state.months.includes(parseInt(b.dataset.month))));
+      renderAll();
+    };
+  });
+
+  document.getElementById('btn-reset').onclick=()=>{
+    state={woodType:'',spec:'',year:latestYear,months:[],range:'12',drillCountry:null,countryMetric:'cif',rankBy:'cif',alertThreshold:25,priceThreshold:20,zeroDutyOnly:false,landedSortCol:'landed',landedSortDir:-1};
+    fw.value='';fs.value='';fy.value=latestYear;
     fm.querySelectorAll('.month-btn').forEach(b=>b.classList.remove('active'));
-    document.getElementById('alert-threshold').value=25;
-    document.getElementById('threshold-val').textContent='25%';
-    document.querySelectorAll('.chart-toggle .btn').forEach(b=>b.classList.remove('btn-primary'));
-    document.getElementById('toggle-cif').classList.add('btn-primary');
-    renderAll();
+    document.querySelectorAll('[data-range]').forEach(b=>b.classList.remove('active'));
+    document.querySelector('[data-range="12"]').classList.add('active');
+    document.getElementById('alert-threshold').value=25;document.getElementById('threshold-val').textContent='25%';
+    document.getElementById('price-threshold').value=20;document.getElementById('price-thresh-val').textContent='20%';
+    document.getElementById('btn-zero-duty').classList.remove('active');
+    applyRange('12');renderAll();
+  };
+
+  document.getElementById('metric-toggle').querySelectorAll('.btn').forEach(btn=>{
+    btn.onclick=()=>{
+      state.countryMetric=btn.dataset.metric;
+      document.getElementById('metric-toggle').querySelectorAll('.btn').forEach(b=>b.classList.remove('btn-primary'));
+      btn.classList.add('btn-primary');renderCountries(filtered());
+    };
   });
 
-  // Metric toggle
-  document.querySelectorAll('.chart-toggle .btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      state.countryMetric = btn.dataset.metric;
-      document.querySelectorAll('.chart-toggle .btn').forEach(b=>b.classList.remove('btn-primary'));
-      btn.classList.add('btn-primary');
-      renderCountries(filtered());
-    });
+  document.getElementById('rank-toggle').querySelectorAll('.btn').forEach(btn=>{
+    btn.onclick=()=>{
+      state.rankBy=btn.dataset.rank;
+      document.getElementById('rank-toggle').querySelectorAll('.btn').forEach(b=>b.classList.remove('btn-primary'));
+      btn.classList.add('btn-primary');renderCountries(filtered());
+    };
   });
 
-  // Alert threshold
-  const slider = document.getElementById('alert-threshold');
-  slider.addEventListener('input', ()=>{
-    state.alertThreshold = parseInt(slider.value);
-    document.getElementById('threshold-val').textContent = slider.value+'%';
+  document.getElementById('alert-threshold').oninput=e=>{
+    state.alertThreshold=parseInt(e.target.value);
+    document.getElementById('threshold-val').textContent=e.target.value+'%';
     renderAlerts(filtered());
+  };
+  document.getElementById('price-threshold').oninput=e=>{
+    state.priceThreshold=parseInt(e.target.value);
+    document.getElementById('price-thresh-val').textContent=e.target.value+'%';
+    renderAlerts(filtered());
+  };
+
+  document.getElementById('btn-zero-duty').onclick=function(){
+    state.zeroDutyOnly=!state.zeroDutyOnly;
+    this.classList.toggle('active',state.zeroDutyOnly);
+    renderLanded(filtered());
+  };
+
+  document.querySelectorAll('th[data-col]').forEach(th=>{
+    th.onclick=()=>{
+      if(state.landedSortCol===th.dataset.col) state.landedSortDir*=-1;
+      else{state.landedSortCol=th.dataset.col;state.landedSortDir=-1;}
+      renderLanded(filtered());
+    };
   });
 }
 
 // ── NAV ───────────────────────────────────────────────────────────────────────
 function initNav() {
-  const links = document.querySelectorAll('nav a[data-section]');
-  links.forEach(a=>{
-    a.addEventListener('click', e=>{
-      e.preventDefault();
-      document.getElementById(a.dataset.section)?.scrollIntoView({behavior:'smooth'});
-    });
+  document.querySelectorAll('nav a[data-section]').forEach(a=>{
+    a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.section)?.scrollIntoView({behavior:'smooth'});};
   });
-  const observer = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if (e.isIntersecting) {
-        links.forEach(a=>a.classList.toggle('active', a.dataset.section===e.target.id));
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-  document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('nav a[data-section]').forEach(a=>a.classList.toggle('active',a.dataset.section===e.target.id));});
+  },{rootMargin:'-20% 0px -70% 0px',threshold:0});
+  document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
 }
 
-// ── BOOT ──────────────────────────────────────────────────────────────────────
+applyRange('12');
 initFilters();
 initNav();
 renderAll();

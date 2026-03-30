@@ -11,3 +11,4 @@
 # Local Claude settings (machine-specific)
 .claude/settings.local.json
 node_modules
+dist/

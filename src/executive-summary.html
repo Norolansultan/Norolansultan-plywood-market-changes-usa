@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self';">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA Plywood Import Market — Executive Brief</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --text: #1a202c; --text-muted: #64748b; --bg: #fff; --surface: #f8fafc;
+  --border: #e2e8f0; --accent: #2563eb; --green: #16a34a; --red: #dc2626;
+  --yellow: #d97706; --dark-red: #7f1d1d;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Georgia, serif; font-size: 14px; line-height: 1.6; }
+.wrapper { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+.doc-nav { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; font-size: 12px; color: var(--text-muted); }
+.doc-nav a { color: var(--accent); text-decoration: none; }
+.doc-nav a:hover { text-decoration: underline; }
+.doc-header { border-bottom: 2px solid var(--text); padding-bottom: 16px; margin-bottom: 24px; }
+.doc-title { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
+.doc-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+.doc-meta { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+.print-btn { float: right; background: var(--accent); color: #fff; border: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; cursor: pointer; font-family: inherit; }
+.print-btn:hover { background: #1d4ed8; }
+.section { margin-bottom: 32px; }
+.section-title { font-size: 16px; font-weight: 700; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: .5px; font-size: 13px; }
+.kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+.kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.kpi .kpi-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.kpi .kpi-value { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1.1; }
+.kpi .kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+.kpi-value.up { color: var(--green); } .kpi-value.down { color: var(--red); }
+.narrative { background: var(--surface); border-left: 4px solid var(--accent); padding: 16px 20px; border-radius: 0 8px 8px 0; font-size: 13px; line-height: 1.8; }
+.narrative p { margin-bottom: 8px; } .narrative p:last-child { margin-bottom: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .4px; border-bottom: 2px solid var(--border); background: var(--surface); white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: 2px solid var(--text); font-weight: 700; background: var(--surface); }
+.risk-high td { border-left: 3px solid var(--red); } .risk-sanc td { border-left: 3px solid var(--dark-red); }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; }
+.badge-low { background: #dcfce7; color: #15803d; }
+.badge-mod { background: #fef3c7; color: #b45309; }
+.badge-high { background: #fee2e2; color: #dc2626; }
+.badge-sanc { background: #fca5a5; color: var(--dark-red); }
+.badge-unr { background: #f1f5f9; color: #64748b; }
+.alerts-list { list-style: none; }
+.alerts-list li { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 13px; display: flex; gap: 8px; align-items: flex-start; }
+.alerts-list li:last-child { border-bottom: none; }
+.alert-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.alert-box { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.alert-section-head { padding: 8px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.alert-section-head.warn { color: var(--yellow); } .alert-section-head.info { color: var(--accent); }
+footer { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 32px; font-size: 11px; color: var(--text-muted); }
+@media print {
+  .doc-nav, .print-btn { display: none !important; }
+  body { font-family: Georgia, 'Times New Roman', serif; font-size: 12px; }
+  .kpi { border: 1px solid #000 !important; background: none !important; }
+  .narrative { border-left: 3px solid #000 !important; background: none !important; }
+  .badge-low, .badge-mod, .badge-high, .badge-sanc, .badge-unr { background: none !important; border: 1px solid currentColor; }
+  .section { page-break-inside: avoid; }
+  table { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="doc-nav">
+    <span>Navigation:</span>
+    <a href="dashboard.html">← Full Dashboard</a>
+    <a href="inflation-risk.html">Risk Analysis →</a>
+  </div>
+  <button class="print-btn" onclick="window.print()">🖨 Print / Save as PDF</button>
+  <div class="doc-header">
+    <div class="doc-title">USA Plywood Import Market — Executive Brief</div>
+    <div class="doc-subtitle" id="period-label">Reporting Period Loading…</div>
+    <div class="doc-meta" id="gen-meta"></div>
+  </div>
+
+  <div class="section" id="sec-snapshot">
+    <div class="section-title">Market Snapshot</div>
+    <div class="kpi-row" id="kpi-row"></div>
+    <div class="narrative" id="narrative-intro"></div>
+  </div>
+
+  <div class="section" id="sec-table">
+    <div class="section-title">Top 5 Supplier Risk Assessment</div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Country</th><th>CIF Value</th><th>Market Share</th><th>Landed Cost</th>
+          <th>YoY Trend</th><th>Risk Tier</th><th>Est. Multiplier</th><th>Projected Cost Impact</th>
+        </tr>
+      </thead>
+      <tbody id="risk-table"></tbody>
+    </table>
+  </div>
+
+  <div class="section" id="sec-signals">
+    <div class="section-title">Key Market Signals</div>
+    <div class="narrative" id="signals-narrative"></div>
+  </div>
+
+  <div class="section" id="sec-alerts">
+    <div class="section-title" id="alerts-heading">Trade Alerts</div>
+    <div id="alerts-output"></div>
+  </div>
+
+  <footer>Data source: US Customs HS 4412 import records. Inflation multipliers: Norolansultan internal estimates. For internal use only.</footer>
+</div>
+
+<script>
+const MARKET_DATA = []; // <<MARKET_DATA>>
+const INFLATION_DATA = []; // <<INFLATION_DATA>>
+
+const MONTHS_LIST = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const FLAGS = {
+  'Belgium':'🇧🇪','Brazil':'🇧🇷','Canada':'🇨🇦','Chile':'🇨🇱','China':'🇨🇳',
+  'Finland':'🇫🇮','France':'🇫🇷','Germany':'🇩🇪','Indonesia':'🇮🇩','Italy':'🇮🇹',
+  'Japan':'🇯🇵','Malaysia':'🇲🇾','Mexico':'🇲🇽','Netherlands':'🇳🇱','New Zealand':'🇳🇿',
+  'Philippines':'🇵🇭','Poland':'🇵🇱','Portugal':'🇵🇹','Romania':'🇷🇴','Russia':'🇷🇺',
+  'South Korea':'🇰🇷','Spain':'🇪🇸','Sweden':'🇸🇪','Thailand':'🇹🇭','Ukraine':'🇺🇦',
+  'United Kingdom':'🇬🇧','Vietnam':'🇻🇳','India':'🇮🇳','Turkey':'🇹🇷','Latvia':'🇱🇻',
+  'Uruguay':'🇺🇾','Cambodia':'🇰🇭','Ecuador':'🇪🇨','Guatemala':'🇬🇹','Taiwan':'🇹🇼',
+  'Gabon':'🇬🇦','Paraguay':'🇵🇾',
+};
+const flag = c => FLAGS[c] || '🌐';
+const fmtUSD = n => '$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
+const fmtPct = n => (n*100).toFixed(1)+'%';
+
+// Inflation lookup
+const INFL_MAP = {};
+INFLATION_DATA.forEach(r => { INFL_MAP[r[1].toLowerCase().trim()] = {log:r[2],ship:r[3],prod:r[4],overall:r[5],expl:r[6]}; });
+const inflFor = c => INFL_MAP[c.toLowerCase().trim()] || null;
+const inflTier = c => {
+  if (c==='Russia') return 'sanc';
+  const d=inflFor(c); if(!d) return 'unr';
+  if(d.overall>=9) return 'high'; if(d.overall>=6) return 'mod'; return 'low';
+};
+const tierLabel = t => ({low:'Low Risk',mod:'Medium Risk',high:'High Risk',sanc:'Sanctions Premium',unr:'Unrated'}[t]||t);
+
+function parseTime(t) { const p=t.split(' '); return {month:MONTHS_LIST.indexOf(p[0])+1,year:parseInt(p[1])}; }
+
+// Filter to monthly rows only
+const DATA = MARKET_DATA.filter(r => r[3] && r[3].indexOf(' ') > 0);
+const allYears = [...new Set(DATA.map(r=>parseTime(r[3]).year))].filter(y=>!isNaN(y)).sort((a,b)=>a-b);
+const latestYear = Math.max(...allYears);
+const prevYear = latestYear - 1;
+
+function getYearData(yr) { return DATA.filter(r=>parseTime(r[3]).year===yr); }
+function aggByCountry(rows) {
+  const m={};
+  rows.forEach(r=>{
+    const c=r[0];if(!m[c])m[c]={cif:0,duty:0,dutiable:0};
+    m[c].cif+=r[4];m[c].duty+=r[5];m[c].dutiable+=r[6];
+  });
+  return m;
+}
+
+const curData = getYearData(latestYear);
+const prevData = getYearData(prevYear);
+const curAgg = aggByCountry(curData);
+const prevAgg = aggByCountry(prevData);
+
+const totalCif = Object.values(curAgg).reduce((s,v)=>s+v.cif,0);
+const prevTotalCif = Object.values(prevAgg).reduce((s,v)=>s+v.cif,0);
+const totalDuty = Object.values(curAgg).reduce((s,v)=>s+v.duty,0);
+const totalDutiable = Object.values(curAgg).reduce((s,v)=>s+v.dutiable,0);
+const totalLanded = totalCif + totalDuty;
+
+const yoyChange = prevTotalCif > 0 ? (totalCif - prevTotalCif) / prevTotalCif : null;
+const sorted = Object.entries(curAgg).sort((a,b)=>b[1].cif-a[1].cif);
+const top5 = sorted.slice(0,5);
+const top3Names = sorted.slice(0,3).map(e=>e[0]);
+const top3Cif = top3Names.reduce((s,c)=>s+(curAgg[c]?.cif||0),0);
+
+// HHI
+const hhi = Math.round(sorted.reduce((s,[,v])=>s+Math.pow(v.cif/totalCif,2),0)*10000);
+const hhiLabel = hhi<1500?'Low':hhi<2500?'Moderate':'High';
+const topCountry = sorted[0]?.[0];
+const topShare = sorted[0] ? sorted[0][1].cif/totalCif*100 : 0;
+
+// Top supply risk in top 5
+let topRiskCountry=null, topRiskVal=-Infinity;
+top5.forEach(([c])=>{ const d=inflFor(c); if(d&&d.overall>topRiskVal){topRiskVal=d.overall;topRiskCountry=c;} });
+
+// Portfolio inflation exposure
+let wSum=0,wTotal=0,inflN=0;
+sorted.forEach(([c,v])=>{const d=inflFor(c);if(d){wSum+=v.cif*(d.overall/100);wTotal+=v.cif;inflN++;}});
+const portfolioInfl = wTotal>0 ? wSum/wTotal*100 : null;
+const additionalCost = portfolioInfl!==null ? totalCif*(portfolioInfl/100) : 0;
+
+// Active countries count
+const activeCountries = sorted.length;
+
+// Avg duty rate
+const avgDutyRate = totalDutiable>0 ? totalDuty/totalDutiable : 0;
+
+// Country with highest duty rate
+const dutyRates = sorted.filter(([,v])=>v.dutiable>0).map(([c,v])=>({c,rate:v.duty/v.dutiable})).sort((a,b)=>b.rate-a.rate);
+const highestDutyC = dutyRates[0];
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+const months = [...new Set(curData.map(r=>parseTime(r[3]).month))].sort((a,b)=>a-b);
+const firstMo = MONTHS_LIST[months[0]-1], lastMo = MONTHS_LIST[months[months.length-1]-1];
+document.getElementById('period-label').textContent = `${firstMo}–${lastMo} ${latestYear}`;
+document.getElementById('gen-meta').textContent = `Generated: ${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} · ${activeCountries} active suppliers · ${curData.length.toLocaleString()} import records`;
+
+// KPI row
+document.getElementById('kpi-row').innerHTML = `
+  <div class="kpi">
+    <div class="kpi-label">Total CIF (Latest Year)</div>
+    <div class="kpi-value">${fmtUSD(totalCif)}</div>
+    <div class="kpi-sub">${activeCountries} supplying countries</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">vs. Prior Year</div>
+    <div class="kpi-value ${yoyChange===null?'':yoyChange>=0?'up':'down'}">${yoyChange===null?'N/A':(yoyChange>=0?'+':'')+(yoyChange*100).toFixed(1)+'%'}</div>
+    <div class="kpi-sub">${prevTotalCif>0?'Prior year: '+fmtUSD(prevTotalCif):'No prior year data'}</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Highest Inflation Risk in Top 5 Suppliers</div>
+    <div class="kpi-value" style="font-size:20px">${topRiskCountry?flag(topRiskCountry)+' '+topRiskCountry:'N/A'}</div>
+    <div class="kpi-sub">${topRiskCountry?`<span class="badge badge-${inflTier(topRiskCountry)}">${tierLabel(inflTier(topRiskCountry))}</span> · Est. ${topRiskVal.toFixed(1)}% multiplier`:''}</div>
+  </div>`;
+
+document.getElementById('narrative-intro').innerHTML = `<p><strong>${topCountry?flag(topCountry)+' '+topCountry:'—'}</strong> remains the dominant supplier at <strong>${topShare.toFixed(1)}%</strong> of total CIF. Supply concentration (HHI: <strong>${hhi.toLocaleString()}</strong>) indicates a <strong>${hhiLabel}</strong> dependency risk.</p>`;
+
+// Top 5 table
+const top5Rows = top5.map(([c,v],i)=>{
+  const prevCif=prevAgg[c]?.cif||0;
+  const yoy=prevCif>0?(v.cif-prevCif)/prevCif:null;
+  const tIcon=yoy===null?'—':yoy>0.05?'↑':yoy<-0.05?'↓':'→';
+  const tColor=yoy===null?'inherit':yoy>0.05?'#16a34a':yoy<-0.05?'#dc2626':'inherit';
+  const tier=inflTier(c);
+  const infl=inflFor(c);
+  const mult=infl?infl.overall:0;
+  const projImpact=v.cif*(mult/100);
+  return {c,v,i,tIcon,tColor,tier,infl,mult,projImpact,prevCif,yoy};
+});
+const totCif5=top5Rows.reduce((s,r)=>s+r.v.cif,0);
+const totLanded5=top5Rows.reduce((s,r)=>s+r.v.cif+r.v.duty,0);
+const totProj5=top5Rows.reduce((s,r)=>s+r.projImpact,0);
+
+document.getElementById('risk-table').innerHTML = [
+  ...top5Rows.map(r=>`<tr class="risk-${r.tier}">
+    <td>${r.i+1}</td>
+    <td>${flag(r.c)} ${r.c}</td>
+    <td>${fmtUSD(r.v.cif)}</td>
+    <td>${(r.v.cif/totalCif*100).toFixed(1)}%</td>
+    <td>${fmtUSD(r.v.cif+r.v.duty)}</td>
+    <td style="color:${r.tColor};font-weight:700">${r.tIcon}</td>
+    <td><span class="badge badge-${r.tier}">${tierLabel(r.tier)}</span></td>
+    <td>${r.infl?r.mult.toFixed(1)+'%':'Unrated'}</td>
+    <td>${r.projImpact>0?fmtUSD(r.projImpact):'—'}</td>
+  </tr>`),
+  `<tr><td colspan="2"><strong>Total (Top 5)</strong></td><td>${fmtUSD(totCif5)}</td><td>${(totCif5/totalCif*100).toFixed(1)}%</td><td>${fmtUSD(totLanded5)}</td><td></td><td></td><td></td><td>${totProj5>0?fmtUSD(totProj5):'—'}</td></tr>`
+].join('');
+
+// Signals narrative
+document.getElementById('signals-narrative').innerHTML = `
+  <p><strong>Supply Base:</strong> The USA imported plywood from <strong>${activeCountries} countries</strong> in ${latestYear}, totaling <strong>${fmtUSD(totalCif)}</strong>. The top 3 suppliers — ${top3Names.map(c=>flag(c)+' '+c).join(', ')} — accounted for <strong>${(top3Cif/totalCif*100).toFixed(1)}%</strong> of total CIF value.</p>
+  <p><strong>Cost Pressure:</strong> Blended supply-side inflation exposure across active suppliers is estimated at <strong>${portfolioInfl!==null?portfolioInfl.toFixed(1)+'%':'N/A'}</strong>, implying approximately <strong>${additionalCost>0?fmtUSD(additionalCost):'N/A'}</strong> in additional annual landed cost at current volumes if multipliers materialize.</p>
+  <p><strong>Duty Burden:</strong> Average effective duty rate across all imports was <strong>${fmtPct(avgDutyRate)}</strong>, contributing <strong>${fmtUSD(totalDuty)}</strong> to total landed cost.${highestDutyC?` <strong>${flag(highestDutyC.c)} ${highestDutyC.c}</strong> carried the highest effective duty rate at <strong>${(highestDutyC.rate*100).toFixed(2)}%</strong>.`:''}</p>
+  <p><strong>Sourcing Risk:</strong> ${hhi>2500?`Supplier concentration is <strong>HIGH</strong> (HHI: ${hhi.toLocaleString()}). Over-reliance on a small number of origins increases exposure to supply disruptions.`:hhi>1500?`Supplier concentration is <strong>MODERATE</strong> (HHI: ${hhi.toLocaleString()}). Consider diversification to reduce disruption risk.`:`Supplier base is well-diversified (HHI: ${hhi.toLocaleString()}).`}</p>
+`;
+
+// Alerts
+const byCM={};
+curData.forEach(r=>{
+  const{month,year}=parseTime(r[3]);const k=r[0]+'|'+year+'|'+month;
+  if(!byCM[k])byCM[k]={cif:0,duty:0,dutiable:0,country:r[0],year,month};
+  byCM[k].cif+=r[4];byCM[k].duty+=r[5];byCM[k].dutiable+=r[6];
+});
+const avgDutyByC={};
+[...new Set(DATA.map(r=>r[0]))].forEach(c=>{
+  const cr=DATA.filter(r=>r[0]===c);
+  const td=cr.reduce((s,r)=>s+r[6],0),tdu=cr.reduce((s,r)=>s+r[5],0);
+  avgDutyByC[c]=td>0?tdu/td:0;
+});
+const alerts_w=[],alerts_n=[];
+const countries=[...new Set(curData.map(r=>r[0]))];
+countries.forEach(c=>{
+  const cm=Object.values(byCM).filter(e=>e.country===c).sort((a,b)=>a.month-b.month);
+  for(let i=1;i<cm.length;i++){
+    const prev=cm[i-1],cur=cm[i];if(!prev.cif)continue;
+    const pct=(cur.cif-prev.cif)/prev.cif;
+    if(pct>0.25)alerts_w.push({type:'CIF Spike',country:c,month:MONTHS_LIST[cur.month-1]+' '+cur.year,detail:`+${(pct*100).toFixed(1)}% MoM`});
+    else if(pct<-0.25)alerts_w.push({type:'CIF Drop',country:c,month:MONTHS_LIST[cur.month-1]+' '+cur.year,detail:`${(pct*100).toFixed(1)}% MoM`});
+    if(cur.dutiable>0){const cr2=cur.duty/cur.dutiable,avg=avgDutyByC[c];if(avg>0&&cr2>avg*2)alerts_w.push({type:'Duty Anomaly',country:c,month:MONTHS_LIST[cur.month-1]+' '+cur.year,detail:`${(cr2/avg).toFixed(1)}× avg rate`});}
+  }
+  if(cm.length>=2){const last=cm[cm.length-1];const prev3=cm.slice(-4,-1);if(last.cif>0&&prev3.length>0&&prev3.every(e=>e.cif===0))alerts_n.push({type:'New Supplier',country:c,month:MONTHS_LIST[last.month-1]+' '+last.year,detail:'Re-entry detected'});}
+});
+
+const lastMoInData = Math.max(...months);
+document.getElementById('alerts-heading').textContent = `Trade Alerts — ${MONTHS_LIST[lastMoInData-1]} ${latestYear} Reporting Period`;
+
+const MAX=8, total=alerts_w.length+alerts_n.length;
+if(total===0){
+  document.getElementById('alerts-output').innerHTML='<div style="padding:16px;color:var(--text-muted);font-size:13px">No significant anomalies detected in the reporting period.</div>';
+}else{
+  let html='<div class="alert-box">';
+  if(alerts_w.length){
+    const show=alerts_w.slice(0,MAX);
+    html+=`<div class="alert-section-head warn">⚠ Warnings (${alerts_w.length})</div><ul class="alerts-list">${show.map(a=>`<li><span class="alert-icon">⚠</span><div><strong>${flag(a.country)} ${a.country}</strong> — ${a.type}: ${a.detail} <span style="color:var(--text-muted)">${a.month}</span></div></li>`).join('')}</ul>`;
+  }
+  const infoShown=Math.max(0,MAX-Math.min(alerts_w.length,MAX));
+  if(alerts_n.length&&infoShown>0){
+    const show2=alerts_n.slice(0,infoShown);
+    html+=`<div class="alert-section-head info">ℹ Notices (${alerts_n.length})</div><ul class="alerts-list">${show2.map(a=>`<li><span class="alert-icon">ℹ</span><div><strong>${flag(a.country)} ${a.country}</strong> — ${a.type}: ${a.detail} <span style="color:var(--text-muted)">${a.month}</span></div></li>`).join('')}</ul>`;
+  }
+  if(total>MAX) html+=`<div style="padding:8px 12px;font-size:12px;color:var(--text-muted);background:var(--surface)">and ${total-MAX} additional alerts — see full dashboard</div>`;
+  html+='</div>';
+  document.getElementById('alerts-output').innerHTML=html;
+}
+</script>
+</body>
+</html>
