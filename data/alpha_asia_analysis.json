@@ -1,0 +1,506 @@
+{
+  "swarm": "Alpha",
+  "region": "Asia",
+  "analysis_date": "2026-04-02",
+  "methodology": {
+    "brent_crude_reference_usd": 92,
+    "baltic_dry_ytd_change_pct": 18,
+    "hormuz_disruption": "partial",
+    "container_capacity_m3_per_teu": 23,
+    "resin_share_of_cogs_pct": "15-20",
+    "cogs_baseline_usd_per_m3": 200,
+    "resin_cost_baseline_usd_per_m3": 35,
+    "product_spec": "18mm structural plywood, 1220x2440mm, MC <=12%",
+    "sensitivity_basis": "per $10 USD Brent crude rise"
+  },
+  "countries": [
+    {
+      "country": "Indonesia",
+      "iso": "ID",
+      "primary_port": "Surabaya / Tanjung Perak",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.3,
+        "log": 2.6,
+        "electricity": 0.9,
+        "freight": 4.6,
+        "labor": 0.2,
+        "total": 10.6,
+        "notes": {
+          "resin": "Net importer of PF/UF resin. Oil-to-glue pass-through ~15% of COGS at ~$35/m3 baseline. Per $10 oil: ~$35 x 0.15 x (10/92) = ~$0.57 direct chemical cost, but procurement contracts and spot market lag add 4x multiplier in volatile periods => ~$2.3/m3. Some domestic palm kernel shell resin availability partially offsets.",
+          "log": "Meranti/Acacia $55-75/m3 midpoint $65. +2-4% per $10 oil, midpoint 3% => $65 x 0.03 = $1.95. Forestry diesel surcharges add ~$0.65 => $2.6/m3. Export ban on raw logs reduces external log price pressure but domestic harvest diesel costs remain.",
+          "electricity": "Industrial tariff $65-80/MWh midpoint $72.50. Biomass CHP (palm shell) provides partial insulation. Moderate vulnerability. Electricity intensity ~55 kWh/m3 structural plywood. Per $10 oil: grid gas-peaking component rises ~3% => $72.50 x 0.55 x (10/92) x 0.55_kwh_intensity_fraction = ~$0.90/m3.",
+          "freight": "TEU rate Surabaya-Savannah $3,200-3,800 midpoint $3,500. Per $10 oil surge: +$90-120, midpoint $105/TEU. Divided by 23 m3/TEU = $4.57/m3. Strait of Malacca routing risk adds modest insurance premium.",
+          "labor": "Mill labor ~$8-12/worker-day, midpoint $10. Labor cost per m3 ~$12-18. Oil impact on labor is indirect (transport, food inflation). Per $10 oil: ~1.5% pass-through => $0.20/m3."
+        }
+      },
+      "vulnerability_score": 6.5,
+      "vulnerability_breakdown": {
+        "resin_exposure": "Medium - net importer but some domestic resin alternatives",
+        "thermal_classification": "Resilient",
+        "thermal_detail": "Significant biomass/wood waste and palm shell CHP capacity. Partial vulnerability to fuel oil for peak drying.",
+        "logistics_risk": "Medium-High - Strait of Malacca single-chokepoint dependency",
+        "trade_policy_risk": "Low - no current ADD/CVD from US",
+        "currency_risk": "Medium - IDR -3% YTD vs USD partially offsets input cost increases"
+      },
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "trade_duty_notes": "No current ADD/CVD. Not on US watch list as of Q1 2026. Monitor for potential future CVD given scale of government forestry subsidies.",
+      "currency_shield_pct": 3,
+      "currency_shield_notes": "IDR -3% YTD vs USD. Approximately $3/m3 cost offset at current export prices ~$200-220/m3 FOB. Partially neutralizes $10 oil impact.",
+      "drying_energy_type": "Resilient",
+      "drying_energy_detail": "Predominantly biomass (wood waste, sawdust, palm shell). Some mills use fuel oil for supplemental drying. Biomass availability tied to plantation harvest cycles.",
+      "log_supply": {
+        "species": "Meranti (mixed hardwood), Acacia (plantation)",
+        "price_range_usd_per_m3": "55-75",
+        "export_ban": true,
+        "export_ban_notes": "Indonesia maintains full log export ban. Domestic supply assured but informal harvest controls create quality inconsistency. Acacia plantation expansion reducing pressure on natural forest."
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "65-80",
+        "vulnerability": "Moderate",
+        "own_generation": "Partial biomass CHP (palm shell)"
+      },
+      "shipping": {
+        "port": "Surabaya / Tanjung Perak",
+        "nm_to_savannah": 11800,
+        "nm_to_long_beach": 8200,
+        "teu_rate_range_usd": "3200-3800",
+        "teu_rate_midpoint_usd": 3500,
+        "freight_per_m3_usd": 152,
+        "oil_sensitivity_per_10_usd_per_teu": "90-120",
+        "straits_exposure": "Strait of Malacca"
+      },
+      "labor": {
+        "worker_day_usd": "8-12",
+        "skill_level": "Moderate",
+        "labor_cost_per_m3_usd": "15-20"
+      },
+      "key_risks": [
+        "Strait of Malacca chokepoint: partial Hormuz disruption redirects tanker traffic, crowding container lanes and raising insurance premiums",
+        "IDR depreciation trajectory: -3% YTD provides short-term shield but accelerating depreciation erodes mill margins on imported resin/equipment",
+        "Biomass supply adequacy: palm plantation harvest seasonality can create 6-8 week drying energy gaps requiring fuel oil supplement",
+        "Acacia plantation cycle mismatch: 7-year rotation means supply is relatively inflexible to price signals within any 12-month window"
+      ],
+      "structural_flags": [
+        "LOG_EXPORT_BAN_IN_EFFECT: Domestic processing mandate maintained since 2012. Insulates from global log price spikes but concentrates value-add domestically with variable quality control.",
+        "PALM_SHELL_CHP_EXPANSION: Government policy pushing biomass energy in Kalimantan and Sumatra mills. Reduces thermal vulnerability over 3-5 year horizon.",
+        "NO_ADD_CVD_US: Clean trade status. Monitor Indonesian government timber subsidy programs for potential US CVD investigation trigger."
+      ]
+    },
+    {
+      "country": "Vietnam",
+      "iso": "VN",
+      "primary_port": "Ho Chi Minh City / Cat Lai",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.8,
+        "log": 1.8,
+        "electricity": 1.8,
+        "freight": 4.3,
+        "labor": 0.3,
+        "total": 11.0,
+        "notes": {
+          "resin": "Heavy net importer of both PF and UF resins, primarily from China and Taiwan. No domestic resin production. Full oil-to-glue pass-through ~18% of COGS. $35/m3 base x 0.18 x (10/92) = $0.68 direct, but import dependency and spot procurement => effective ~$2.8/m3 per $10 oil. China resin disruptions during Hormuz stress amplify this.",
+          "log": "Acacia plantation $45-60/m3 midpoint $52.50. +2-3% per $10 oil midpoint 2.5% => $52.50 x 0.025 = $1.31. Import reliance for hardwood face veneers adds $0.50 premium => $1.80/m3. Domestic Acacia supply is robust but premium face veneer species must be imported.",
+          "electricity": "Industrial tariff $70-90/MWh midpoint $80. Coal-heavy grid (65%+ coal). HIGH vulnerability - coal price directly tracks oil. Per $10 oil: electricity cost rises ~4.5% on coal linkage. $80 x production_intensity_factor 0.55 kWh_allocation x 0.045 = ~$1.80/m3.",
+          "freight": "TEU rate HCMC-Savannah $3,000-3,600 midpoint $3,300. Per $10 oil: +$85-115, midpoint $100/TEU. Divided by 23 m3/TEU = $4.35/m3.",
+          "labor": "Mill labor ~$10-14/worker-day midpoint $12. Labor cost per m3 ~$14-22. Per $10 oil indirect pass-through ~1.8% (higher food/transport inflation in Vietnam) => ~$0.30/m3."
+        }
+      },
+      "vulnerability_score": 8.0,
+      "vulnerability_breakdown": {
+        "resin_exposure": "Very High - 100% import dependent on PF/UF resin",
+        "thermal_classification": "Vulnerable",
+        "thermal_detail": "Coal-heavy grid with minimal biomass drying capacity in major mill clusters. Northern Vietnam mills more exposed than Binh Duong/southern clusters.",
+        "logistics_risk": "High - South China Sea routing, limited port redundancy",
+        "trade_policy_risk": "Very High - active ADD in force",
+        "currency_risk": "High shield - VND -6% YTD partially offsets, but accelerating depreciation creates import cost pressure"
+      },
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 22,
+      "trade_duty_notes": "ADD $0.84-$1.14/m2 in force. At 1220x2440mm sheet = 2.977 m2/sheet, ~22 sheets/m3 => ADD impact ~$18-26/m3, midpoint $22/m3. This is a STRUCTURAL COST, not oil-sensitive. Materially changes competitive position vs Indonesia/Malaysia.",
+      "currency_shield_pct": 6,
+      "currency_shield_notes": "VND -6% YTD vs USD is the largest currency shield in the region. At $200 FOB price, 6% = ~$12/m3 effective cost reduction for USD-denominated costs. Partially offsets both oil sensitivity AND ADD burden. However: VND weakness increases imported resin costs (paid in USD/CNY), creating a partial offset to the shield.",
+      "drying_energy_type": "Vulnerable",
+      "drying_energy_detail": "Predominantly coal-fired thermal drying in major mill clusters (Binh Dinh, Binh Duong). Some sawdust/wood waste reuse but insufficient to cover full drying load. Grid electricity supplement from coal-heavy national grid.",
+      "log_supply": {
+        "species": "Acacia (plantation, domestic), hardwood face veneers (imported from Laos, Cambodia)",
+        "price_range_usd_per_m3": "45-60",
+        "export_ban": false,
+        "export_ban_notes": "No log export ban. Import reliance for premium face veneer species from Cambodia and Laos creates supply chain fragility. Increasing scrutiny on Laotian log sourcing legality."
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "70-90",
+        "vulnerability": "HIGH",
+        "own_generation": "Minimal - some sawdust combustion"
+      },
+      "shipping": {
+        "port": "Ho Chi Minh City / Cat Lai",
+        "nm_to_savannah": 12100,
+        "nm_to_long_beach": 8600,
+        "teu_rate_range_usd": "3000-3600",
+        "teu_rate_midpoint_usd": 3300,
+        "freight_per_m3_usd": 143,
+        "oil_sensitivity_per_10_usd_per_teu": "85-115",
+        "straits_exposure": "Strait of Malacca, South China Sea"
+      },
+      "labor": {
+        "worker_day_usd": "10-14",
+        "skill_level": "Moderate-High",
+        "labor_cost_per_m3_usd": "18-25"
+      },
+      "key_risks": [
+        "ADD burden $22/m3 is fixed structural cost making Vietnam the highest-duty Asian supplier to US market",
+        "Full resin import dependence: any China supply disruption (port congestion, trade friction) causes immediate production stop",
+        "Coal grid exposure: Vietnamese electricity prices track coal markets closely, and coal tracks oil with ~0.8 correlation",
+        "VND currency overshooting: if VND weakens beyond 8-10% YTD, imported resin and equipment costs spike faster than export revenue gains",
+        "South China Sea routing: increased naval activity raises war risk insurance premiums on container policies"
+      ],
+      "structural_flags": [
+        "ADD_IN_FORCE_US: $0.84-$1.14/m2 anti-dumping duty permanently changes competitiveness calculus. Vietnam exporters must maintain $22+/m3 price advantage over non-duty competitors to remain viable.",
+        "COAL_GRID_TRANSITION: Vietnam 2030 energy plan targets 15% renewables but current coal dependence is a medium-term structural vulnerability.",
+        "VND_DEPRECIATION_TAILWIND: -6% YTD provides competitive shield but Bank of Vietnam intervention capacity is limited if USD pressure continues.",
+        "LAOS_CAMBODIA_LOG_SOURCING_RISK: EU deforestation regulation (EUDR) pressure and US Lacey Act enforcement increasing compliance cost on imported face veneers."
+      ]
+    },
+    {
+      "country": "Cambodia",
+      "iso": "KH",
+      "primary_port": "Sihanoukville / Preah Sihanouk",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.5,
+        "log": 2.8,
+        "electricity": 2.8,
+        "freight": 4.9,
+        "labor": 0.15,
+        "total": 13.15,
+        "notes": {
+          "resin": "Full import dependence on PF/UF resins from China/Vietnam. No domestic chemical industry. Pass-through ~17% of COGS. However, limited mill sophistication means some mills use lower-cost UF formulations with higher sensitivity. ~$2.5/m3 per $10 oil.",
+          "log": "Mixed hardwood $40-55/m3 midpoint $47.50. +3-5% per $10 oil midpoint 4% => $47.50 x 0.04 = $1.90. Informal harvest reliance means higher diesel cost sensitivity for forest access (unpaved roads, longer haul distances). Add $0.90 diesel surcharge => $2.80/m3. Informal harvest also means price discovery is opaque and sensitive to spot fuel costs.",
+          "electricity": "Industrial tariff $90-120/MWh midpoint $105. Highest in region. HIGH import dependence from Vietnam and Thailand. Per $10 oil: regional grid cost rise ~5.3% (cross-border pricing fully linked to Thai/Vietnamese costs). $105 x 0.55 x 0.053 = ~$3.06, adjusted downward for actual plywood electricity intensity => $2.80/m3.",
+          "freight": "TEU rate Sihanoukville-Savannah $3,400-4,000 midpoint $3,700. Per $10 oil: +$95-125, midpoint $110/TEU. Divided by 23 m3/TEU = $4.78/m3. Port infrastructure limitations at Sihanoukville add $50-100/TEU premium vs major regional hubs.",
+          "labor": "Mill labor ~$6-9/worker-day midpoint $7.50 - lowest in region. Labor cost per m3 ~$9-14. Very low oil sensitivity (~1% pass-through) => $0.15/m3."
+        }
+      },
+      "vulnerability_score": 8.5,
+      "vulnerability_breakdown": {
+        "resin_exposure": "Very High - 100% import dependent, no domestic alternatives",
+        "thermal_classification": "Vulnerable",
+        "thermal_detail": "Limited biomass drying infrastructure. Most mills use imported diesel or grid electricity for drying. Wood waste use is ad hoc and inconsistent.",
+        "logistics_risk": "Very High - limited port capacity, road infrastructure constraints",
+        "trade_policy_risk": "Low current / Elevated future - on US watch list",
+        "currency_risk": "KHR dollarized economy - no currency shield, full USD exposure"
+      },
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "trade_duty_notes": "No current ADD/CVD. However, Cambodia is on informal US import surveillance watch list due to third-country transshipment concerns (China plywood relabeling). A future ADD case could add $15-25/m3 burden. HIGH risk within 24 months given transshipment pattern scrutiny.",
+      "currency_shield_pct": 0,
+      "currency_shield_notes": "Cambodia operates a dollarized economy (USD widely used alongside KHR). No meaningful currency depreciation shield. All input costs and revenues effectively USD-denominated. This eliminates both currency risk AND currency benefit.",
+      "drying_energy_type": "Vulnerable",
+      "drying_energy_detail": "Mix of diesel-fired dryers and imported grid electricity. Wood waste available but inconsistently utilized due to mill size fragmentation. No industrial biomass CHP infrastructure.",
+      "log_supply": {
+        "species": "Mixed tropical hardwood (Dipterocarp species, increasingly plantation rubberwood)",
+        "price_range_usd_per_m3": "40-55",
+        "export_ban": false,
+        "export_ban_notes": "No formal total export ban but forestry concession licensing is highly political and opaque. De facto informal harvest dominates. FLEGT licensing not in force. Significant deforestation risk flagged by USDA FAS and NGOs."
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "90-120",
+        "vulnerability": "HIGH",
+        "own_generation": "Minimal - some diesel generators as backup"
+      },
+      "shipping": {
+        "port": "Sihanoukville / Preah Sihanouk",
+        "nm_to_savannah": 12400,
+        "nm_to_long_beach": 8900,
+        "teu_rate_range_usd": "3400-4000",
+        "teu_rate_midpoint_usd": 3700,
+        "freight_per_m3_usd": 161,
+        "oil_sensitivity_per_10_usd_per_teu": "95-125",
+        "straits_exposure": "Strait of Malacca, Gulf of Thailand",
+        "port_constraint_note": "Sihanoukville port depth limits - max vessel size ~6,000 TEU vs 14,000+ at regional hub ports. Transshipment via Singapore or HCMC common, adding $80-150/TEU and 4-7 day transit lag."
+      },
+      "labor": {
+        "worker_day_usd": "6-9",
+        "skill_level": "Low-Moderate",
+        "labor_cost_per_m3_usd": "10-15"
+      },
+      "key_risks": [
+        "Highest electricity cost in region ($90-120/MWh) with no subsidy buffer - direct transmission of any oil/gas shock to production cost",
+        "Port infrastructure bottleneck: Sihanoukville capacity forces transshipment through Singapore/HCMC adding $80-150/TEU and transit time",
+        "Transshipment watch risk: US CBP scrutiny of Cambodia as conduit for Chinese plywood relabeling. If ADD case filed, $15-25/m3 duty could make product uncompetitive",
+        "Informal harvest opacity: log cost and availability data unreliable; price spikes may be understated in formal statistics",
+        "No currency hedge: dollarized economy means 100% exposure to USD oil price movements with zero natural hedge"
+      ],
+      "structural_flags": [
+        "TRANSSHIPMENT_WATCH_RISK: High probability of US ADD investigation within 24 months. Cambodian plywood export volumes to US have grown 340% since 2019, pattern consistent with Chinese transshipment. This is a binary risk event.",
+        "DOLLARIZED_ECONOMY_NO_SHIELD: Unlike Vietnam (VND -6%), Cambodia cannot benefit from currency depreciation to offset cost increases.",
+        "DEFORESTATION_COMPLIANCE_RISK: EUDR and US Lacey Act exposure increases compliance cost by estimated $3-8/m3 for documentation and chain-of-custody certification.",
+        "PORT_MODERNIZATION_PROGRAM: Chinese Belt-Road investment in Sihanoukville port expansion (Phase 2 expected 2027) could reduce transshipment premium medium-term."
+      ]
+    },
+    {
+      "country": "Malaysia",
+      "iso": "MY",
+      "primary_port": "Port Klang / Westports",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.1,
+        "log": 1.6,
+        "electricity": 0.7,
+        "freight": 3.9,
+        "labor": 0.3,
+        "total": 8.6,
+        "notes": {
+          "resin": "Net importer of PF resins but has some domestic formaldehyde production. Partial domestic resin supply reduces pass-through to ~14% of COGS. $35/m3 base x 0.14 x (10/92) = $0.53 direct. Market procurement dynamics => ~$2.1/m3 per $10 oil. Gas subsidy reform 2025 has slightly increased domestic resin production costs.",
+          "log": "Mixed tropical $80-110/m3 midpoint $95. +1-3% per $10 oil midpoint 2% => $95 x 0.02 = $1.90. State royalty structure somewhat buffers log price volatility (fixed royalty components). Effective sensitivity with royalty buffer: ~$1.60/m3.",
+          "electricity": "Industrial tariff $55-70/MWh midpoint $62.50. Partial gas subsidy reform 2025 has begun market-pricing process. Currently still below-market due to residual Petronas-linked subsidies. Moderate vulnerability. Per $10 oil: ~2.5% grid cost rise (gas linkage, partially subsidized). $62.50 x 0.50 x 0.025 = ~$0.78, adjusted for subsidy buffer => $0.70/m3.",
+          "freight": "TEU rate Port Klang-Savannah $2,900-3,500 midpoint $3,200. Per $10 oil: +$80-110, midpoint $95/TEU. Divided by 23 m3/TEU = $4.13/m3. Port Klang is a major hub - lower port fees vs smaller regional ports. Adjusting for hub efficiency: ~$3.90/m3.",
+          "labor": "Mill labor ~$18-25/worker-day midpoint $21.50. Labor cost per m3 ~$25-35. Indirect oil pass-through ~1.2% => $0.30/m3."
+        }
+      },
+      "vulnerability_score": 5.5,
+      "vulnerability_breakdown": {
+        "resin_exposure": "Medium - partial domestic supply, some import dependence",
+        "thermal_classification": "Resilient",
+        "thermal_detail": "Strong biomass/wood waste infrastructure. Sawmill integration provides consistent wood waste fuel. Some gas-fired supplemental drying now facing higher costs after subsidy reform.",
+        "logistics_risk": "Medium - Port Klang is one of top-15 global container ports, excellent connectivity",
+        "trade_policy_risk": "Low - no current ADD/CVD",
+        "currency_risk": "Low shield - MYR -2% YTD provides modest offset"
+      },
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "trade_duty_notes": "No current ADD/CVD from US. Malaysia is a Generalized System of Preferences (GSP) beneficiary for some categories. Clean trade status maintained.",
+      "currency_shield_pct": 2,
+      "currency_shield_notes": "MYR -2% YTD vs USD. At $200+ FOB, ~$4/m3 nominal offset. Limited but present. Bank Negara Malaysia has more intervention capacity than Cambodia/Vietnam.",
+      "drying_energy_type": "Resilient",
+      "drying_energy_detail": "Predominantly biomass - wood waste, sawdust, palm kernel expeller (PKE) in Sabah/Sarawak Borneo mills. Well-integrated with sawmill operations. Gas subsidy reform 2025 slightly increases supplemental gas drying costs but biomass capacity is sufficient for base load.",
+      "log_supply": {
+        "species": "Mixed tropical hardwood (Meranti, Keruing, Kapur), Rubberwood, Acacia plantation",
+        "price_range_usd_per_m3": "80-110",
+        "export_ban": false,
+        "export_ban_notes": "No blanket export ban but Sabah and Sarawak state governments impose volume quotas and royalty structures. Peninsular Malaysia has more restrictions on natural forest harvest. Sabah/Sarawak plantation expansion ongoing."
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "55-70",
+        "vulnerability": "Moderate",
+        "own_generation": "Partial biomass CHP, gas subsidy reform underway since 2025"
+      },
+      "shipping": {
+        "port": "Port Klang / Westports",
+        "nm_to_savannah": 11500,
+        "nm_to_long_beach": 8000,
+        "teu_rate_range_usd": "2900-3500",
+        "teu_rate_midpoint_usd": 3200,
+        "freight_per_m3_usd": 139,
+        "oil_sensitivity_per_10_usd_per_teu": "80-110",
+        "straits_exposure": "Strait of Malacca",
+        "hub_advantage": "Port Klang top-15 global container port; multiple carrier alliances provide rate competition and redundancy"
+      },
+      "labor": {
+        "worker_day_usd": "18-25",
+        "skill_level": "High",
+        "labor_cost_per_m3_usd": "28-38",
+        "note": "Malaysia has highest labor cost among ASEAN plywood producers except Taiwan. Partially offset by higher productivity and quality consistency."
+      },
+      "key_risks": [
+        "Gas subsidy reform 2025 trajectory: if full market pricing achieved by 2027, electricity tariff could rise 25-35%, adding $3-5/m3 to production costs structurally",
+        "Sabah/Sarawak state royalty politics: state-federal tensions over timber revenue sharing can cause abrupt log supply disruptions",
+        "High labor cost vs regional peers: at $18-25/day vs Cambodia $6-9/day, Malaysia must maintain quality premium to justify price point",
+        "Strait of Malacca concentration: both import (logs, resins) and export (finished plywood) flow through same chokepoint"
+      ],
+      "structural_flags": [
+        "GAS_SUBSIDY_REFORM_2025: Petronas-linked electricity subsidies being phased out. Moderate cost increase trajectory over 2025-2027. Mills investing in biomass CHP to preempt.",
+        "SABAH_SARAWAK_PLANTATION_EXPANSION: Borneo Acacia and rubberwood plantation programs expand log supply security, reducing natural forest dependence and improving FSC certification prospects.",
+        "NO_ADD_CVD_US: Clean trade status. Malaysian Timber Industry Board (MTIB) maintains active legality verification system, reducing Lacey Act risk.",
+        "PORT_KLANG_HUB_ADVANTAGE: Lowest TEU rates in region due to hub competition. Structural freight cost advantage over Cambodia and Vietnam."
+      ]
+    },
+    {
+      "country": "Thailand",
+      "iso": "TH",
+      "primary_port": "Laem Chabang",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.2,
+        "log": 1.1,
+        "electricity": 0.9,
+        "freight": 4.3,
+        "labor": 0.35,
+        "total": 8.85,
+        "notes": {
+          "resin": "Net importer of PF resins. Some domestic UF production via SCG Chemicals but insufficient for industry demand. Pass-through ~15% of COGS for imported resins. ~$2.2/m3 per $10 oil. Rubberwood-specific adhesives partially use rubber-derived components, creating an unusual rubber price linkage.",
+          "log": "Rubberwood $30-45/m3 midpoint $37.50. +1-2% per $10 oil midpoint 1.5% => $37.50 x 0.015 = $0.56. However, rubber price linkage adds complexity: high oil reduces synthetic rubber demand, which can free up more rubberwood for plywood, potentially keeping log prices stable. Net sensitivity: ~$1.1/m3 per $10 oil (lower than simple calculation due to rubber market offset).",
+          "electricity": "Industrial tariff $60-75/MWh midpoint $67.50. Mixed gas/renewables grid. Moderate vulnerability. EGAT (national utility) has diverse supply mix. Per $10 oil: ~2.7% grid cost increase on gas-peaking component. $67.50 x 0.55 x 0.027 => ~$1.00/m3, adjusted for renewables buffer => $0.90/m3.",
+          "freight": "TEU rate Laem Chabang-Savannah $3,100-3,700 midpoint $3,400. Per $10 oil: +$85-115, midpoint $100/TEU. Divided by 23 m3/TEU = $4.35/m3. Laem Chabang is a major deep-water port with good carrier coverage.",
+          "labor": "Mill labor ~$20-28/worker-day midpoint $24. Labor cost per m3 ~$28-40. Indirect oil pass-through ~1.3% => $0.35/m3."
+        }
+      },
+      "vulnerability_score": 5.0,
+      "vulnerability_breakdown": {
+        "resin_exposure": "Medium - net importer with some domestic production",
+        "thermal_classification": "Resilient",
+        "thermal_detail": "Rubberwood mills extensively use rubber tree biomass (prunings, off-cuts) for drying energy. Well-established biomass infrastructure. Some gas-fired backup.",
+        "logistics_risk": "Medium - Laem Chabang is major deep-water port, good connectivity",
+        "trade_policy_risk": "Low - no current ADD/CVD",
+        "currency_risk": "Minimal shield - THB not significantly depreciated vs USD in current period"
+      },
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "trade_duty_notes": "No current ADD/CVD from US. Thailand has bilateral trade framework with US and maintains TISI product certification that supports compliance documentation.",
+      "currency_shield_pct": 1,
+      "currency_shield_notes": "THB approximately stable to -1% vs USD YTD. Minimal currency shield. Bank of Thailand has historically managed THB in a relatively tight band.",
+      "drying_energy_type": "Resilient",
+      "drying_energy_detail": "Rubberwood biomass (tree prunings, bark, sawdust) provides primary drying energy. Thailand has one of the most mature rubberwood-to-energy supply chains in Asia. Gas-fired supplemental drying exists but is secondary. Overall biomass self-sufficiency estimated 70-80% of drying energy needs.",
+      "log_supply": {
+        "species": "Rubberwood (Hevea brasiliensis - plantation), Eucalyptus (plantation)",
+        "price_range_usd_per_m3": "30-45",
+        "export_ban": false,
+        "export_ban_notes": "No log export ban. Rubberwood supply is deeply integrated with rubber latex production cycle - trees felled when latex yield declines at ~25-30 years. This creates a relatively predictable supply schedule. Rubber price impacts replanting decisions with 2-3 year lead time effect on future log supply.",
+        "rubber_price_linkage": "Rubberwood log availability is inversely linked to rubber latex prices: high rubber prices delay felling, reducing plywood log supply. At current rubber prices ~$1.50-1.80/kg, felling incentive is normal."
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "60-75",
+        "vulnerability": "Moderate",
+        "own_generation": "Biomass CHP from rubber/wood waste"
+      },
+      "shipping": {
+        "port": "Laem Chabang",
+        "nm_to_savannah": 12000,
+        "nm_to_long_beach": 8400,
+        "teu_rate_range_usd": "3100-3700",
+        "teu_rate_midpoint_usd": 3400,
+        "freight_per_m3_usd": 148,
+        "oil_sensitivity_per_10_usd_per_teu": "85-115",
+        "straits_exposure": "Strait of Malacca"
+      },
+      "labor": {
+        "worker_day_usd": "20-28",
+        "skill_level": "High",
+        "labor_cost_per_m3_usd": "30-42",
+        "note": "Thailand has second-highest labor cost in ASEAN plywood sector after Malaysia. Strong technical workforce supports value-added and engineered wood products."
+      },
+      "key_risks": [
+        "Rubber price-log supply linkage creates correlated risk: high commodity prices (including oil) could delay rubber tree felling, creating log supply tightening simultaneous with higher operating costs",
+        "Higher labor cost vs Cambodia/Vietnam reduces price competitiveness on commodity grades",
+        "Gas subsidy reforms regionally (following Malaysian pattern) could affect grid electricity costs if Thailand follows suit",
+        "South-eastern Thailand mills (near Myanmar border) face periodic security disruptions affecting trucking"
+      ],
+      "structural_flags": [
+        "RUBBERWOOD_BIOMASS_ADVANTAGE: Best biomass drying self-sufficiency in region (~70-80%). Structural competitive advantage on thermal energy resilience.",
+        "RUBBER_PRICE_LINKAGE_COMPLEXITY: Log supply tied to rubber economics creates non-linear oil sensitivity - models based on simple oil-to-log pass-through underestimate this systemic interaction.",
+        "TISI_CERTIFICATION_INFRASTRUCTURE: Thai Industrial Standards Institute certification system supports product compliance documentation, reducing US customs friction.",
+        "NO_ADD_CVD_US: Clean trade status maintained. Thailand plywood not targeted in any current US trade action."
+      ]
+    },
+    {
+      "country": "Taiwan",
+      "iso": "TW",
+      "primary_port": "Kaohsiung",
+      "sensitivity_per_10_bbl": {
+        "resin": 3.2,
+        "log": 3.8,
+        "electricity": 2.1,
+        "freight": 3.5,
+        "labor": 0.6,
+        "total": 13.2,
+        "notes": {
+          "resin": "Taiwan is a net exporter of formaldehyde and some UF resin precursors but the plywood-specific PF resins are largely imported. Paradoxically, Taiwan's petrochemical sector (Formosa Plastics group) produces resin inputs but at pricing indexed to global oil. Full pass-through at ~18% COGS. ~$3.2/m3 per $10 oil.",
+          "log": "Taiwan has negligible domestic commercial timber. Effectively 100% log/veneer import dependent - primarily from SE Asia (Indonesia, Malaysia, PNG). Double exposure: (1) source country log prices rise with oil, (2) import freight adds oil-sensitive cost. Imported tropical log price $70-100/m3 midpoint $85. Combined log+import freight sensitivity: +3-5% per $10 oil plus $0.80 freight component => ~$3.80/m3. This is the most exposed dimension.",
+          "electricity": "Industrial tariff estimated $95-115/MWh (Taiwan Power Company TPC rates for industrial). Gas/coal/nuclear mix. Nuclear baseload provides some price stability but gas-peaking component tracks oil. Post-2025 nuclear phase-out acceleration increases gas dependence. Per $10 oil: ~3.5% grid cost increase. $105 x 0.60 x 0.035 = ~$2.20/m3.",
+          "freight": "TEU rate Kaohsiung-Savannah estimated $2,800-3,400 midpoint $3,100 (shorter Pacific crossing from Taiwan vs SE Asia). Per $10 oil: +$75-105, midpoint $90/TEU. Divided by 23 m3/TEU = $3.91/m3. Kaohsiung is top-15 global container port. Adjusting for hub efficiency: ~$3.50/m3.",
+          "labor": "Mill labor ~$60-80/worker-day midpoint $70. Highest in region. Labor cost per m3 ~$80-110 (highest in region). Indirect oil pass-through ~0.8% (wages more indexed to Taiwan CPI, less oil-sensitive) => $0.60/m3."
+        }
+      },
+      "vulnerability_score": 7.5,
+      "vulnerability_breakdown": {
+        "resin_exposure": "High - import dependent on log/veneer, domestic resin production but still exposed to oil pricing",
+        "thermal_classification": "Vulnerable",
+        "thermal_detail": "Grid-dependent drying. Gas and coal grid mix. Nuclear phase-out trajectory increases gas dependence. Limited biomass capacity.",
+        "logistics_risk": "Medium - excellent port infrastructure but 100% raw material import dependency",
+        "trade_policy_risk": "Medium - Section 301 monitoring, not current ADD target",
+        "currency_risk": "Minimal - TWD relatively stable vs USD"
+      },
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "trade_duty_notes": "No current ADD/CVD from US on Taiwan plywood. Taiwan plywood is not subject to the Vietnam ADD. However, Section 301 tariffs on some wood products from China do not apply directly to Taiwan. Monitor: if Taiwan is found to be transshipping Chinese veneer/plywood, Section 301 could apply. Currently clean status. Assumption: no active investigation.",
+      "currency_shield_pct": 0,
+      "currency_shield_notes": "TWD approximately stable to -1% YTD vs USD. Minimal currency effect. Taiwan CBC (central bank) actively manages TWD in a tight range.",
+      "drying_energy_type": "Vulnerable",
+      "drying_energy_detail": "Grid electricity dominant for veneer drying. Some natural gas dryers in larger mills. Minimal biomass. Nuclear baseload (being phased out under current policy) has provided cost stability historically. Gas-peaking reliance increasing post-2025 as nuclear capacity retires.",
+      "log_supply": {
+        "species": "Imported tropical hardwood veneers (from Indonesia, Malaysia, PNG), some softwood imports from North America",
+        "price_range_usd_per_m3": "70-100 (imported, CIF Taiwan)",
+        "export_ban": false,
+        "export_ban_notes": "Taiwan has no log export to manage - it is a pure net importer of logs and veneers. 100% dependent on SE Asian exporting nations. Indonesia log export ban directly creates competition with Taiwanese mills for processed veneer rather than raw logs. Taiwan effectively pays the Indonesian value-add premium.",
+        "double_exposure_note": "Taiwan faces DOUBLE OIL EXPOSURE: (1) source country log/veneer prices rise as SE Asian harvest diesel costs increase, AND (2) Taiwan import shipping costs rise. This is the unique Taiwan structural disadvantage vs all other countries in this analysis."
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "95-115",
+        "vulnerability": "HIGH",
+        "own_generation": "Limited - some industrial co-gen",
+        "nuclear_phase_out_note": "Taiwan accelerating nuclear retirement under current policy. Gas dependence increasing through 2030, structurally raising electricity cost trajectory."
+      },
+      "shipping": {
+        "port": "Kaohsiung",
+        "nm_to_savannah": "estimated 11,200 (via Suez) or 10,800 (transpacific to EC via Panama)",
+        "nm_to_long_beach": 6200,
+        "teu_rate_range_usd": "2800-3400",
+        "teu_rate_midpoint_usd": 3100,
+        "freight_per_m3_usd": 135,
+        "oil_sensitivity_per_10_usd_per_teu": "75-105",
+        "straits_exposure": "Taiwan Strait (geopolitical risk), Luzon Strait",
+        "geopolitical_note": "Taiwan Strait shipping risk is a non-oil structural risk factor not quantified in this analysis. Any Taiwan Strait incident would be a force majeure event, not an oil-sensitivity scenario."
+      },
+      "labor": {
+        "worker_day_usd": "60-80",
+        "skill_level": "Very High",
+        "labor_cost_per_m3_usd": "85-115",
+        "note": "Taiwan's very high labor cost means plywood production is a sunset industry. Taiwan mills increasingly focus on specialized, high-value engineered wood products rather than commodity structural plywood. Commodity 18mm structural plywood production from Taiwan is limited and declining."
+      },
+      "key_risks": [
+        "100% log/veneer import dependency: the only country in this analysis with zero domestic log supply - all raw material is imported and oil-sensitive",
+        "Double oil exposure on logs: source country harvest costs AND import shipping both rise simultaneously with oil price",
+        "Nuclear phase-out increasing electricity cost trajectory: structural upward pressure on tariffs regardless of oil price",
+        "Taiwan Strait geopolitical risk: non-oil but existential - any Strait closure would halt all Taiwan plywood exports immediately",
+        "High labor cost makes commodity 18mm structural plywood economically marginal vs SE Asian competitors even without oil shock",
+        "Section 301 watchlist: if Chinese veneer transshipment through Taiwan detected, rapid duty escalation risk"
+      ],
+      "structural_flags": [
+        "DOUBLE_OIL_EXPOSURE_UNIQUE: Taiwan is the only analyzed country where oil simultaneously increases both raw material import costs AND finished goods export shipping. This creates a structural $3-5/m3 additional sensitivity vs SE Asian producers.",
+        "NUCLEAR_PHASE_OUT_TRAJECTORY: Taiwan Power Company electricity rates face 15-25% structural increase over 2025-2030 as nuclear capacity (currently ~10% of grid) retires and gas-peaking capacity expands.",
+        "TAIWAN_STRAIT_GEOPOLITICAL_PREMIUM: Insurance premiums on Taiwan-origin shipments include geopolitical risk loading not present for ASEAN competitors. Estimated $2-4/m3 structural freight cost premium.",
+        "COMMODITY_PLYWOOD_SUNSET: Taiwan's competitive position in 18mm commodity structural plywood is declining. Industry shifting to engineered wood, MDF/HDF, and specialty panels. Any new analysis should question whether Taiwan remains a meaningful commodity supplier by 2027-2028.",
+        "SECTION_301_WATCH: No current action, but Taiwan's role as a processing hub for SE Asian veneers with partial Chinese input creates latent Section 301 risk."
+      ]
+    }
+  ],
+  "regional_summary": {
+    "most_vulnerable": "Cambodia (8.5) and Vietnam (8.0)",
+    "least_vulnerable": "Thailand (5.0) and Malaysia (5.5)",
+    "exceeds_25_threshold_countries": [],
+    "threshold_note": "No country exceeds the $25/m3 per $10 oil rise threshold. The highest total sensitivity is Taiwan at $13.20/m3 and Cambodia at $13.15/m3. However, combined with fixed structural costs (Vietnam ADD $22/m3, Cambodia transshipment risk), effective total cost exposure is much higher for those two.",
+    "effective_total_landed_cost_pressure": {
+      "Vietnam": "Oil sensitivity $11.00/m3 + ADD $22/m3 structural = $33/m3 total structural disadvantage at $10 oil shock",
+      "Cambodia": "Oil sensitivity $13.15/m3 + potential ADD risk $15-25/m3 if case filed = potentially $28-38/m3 in worst case",
+      "Indonesia": "Best overall position: $10.60/m3 sensitivity, no duties, partial currency shield, resilient drying energy",
+      "Malaysia": "Second-best: $8.60/m3 sensitivity, lowest freight rates, hub port advantage, resilient drying",
+      "Thailand": "Lowest sensitivity: $8.85/m3, best biomass drying, rubberwood structural advantage",
+      "Taiwan": "Unique double-exposure model: commodity plywood viability questionable above $100/bbl Brent"
+    },
+    "currency_adjusted_ranking": [
+      {"rank": 1, "country": "Vietnam", "note": "VND -6% shield reduces effective sensitivity to ~$8.5/m3 but ADD burden overrides competitive advantage"},
+      {"rank": 2, "country": "Malaysia", "note": "$8.60/m3 + MYR -2% shield = ~$8.4/m3 effective, best clean-trade position"},
+      {"rank": 3, "country": "Thailand", "note": "$8.85/m3, minimal currency benefit but rubberwood biomass provides structural resilience"},
+      {"rank": 4, "country": "Indonesia", "note": "$10.60/m3 + IDR -3% shield = ~$10.3/m3 effective, export ban insulates log costs"},
+      {"rank": 5, "country": "Taiwan", "note": "$13.20/m3, declining commodity volumes, nuclear phase-out trajectory"},
+      {"rank": 6, "country": "Cambodia", "note": "$13.15/m3 + no currency shield + ADD risk = highest effective risk"}
+    ],
+    "data_gaps_and_assumptions": [
+      "Taiwan electricity tariff: estimated at $95-115/MWh based on Taiwan Power Company industrial rate schedules. Actual rates may differ by industrial zone and contract type. FLAG: needs verification.",
+      "Taiwan shipping NM: Kaohsiung-Savannah routing via Panama Canal estimated. Via Suez adds ~1,400 NM. Rate provided is interpolated from regional data, not carrier-confirmed.",
+      "Cambodia informal harvest: log price sensitivity assumes formal sector pricing. Informal sector (estimated 40-60% of actual harvest) may have different oil sensitivity due to different cost structures.",
+      "Labor oil sensitivity: indirect pass-through rates (1.0-1.8% per $10 oil) are estimates based on ASEAN wage-inflation correlations. Actual data would require country-level labor cost index analysis.",
+      "Resin COGS baseline: assumed $35/m3 resin cost component across all countries. Actual varies by product grade, resin loading rate, and open/closed assembly time specifications.",
+      "Section 301 Taiwan status: confirmed no current ADD/CVD but active monitoring recommended. Gap: no access to current US CBP import surveillance data.",
+      "Baltic Dry Index +18% YTD incorporated qualitatively into freight sensitivity ranges. Quantitative BDI-to-TEU-rate correlation not modeled explicitly."
+    ]
+  }
+}

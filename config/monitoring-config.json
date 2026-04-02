@@ -1,0 +1,107 @@
+{
+  "version": "1.0",
+  "description": "Alert thresholds for plywood market sensitivity re-analysis triggers",
+  "last_analysis": {
+    "date": "2026-04-02",
+    "brent_baseline_usd": 92,
+    "bdi_baseline": 1850,
+    "eu_gas_baseline_eur_mwh": 48
+  },
+  "triggers": {
+    "brent_crude": {
+      "last_baseline_usd": 92,
+      "retrigger_delta_usd": 5,
+      "direction": "both",
+      "rationale": "Every $5 Brent move shifts Indonesian freight cost ~$45–60/TEU and resin cost ~2–3% COGS",
+      "priority": "HIGH"
+    },
+    "baltic_dry_index": {
+      "last_baseline": 1850,
+      "retrigger_pct_change": 10,
+      "rolling_window_days": 30,
+      "rationale": "10% BDI move translates to ~8–12% TEU rate change on transpacific routes",
+      "priority": "HIGH"
+    },
+    "eu_gas_price": {
+      "last_baseline_eur_mwh": 48,
+      "retrigger_delta_eur_mwh": 8,
+      "direction": "both",
+      "rationale": "€8/MWh move shifts electricity cost for German/Italian mills by ~$12–18/m³",
+      "priority": "HIGH"
+    },
+    "fx_rates": {
+      "monitored_currencies": ["VND", "IDR", "BRL", "CAD", "EUR", "MYR", "CLP", "UYU"],
+      "retrigger_pct_change": 5,
+      "rolling_window_days": 30,
+      "rationale": "5% FX move alters the effective USD-denominated cost for exporting country mills",
+      "priority": "MEDIUM"
+    },
+    "log_prices": {
+      "watch_events": [
+        "Indonesia export log ban modification or enforcement change",
+        "Malaysia state royalty rate adjustment",
+        "Gabon FSC certification policy change",
+        "Canada wildfire emergency affecting BC timber supply",
+        "EU forestry regulation (Nature Restoration Law) implementation milestone"
+      ],
+      "retrigger": "manual",
+      "priority": "MEDIUM"
+    },
+    "trade_policy": {
+      "watch_events": [
+        "New US ADD/CVD petition filed against any target country (HS 4412)",
+        "Section 232 investigation on wood products initiated",
+        "Section 301 action expanded to cover plywood from new countries",
+        "USMCA/CUSMA renegotiation affecting Canadian lumber/wood products",
+        "EU Carbon Border Adjustment Mechanism (CBAM) extended to wood products"
+      ],
+      "check_sources": [
+        "USITC EDIS case search: https://edis.usitc.gov",
+        "USTR Federal Register notices",
+        "CBP ADD/CVD portal: https://apps.cbp.gov/adcvd"
+      ],
+      "retrigger": "manual",
+      "priority": "CRITICAL"
+    },
+    "canal_disruption": {
+      "watch_events": [
+        "Panama Canal drought restriction (draft limits) >7 days",
+        "Suez Canal closure or diversion notice",
+        "Strait of Malacca security incident or rerouting advisory",
+        "Strait of Hormuz escalation affecting bunker fuel supply"
+      ],
+      "retrigger": "manual",
+      "priority": "HIGH"
+    }
+  },
+  "reanalysis_schedule": {
+    "full_swarm_rerun": {
+      "cadence": "quarterly",
+      "months": [1, 4, 7, 10],
+      "notes": "Align with quarterly log price and electricity tariff data releases"
+    },
+    "price_monitor_check": {
+      "cadence": "weekly",
+      "checks": ["brent_crude", "baltic_dry_index", "eu_gas_price", "fx_rates"]
+    },
+    "trade_policy_check": {
+      "cadence": "monthly",
+      "sources": ["USITC EDIS", "USTR Federal Register", "CBP ADD/CVD portal"]
+    }
+  },
+  "alert_outputs": {
+    "dashboard_flag": true,
+    "report_regeneration": true,
+    "output_files": [
+      "data/sensitivity_analysis_2026.json",
+      "data/sensitivity_report_2026.md",
+      "data/alpha_asia_analysis.json",
+      "data/beta_americas_analysis.json",
+      "data/gamma_emea_analysis.json"
+    ],
+    "dashboard_files": [
+      "src/inflation-risk.html",
+      "src/dashboard.html"
+    ]
+  }
+}

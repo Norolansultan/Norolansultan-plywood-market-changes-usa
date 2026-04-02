@@ -165,4 +165,36 @@ templates.forEach(tpl => {
   built++;
 });
 
+// ── Build sensitivity dashboard (separate data injection) ────────────────────
+const sensTplPath = path.join(ROOT, 'src/sensitivity-dashboard.html');
+if (fs.existsSync(sensTplPath)) {
+  const PIPELINE_PLACEHOLDER = 'const PIPELINE_DATA = []; // <<PIPELINE_DATA>>';
+  const OVERRIDES_PLACEHOLDER = 'const OVERRIDES_DATA = {}; // <<OVERRIDES_DATA>>';
+
+  let sensTpl = fs.readFileSync(sensTplPath, 'utf8');
+  const pipelinePath = path.join(ROOT, 'data/pipeline-output.json');
+  const overridesPath = path.join(ROOT, 'data/manual-overrides.json');
+
+  if (fs.existsSync(pipelinePath) && fs.existsSync(overridesPath)) {
+    const pipelineStr = fs.readFileSync(pipelinePath, 'utf8');
+    const overridesStr = fs.readFileSync(overridesPath, 'utf8');
+
+    if (sensTpl.includes(PIPELINE_PLACEHOLDER)) {
+      sensTpl = sensTpl
+        .replace(PIPELINE_PLACEHOLDER, `const PIPELINE_DATA = ${pipelineStr};`)
+        .replace(OVERRIDES_PLACEHOLDER, `const OVERRIDES_DATA = ${overridesStr};`);
+    }
+
+    const sensOut = path.join(distDir, 'sensitivity-dashboard.html');
+    fs.writeFileSync(sensOut, sensTpl, 'utf8');
+    console.log(`[OK] dist/sensitivity-dashboard.html (${Math.round(sensTpl.length / 1024)}KB)`);
+    built++;
+  } else {
+    // Copy as-is (will fetch data at runtime)
+    fs.copyFileSync(sensTplPath, path.join(distDir, 'sensitivity-dashboard.html'));
+    console.log(`[OK] dist/sensitivity-dashboard.html (copy — no pipeline data yet)`);
+    built++;
+  }
+}
+
 console.log(`\nDone. ${built} file(s) built → open dist/ in your browser.`);

@@ -1,0 +1,148 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-02",
+  "notes": "Manual overrides for data that cannot be automated via free APIs. Values here take precedence over API data and proxy models. Update quarterly or when significant market events occur.",
+
+  "constants": {
+    "container_fill_m3_per_teu": 23,
+    "electricity_intensity_kwh_per_m3": 200,
+    "resin_share_of_cogs_pct": 18,
+    "log_to_product_ratio": 2.2,
+    "brent_baseline_usd": 92
+  },
+
+  "freight_rates": {
+    "last_updated": "2026-04-02",
+    "source": "Analyst estimate from Freightos FBX weekly composite + Drewry WCI",
+    "rates_usd_per_teu": {
+      "indonesia_savannah": 3500,
+      "indonesia_long_beach": 2400,
+      "vietnam_savannah": 3300,
+      "vietnam_long_beach": 2350,
+      "cambodia_savannah": 3700,
+      "cambodia_long_beach": 2650,
+      "malaysia_savannah": 3200,
+      "malaysia_long_beach": 2225,
+      "thailand_savannah": 3400,
+      "thailand_long_beach": 2380,
+      "taiwan_savannah": 3100,
+      "taiwan_long_beach": 1750,
+      "canada_qc_savannah": 1350,
+      "canada_bc_long_beach": 1100,
+      "chile_savannah": 2200,
+      "chile_long_beach": 2500,
+      "brazil_savannah": 2250,
+      "brazil_long_beach": 3000,
+      "uruguay_savannah": 2000,
+      "uruguay_long_beach": 2625,
+      "finland_savannah": 2400,
+      "sweden_savannah": 2100,
+      "germany_savannah": 2200,
+      "poland_savannah": 2300,
+      "italy_savannah": 2350,
+      "spain_savannah": 2100,
+      "belgium_savannah": 2200,
+      "gabon_savannah": 2600,
+      "ecuador_savannah": 2100,
+      "ecuador_long_beach": 2400,
+      "paraguay_savannah": 2800,
+      "paraguay_long_beach": 3200
+    },
+    "sensitivity_per_10_bbl_usd_per_teu": {
+      "transpacific_ec": 105,
+      "transpacific_wc": 73,
+      "transatlantic": 62,
+      "americas_short": 40,
+      "panama_surcharge": 200
+    }
+  },
+
+  "log_prices": {
+    "last_updated": "2026-04-02",
+    "source": "Analyst estimates, FAOSTAT 2024 baseline + Q1 2026 market intelligence",
+    "prices_usd_per_m3": {
+      "indonesia": { "species": "Meranti/Acacia", "price_mid": 65, "range": [55, 75], "oil_sensitivity_pct_per_10": 3.0 },
+      "vietnam": { "species": "Acacia plantation", "price_mid": 52.5, "range": [45, 60], "oil_sensitivity_pct_per_10": 2.5 },
+      "cambodia": { "species": "Mixed hardwood", "price_mid": 47.5, "range": [40, 55], "oil_sensitivity_pct_per_10": 4.0 },
+      "malaysia": { "species": "Mixed tropical", "price_mid": 95, "range": [80, 110], "oil_sensitivity_pct_per_10": 2.0 },
+      "thailand": { "species": "Rubberwood", "price_mid": 37.5, "range": [30, 45], "oil_sensitivity_pct_per_10": 1.5 },
+      "taiwan": { "species": "Imported tropical", "price_mid": 85, "range": [70, 100], "oil_sensitivity_pct_per_10": 4.0 },
+      "canada": { "species": "SPF", "price_mid": 75, "range": [60, 90], "oil_sensitivity_pct_per_10": 1.5 },
+      "chile": { "species": "Radiata Pine", "price_mid": 60, "range": [50, 70], "oil_sensitivity_pct_per_10": 1.5 },
+      "brazil": { "species": "Eucalyptus/Pine", "price_mid": 47.5, "range": [40, 55], "oil_sensitivity_pct_per_10": 1.5 },
+      "uruguay": { "species": "Eucalyptus", "price_mid": 41.5, "range": [35, 48], "oil_sensitivity_pct_per_10": 1.0 },
+      "finland": { "species": "Spruce/Scots Pine", "price_mid": 75, "range": [65, 85], "oil_sensitivity_pct_per_10": 1.5 },
+      "sweden": { "species": "Spruce/Pine", "price_mid": 70, "range": [60, 80], "oil_sensitivity_pct_per_10": 1.5 },
+      "germany": { "species": "Spruce/Beech", "price_mid": 82.5, "range": [70, 95], "oil_sensitivity_pct_per_10": 2.5 },
+      "poland": { "species": "Scots Pine", "price_mid": 62, "range": [55, 70], "oil_sensitivity_pct_per_10": 2.0 },
+      "italy": { "species": "Oak/Beech + imports", "price_mid": 70, "range": [60, 85], "oil_sensitivity_pct_per_10": 2.0 },
+      "spain": { "species": "Radiata Pine/Eucalyptus", "price_mid": 55, "range": [45, 65], "oil_sensitivity_pct_per_10": 1.5 },
+      "belgium": { "species": "Imported", "price_mid": 54, "range": [45, 65], "oil_sensitivity_pct_per_10": 2.0 },
+      "gabon": { "species": "Okoume", "price_mid": 110, "range": [90, 130], "oil_sensitivity_pct_per_10": 3.0 },
+      "ecuador": { "species": "Balsa/Tropical", "price_mid": 50, "range": [40, 60], "oil_sensitivity_pct_per_10": 3.0 },
+      "paraguay": { "species": "Pine/Eucalyptus", "price_mid": 45, "range": [35, 55], "oil_sensitivity_pct_per_10": 2.0 }
+    }
+  },
+
+  "electricity": {
+    "last_updated": "2026-04-02",
+    "source": "Eurostat (EU), IEA (non-EU), analyst estimates",
+    "tariffs_usd_per_mwh": {
+      "indonesia": { "mid": 72.5, "range": [65, 80], "source_type": "biomass_cph_partial", "oil_correlation": 0.03 },
+      "vietnam": { "mid": 80, "range": [70, 90], "source_type": "coal_grid", "oil_correlation": 0.045 },
+      "cambodia": { "mid": 105, "range": [90, 120], "source_type": "imported_grid_diesel", "oil_correlation": 0.053 },
+      "malaysia": { "mid": 62.5, "range": [55, 70], "source_type": "gas_subsidy", "oil_correlation": 0.025 },
+      "thailand": { "mid": 67.5, "range": [60, 75], "source_type": "mixed_gas_renewables", "oil_correlation": 0.027 },
+      "taiwan": { "mid": 105, "range": [95, 115], "source_type": "gas_coal_nuclear", "oil_correlation": 0.035 },
+      "canada": { "mid": 47, "range": [40, 55], "source_type": "hydro", "oil_correlation": 0.005 },
+      "chile": { "mid": 90, "range": [80, 100], "source_type": "solar_gas_mix", "oil_correlation": 0.03 },
+      "brazil": { "mid": 60, "range": [50, 70], "source_type": "hydro", "oil_correlation": 0.01 },
+      "uruguay": { "mid": 62.5, "range": [55, 70], "source_type": "wind_hydro", "oil_correlation": 0.01 },
+      "finland": { "mid": 70, "range": [60, 80], "source_type": "biomass_chp", "oil_correlation": 0.01 },
+      "sweden": { "mid": 65, "range": [55, 75], "source_type": "hydro_nuclear", "oil_correlation": 0.01 },
+      "germany": { "mid": 122, "range": [110, 135], "source_type": "gas_grid", "oil_correlation": 0.04 },
+      "poland": { "mid": 95, "range": [85, 105], "source_type": "coal_grid", "oil_correlation": 0.02 },
+      "italy": { "mid": 127, "range": [115, 140], "source_type": "gas_heavy", "oil_correlation": 0.05 },
+      "spain": { "mid": 85, "range": [75, 95], "source_type": "solar_wind_gas", "oil_correlation": 0.03 },
+      "belgium": { "mid": 112, "range": [100, 125], "source_type": "gas_nuclear_partial", "oil_correlation": 0.04 },
+      "gabon": { "mid": 95, "range": [80, 110], "source_type": "diesel_hfo", "oil_correlation": 0.06 },
+      "ecuador": { "mid": 85, "range": [70, 100], "source_type": "hydro_thermal_mix", "oil_correlation": 0.03 },
+      "paraguay": { "mid": 45, "range": [35, 55], "source_type": "hydro_itaipu", "oil_correlation": 0.005 }
+    }
+  },
+
+  "labor": {
+    "last_updated": "2026-04-02",
+    "source": "ILO, national statistics, analyst estimates",
+    "cost_usd_per_m3": {
+      "indonesia": 8, "vietnam": 10, "cambodia": 6, "malaysia": 18,
+      "thailand": 20, "taiwan": 100, "canada": 80, "chile": 35,
+      "brazil": 25, "uruguay": 30, "finland": 95, "sweden": 95,
+      "germany": 110, "poland": 14, "italy": 30, "spain": 20,
+      "belgium": 35, "gabon": 15, "ecuador": 15, "paraguay": 12
+    }
+  },
+
+  "trade_duties": {
+    "last_updated": "2026-04-02",
+    "source": "USITC HTS 4412, ADD/CVD case database",
+    "add_cvd_usd_per_m3": {
+      "vietnam": 22,
+      "china": 50
+    },
+    "mfn_rate_pct": 8,
+    "fta_zero_duty": ["canada", "chile"],
+    "gsp_reduced": ["gabon", "cambodia", "indonesia"],
+    "notes": "Standard MFN tariff is 8% on HS 4412. Canada zero via USMCA. Chile zero via US-Chile FTA. GSP status may reduce effective rate for qualifying countries."
+  },
+
+  "fx_baselines": {
+    "notes": "These are overridden by daily API data when available. Used as fallback only.",
+    "ytd_change_vs_usd_pct": {
+      "IDR": -2.5, "VND": -6.0, "KHR": 0, "MYR": -2.0,
+      "THB": -1.0, "TWD": -1.0, "CAD": -1.0, "CLP": -3.0,
+      "BRL": -4.0, "UYU": -2.0, "EUR": 2.0, "PLN": -1.0,
+      "SEK": -1.0, "XAF": 2.0
+    }
+  }
+}

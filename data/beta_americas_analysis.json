@@ -1,0 +1,379 @@
+{
+  "swarm": "Beta",
+  "region": "Americas",
+  "analysis_date": "2026-04-02",
+  "macro_context": {
+    "brent_crude_usd_bbl": 92,
+    "reference_product": "18mm structural plywood, 1220x2440mm, <=12% MC"
+  },
+  "methodology": {
+    "brent_crude_reference_usd": 92,
+    "container_capacity_m3_per_teu": 23,
+    "electricity_intensity_kwh_per_m3": 200,
+    "resin_share_of_cogs_pct": "17-19",
+    "log_to_product_ratio": 2.2,
+    "sensitivity_basis": "per $10 USD Brent crude rise"
+  },
+  "countries": [
+    {
+      "country": "Canada",
+      "iso": "CA",
+      "primary_port": "Montreal / Vancouver",
+      "sensitivity_per_10_bbl": {
+        "resin": 0.20,
+        "log": 1.13,
+        "electricity": 0.05,
+        "freight": 1.74,
+        "labor": 0.00,
+        "total": 3.12,
+        "notes": {
+          "resin": "Domestic PF/UF resin production capacity. Minimal oil pass-through. ~$0.20/m3 per $10 oil.",
+          "log": "SPF $60-90 (mid $75/m3). +1.5% per $10 Brent. 2.2 x $75 x 1.5% = $2.48 / 2.2 = $1.13/m3.",
+          "electricity": "Quebec/BC hydro-dominated grid. Near-zero oil sensitivity. $40-55/MWh (mid $47). $0.05/m3 residual.",
+          "freight": "Montreal 1,800 NM to Savannah. Mid TEU $1,350. +$40/TEU per $10 oil. $40/23 = $1.74/m3.",
+          "labor": "$80/m3 effective (high cost, high automation). Negligible oil sensitivity at plant level."
+        }
+      },
+      "vulnerability_score": 1.8,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": 1.0,
+      "drying_energy_type": "Biomass / natural gas — RESILIENT (hydro grid base)",
+      "key_risks": [
+        "Highest labor cost in Americas dataset at $80/m3 effective",
+        "Softwood lumber tariff political risk (USMCA periodically contested)",
+        "BC beetle-kill legacy reduces premium log availability"
+      ],
+      "structural_flags": [
+        "BENCHMARK LOWEST SENSITIVITY: $3.12/m3 per $10 Brent is lowest in entire global dataset",
+        "Hydro electricity provides near-complete oil insulation on energy costs",
+        "USMCA zero-duty access is decisive structural advantage",
+        "Short freight (1,800 NM EC, 900 NM WC) dominates cost competitiveness"
+      ],
+      "log_supply": {
+        "species": "SPF (Spruce-Pine-Fir)",
+        "price_range_usd_per_m3": "60-90",
+        "export_ban": false
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "40-55",
+        "vulnerability": "Very Low",
+        "own_generation": "Hydro grid base (Quebec/BC)"
+      },
+      "shipping": {
+        "port": "Montreal / Vancouver",
+        "nm_to_savannah": 1800,
+        "nm_to_long_beach": 900,
+        "teu_rate_range_usd": "1100-1600",
+        "teu_rate_midpoint_usd": 1350,
+        "oil_sensitivity_per_10_usd_per_teu": "25-55"
+      },
+      "labor": {
+        "worker_day_usd": "280-350",
+        "skill_level": "High",
+        "labor_cost_per_m3_usd": 80
+      }
+    },
+    {
+      "country": "Chile",
+      "iso": "CL",
+      "primary_port": "San Antonio / Valparaiso",
+      "sensitivity_per_10_bbl": {
+        "resin": 1.50,
+        "log": 0.99,
+        "electricity": 0.54,
+        "freight": 1.17,
+        "labor": 0.41,
+        "total": 4.61,
+        "notes": {
+          "resin": "Import-dependent on PF/UF resins. Moderate pass-through ~4% per $10 Brent. 18% x $370 COGS x 4% = $2.66, adjusted for partial domestic offset = $1.50/m3.",
+          "log": "Radiata Pine $50-70 (mid $60/m3). Plantation species. +1.5% per $10 Brent. 2.2 x $60 x 1.5% = $1.98 / 2.2 = $0.99/m3.",
+          "electricity": "Solar/gas mix. $80-100 (mid $90/MWh). 200 x $90 = $18/m3. ~3% oil sensitivity = $0.54/m3.",
+          "freight": "Valparaiso 4,500 NM to Savannah via Panama. Mid TEU $2,200. +$27/TEU per $10 oil (short Americas rate). $27/23 = $1.17/m3.",
+          "labor": "$35/m3. Moderate productivity 8 m3/worker-day. 1% oil sensitivity blended = $0.41/m3."
+        }
+      },
+      "vulnerability_score": 4.2,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": 3.0,
+      "drying_energy_type": "Mixed solar/gas — MODERATE",
+      "key_risks": [
+        "Electricity at $80-100/MWh is highest in Americas subset",
+        "Panama Canal transit adds route complexity and surcharge risk",
+        "CLP -3% YTD provides shield but Chile inflation trajectory is uncertain",
+        "Resin import dependence from US/EU supply chains"
+      ],
+      "structural_flags": [
+        "US-Chile FTA provides zero-duty access — structural trade advantage",
+        "Radiata Pine plantation cycle is well-managed with 25+ year rotation",
+        "Solar electricity penetration growing, reducing medium-term oil sensitivity"
+      ],
+      "log_supply": {
+        "species": "Radiata Pine (plantation)",
+        "price_range_usd_per_m3": "50-70",
+        "export_ban": false
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "80-100",
+        "vulnerability": "Moderate",
+        "own_generation": "Some solar, gas backup"
+      },
+      "shipping": {
+        "port": "San Antonio / Valparaiso",
+        "nm_to_savannah": 4500,
+        "nm_to_long_beach": 4800,
+        "teu_rate_range_usd": "2000-2400",
+        "teu_rate_midpoint_usd": 2200,
+        "oil_sensitivity_per_10_usd_per_teu": "20-35"
+      },
+      "labor": {
+        "worker_day_usd": "120-160",
+        "skill_level": "Moderate-High",
+        "labor_cost_per_m3_usd": 35
+      }
+    },
+    {
+      "country": "Brazil",
+      "iso": "BR",
+      "primary_port": "Paranagua / Santos",
+      "sensitivity_per_10_bbl": {
+        "resin": 1.20,
+        "log": 0.78,
+        "electricity": 0.12,
+        "freight": 2.30,
+        "labor": 0.43,
+        "total": 4.83,
+        "notes": {
+          "resin": "Some domestic resin capacity (Arauco subsidiary). Moderate pass-through ~3.5% per $10 Brent. $1.20/m3.",
+          "log": "Eucalyptus/Pine $40-55 (mid $47.5/m3). Plantation economics. +1.5% per $10 Brent. 2.2 x $47.5 x 1.5% = $1.57 / 2.2 = $0.78/m3 (plantation cost insulation).",
+          "electricity": "Hydro-dominated grid. $50-70 (mid $60/MWh). Near-zero oil sensitivity. 200 x $60 = $12/m3. ~1% sensitivity = $0.12/m3.",
+          "freight": "Paranagua 4,800 NM to Savannah. Mid TEU $2,250. +$53/TEU per $10 oil. $53/23 = $2.30/m3.",
+          "labor": "$25/m3. Moderate productivity. 1% + BRL inflation pass-through = $0.43/m3."
+        }
+      },
+      "vulnerability_score": 3.5,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": 4.0,
+      "drying_energy_type": "Biomass / wood waste — RESILIENT (eucalyptus residue)",
+      "key_risks": [
+        "BRL -4% YTD provides strong shield but Brazilian monetary policy creates volatility",
+        "Port congestion at Santos/Paranagua during harvest season adds freight premiums",
+        "No FTA with US — standard MFN 8% tariff applies but no ADD/CVD",
+        "Eucalyptus plantation expansion competing with agricultural land use"
+      ],
+      "structural_flags": [
+        "Lowest CIF in entire global dataset at $201/m3 — eucalyptus economics are compelling",
+        "BRL currency shield at -4% is strongest in Americas after Chile",
+        "Hydro grid provides near-complete electricity insulation from oil",
+        "Eucalyptus 7-year rotation creates flexible and renewable log supply"
+      ],
+      "log_supply": {
+        "species": "Eucalyptus / Pine (plantation)",
+        "price_range_usd_per_m3": "40-55",
+        "export_ban": false
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "50-70",
+        "vulnerability": "Very Low",
+        "own_generation": "Hydro grid, some biomass CHP"
+      },
+      "shipping": {
+        "port": "Paranagua / Santos",
+        "nm_to_savannah": 4800,
+        "nm_to_long_beach": 6500,
+        "teu_rate_range_usd": "2000-2500",
+        "teu_rate_midpoint_usd": 2250,
+        "oil_sensitivity_per_10_usd_per_teu": "45-60"
+      },
+      "labor": {
+        "worker_day_usd": "60-90",
+        "skill_level": "Moderate",
+        "labor_cost_per_m3_usd": 25
+      }
+    },
+    {
+      "country": "Ecuador",
+      "iso": "EC",
+      "primary_port": "Guayaquil",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.50,
+        "log": 1.65,
+        "electricity": 0.51,
+        "freight": 1.22,
+        "labor": 0.62,
+        "total": 6.50,
+        "notes": {
+          "resin": "Fully import-dependent on PF/UF resins. High pass-through ~5.5% per $10 Brent = $2.50/m3.",
+          "log": "Balsa/Tropical $40-60 (mid $50/m3). +3% per $10 Brent. 2.2 x $50 x 3% = $3.30 / 2.2 = $1.65/m3 (forest access diesel costs high).",
+          "electricity": "Hydro/thermal mix. $70-100 (mid $85/MWh). 200 x $85 = $17/m3. ~3% oil sensitivity = $0.51/m3.",
+          "freight": "Guayaquil 2,600 NM to Savannah. Mid TEU $2,100. +$28/TEU per $10 oil. $28/23 = $1.22/m3.",
+          "labor": "$15/m3. Low productivity 6 m3/worker-day. 1.5% oil inflation pass-through = $0.62/m3."
+        }
+      },
+      "vulnerability_score": 5.8,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": 0,
+      "drying_energy_type": "Mixed hydro/thermal — MODERATE",
+      "key_risks": [
+        "Dollarized economy — no currency shield against USD-denominated oil price rises",
+        "Full resin import dependence creates high petrochemical exposure",
+        "Thermal electricity component creates moderate grid oil sensitivity",
+        "Political instability periodically disrupts port and road logistics",
+        "Balsa species niche limits product diversification to structural grades"
+      ],
+      "structural_flags": [
+        "Short freight to US East Coast (2,600 NM) provides logistics advantage",
+        "Dollarized economy eliminates currency risk but also eliminates currency shield",
+        "GSP status may reduce effective tariff rate",
+        "Hydro component of grid provides partial electricity insulation"
+      ],
+      "log_supply": {
+        "species": "Balsa / Tropical hardwood",
+        "price_range_usd_per_m3": "40-60",
+        "export_ban": false
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "70-100",
+        "vulnerability": "Moderate",
+        "own_generation": "Partial hydro, thermal backup"
+      },
+      "shipping": {
+        "port": "Guayaquil",
+        "nm_to_savannah": 2600,
+        "nm_to_long_beach": 3000,
+        "teu_rate_range_usd": "1900-2300",
+        "teu_rate_midpoint_usd": 2100,
+        "oil_sensitivity_per_10_usd_per_teu": "20-35"
+      },
+      "labor": {
+        "worker_day_usd": "30-50",
+        "skill_level": "Low-Moderate",
+        "labor_cost_per_m3_usd": 15
+      }
+    },
+    {
+      "country": "Uruguay",
+      "iso": "UY",
+      "primary_port": "Montevideo",
+      "sensitivity_per_10_bbl": {
+        "resin": 1.40,
+        "log": 0.46,
+        "electricity": 0.13,
+        "freight": 1.96,
+        "labor": 0.55,
+        "total": 4.50,
+        "notes": {
+          "resin": "Import-dependent but small-market procurement. ~3.5% pass-through per $10 Brent = $1.40/m3.",
+          "log": "Eucalyptus $35-48 (mid $41.5/m3). Plantation species. +1% per $10 Brent. 2.2 x $41.5 x 1% = $0.91 / 2.2 = $0.46/m3 (lowest log sensitivity in dataset).",
+          "electricity": "Wind/hydro grid. $55-70 (mid $62.5/MWh). 200 x $62.5 = $12.5/m3. ~1% oil sensitivity = $0.13/m3.",
+          "freight": "Montevideo 5,200 NM to Savannah. Mid TEU $2,000. +$45/TEU per $10 oil. $45/23 = $1.96/m3.",
+          "labor": "$30/m3. Moderate productivity 7 m3/worker-day. 1% + UYU inflation pass-through = $0.55/m3."
+        }
+      },
+      "vulnerability_score": 2.5,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": 2.0,
+      "drying_energy_type": "Biomass / wind-powered grid — RESILIENT",
+      "key_risks": [
+        "Small production scale limits bargaining power on resin and freight rates",
+        "UYU -2% YTD provides modest currency shield but Uruguay inflation remains elevated",
+        "Longer Atlantic freight (5,200 NM) vs Brazil (4,800 NM)",
+        "Limited domestic resin sourcing options"
+      ],
+      "structural_flags": [
+        "HIDDEN WINNER: best-in-class CIF at $190/m3 driven by lowest log costs and hydro/wind electricity",
+        "Eucalyptus plantation economics with 7-year rotation provide renewable supply",
+        "Wind/hydro grid decoupled from fossil fuel costs — structural resilience",
+        "No ADD/CVD — clean trade status"
+      ],
+      "log_supply": {
+        "species": "Eucalyptus (plantation)",
+        "price_range_usd_per_m3": "35-48",
+        "export_ban": false
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "55-70",
+        "vulnerability": "Very Low",
+        "own_generation": "Wind/hydro grid base"
+      },
+      "shipping": {
+        "port": "Montevideo",
+        "nm_to_savannah": 5200,
+        "nm_to_long_beach": 7500,
+        "teu_rate_range_usd": "1800-2200",
+        "teu_rate_midpoint_usd": 2000,
+        "oil_sensitivity_per_10_usd_per_teu": "35-55"
+      },
+      "labor": {
+        "worker_day_usd": "80-120",
+        "skill_level": "Moderate",
+        "labor_cost_per_m3_usd": 30
+      }
+    },
+    {
+      "country": "Paraguay",
+      "iso": "PY",
+      "primary_port": "Asuncion (river barge to Montevideo/Buenos Aires)",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.10,
+        "log": 0.99,
+        "electricity": 0.05,
+        "freight": 2.09,
+        "labor": 0.57,
+        "total": 5.80,
+        "notes": {
+          "resin": "Fully import-dependent. Moderate pass-through ~4.5% per $10 Brent = $2.10/m3.",
+          "log": "Pine/Eucalyptus $35-55 (mid $45/m3). +2% per $10 Brent. 2.2 x $45 x 2% = $1.98 / 2.2 = $0.99/m3.",
+          "electricity": "Hydro from Itaipu — near-zero oil sensitivity. $35-55 (mid $45/MWh). 200 x $45 = $9/m3. ~0.5% = $0.05/m3.",
+          "freight": "Landlocked — double logistics: river barge Asuncion to Montevideo/BA then ocean TEU. Mid TEU $2,800. +$48/TEU per $10 oil. $48/23 = $2.09/m3. Barge segment adds $200-400/TEU.",
+          "labor": "$12/m3. Low productivity 5-6 m3/worker-day. 1.5% oil inflation = $0.57/m3."
+        }
+      },
+      "vulnerability_score": 5.0,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": 1.0,
+      "drying_energy_type": "Biomass / Itaipu hydro — RESILIENT electricity, moderate drying",
+      "key_risks": [
+        "Landlocked — double logistics via river barge then ocean vessel adds cost and transit time",
+        "Full resin import dependence with long inland supply chain",
+        "Low mill productivity (5-6 m3/worker-day) limits scale economies",
+        "Parana River water levels subject to drought risk affecting barge logistics",
+        "Limited port infrastructure at Asuncion for containerized cargo"
+      ],
+      "structural_flags": [
+        "Itaipu hydro provides cheapest electricity in Americas at $35-55/MWh",
+        "Landlocked logistics penalty ($200-400/TEU barge surcharge) offsets cheap inputs",
+        "Pine/Eucalyptus plantation expansion provides growing log supply",
+        "PYG modest depreciation provides small currency buffer"
+      ],
+      "log_supply": {
+        "species": "Pine / Eucalyptus (plantation)",
+        "price_range_usd_per_m3": "35-55",
+        "export_ban": false
+      },
+      "electricity": {
+        "tariff_usd_per_mwh": "35-55",
+        "vulnerability": "Very Low",
+        "own_generation": "Itaipu hydroelectric"
+      },
+      "shipping": {
+        "port": "Asuncion (barge to Montevideo/Buenos Aires, then ocean)",
+        "nm_to_savannah": 5800,
+        "nm_to_long_beach": 8200,
+        "teu_rate_range_usd": "2500-3100",
+        "teu_rate_midpoint_usd": 2800,
+        "oil_sensitivity_per_10_usd_per_teu": "40-55"
+      },
+      "labor": {
+        "worker_day_usd": "25-40",
+        "skill_level": "Low-Moderate",
+        "labor_cost_per_m3_usd": 12
+      }
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-04-02",
+  "refresh_cadence": {
+    "daily": ["brent_crude", "fx_rates"],
+    "weekly": ["teu_freight_rates"],
+    "monthly": ["eu_gas_price"],
+    "semi_annual": ["electricity_tariffs"],
+    "annual": ["log_prices"],
+    "manual": ["labor_costs", "trade_duties", "shipping_distances"],
+    "notes": "Cadences reflect ACTUAL API update frequency, not aspirational. BDI removed (no free API). EU gas is monthly via World Bank (1-2 month lag). Log prices are annual via FAOSTAT (12-18 month lag). Freight rates require manual entry or Freightos subscription."
+  },
+  "endpoints": {
+    "brent_crude": {
+      "source": "EIA API v2",
+      "url_template": "https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key={EIA_API_KEY}&frequency=daily&data[0]=value&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=1",
+      "field": "value",
+      "unit": "USD/bbl",
+      "series": "RBRTE",
+      "notes": "Brent crude spot price. Requires free EIA API key from eia.gov"
+    },
+    "eu_gas_price": {
+      "source": "World Bank Commodity API",
+      "url_template": "https://api.worldbank.org/v2/en/indicator/PNGASEUUSDM?format=json&mrv=1",
+      "field": "value",
+      "unit": "USD/MMBtu",
+      "conversion": "multiply by 3.412 for USD/MWh equivalent",
+      "notes": "World Bank proxy for EU TTF gas price"
+    },
+    "baltic_dry_index": {
+      "source": "DEPRECATED — endpoint was broken (pointed to iron ore PIORECR_USD, not BDI)",
+      "status": "disabled",
+      "replacement": "Use teu_freight_rates.route_indices (FBX11/FBX01/FBX21) as shipping cost proxy instead",
+      "notes": "World Bank does not publish BDI. Free BDI alternatives: Freightos FBX weekly composite (fbx.freightos.com), UNCTAD Liner Shipping Connectivity Index (quarterly). Both require scraping, no JSON API."
+    },
+    "fx_rates": {
+      "source": "FRED API (Federal Reserve Economic Data)",
+      "series_map": {
+        "VND_USD": "use Open Exchange Rates — not available in FRED",
+        "IDR_USD": "use Open Exchange Rates — not available in FRED",
+        "BRL_USD": "DEXBZUS",
+        "CAD_USD": "DEXCAUS",
+        "EUR_USD": "DEXUSEU",
+        "MYR_USD": "use Open Exchange Rates",
+        "CLP_USD": "use Open Exchange Rates",
+        "UYU_USD": "use Open Exchange Rates",
+        "PLN_USD": "DEXPOUS",
+        "SEK_USD": "DEXSDUS"
+      },
+      "fred_url_template": "https://api.stlouisfed.org/fred/series/observations?series_id={SERIES_ID}&api_key={FRED_API_KEY}&sort_order=desc&limit=1&file_type=json",
+      "open_exchange_rates_url": "https://openexchangerates.org/api/latest.json?app_id={OXR_APP_ID}&symbols=VND,IDR,MYR,CLP,UYU",
+      "notes": "FRED API key free from fred.stlouisfed.org. Open Exchange Rates free tier covers remaining currencies."
+    },
+    "log_prices": {
+      "source": "FAO FAOSTAT Forestry API",
+      "url_template": "https://fenixservices.fao.org/faostat/api/v1/en/data/FO?area={FAOSTAT_COUNTRY_CODE}&element=5510&item=1740&year=2025&format=json",
+      "field": "Value",
+      "unit": "USD/m3",
+      "item_code": "1740 = Industrial roundwood",
+      "element_code": "5510 = Producer Price",
+      "caveat": "FAOSTAT updates annually with 12-18 month lag. Supplement with Wood Resource Quarterly (subscription) for current pricing.",
+      "faostat_country_codes": {
+        "Indonesia": "101",
+        "Vietnam": "237",
+        "Malaysia": "131",
+        "Cambodia": "115",
+        "Thailand": "216",
+        "Canada": "33",
+        "Chile": "40",
+        "Brazil": "21",
+        "Uruguay": "234",
+        "Finland": "71",
+        "Sweden": "210",
+        "Germany": "79",
+        "Poland": "174",
+        "Gabon": "74"
+      }
+    },
+    "electricity_tariffs": {
+      "eu_countries": {
+        "source": "Eurostat NRG_PC_205",
+        "url_template": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_pc_205?geo={EUROSTAT_GEO}&siec=E7000&consom=4161903&unit=KWH&currency=EUR&format=JSON",
+        "unit": "EUR/kWh",
+        "consumer_band": "IE = 500–2000 MWh/year (industrial)",
+        "eurostat_geo_codes": {
+          "Germany": "DE",
+          "Finland": "FI",
+          "Sweden": "SE",
+          "Poland": "PL",
+          "Italy": "IT",
+          "Spain": "ES",
+          "Belgium": "BE"
+        },
+        "notes": "Convert EUR/kWh to USD/MWh: multiply by EUR/USD rate × 1000"
+      },
+      "non_eu_fallback": {
+        "source": "IEA Electricity Market Report + Global Petrol Prices",
+        "url": "https://www.globalelectricityprice.com",
+        "notes": "No free API for non-EU industrial electricity. Use IEA annual publication or web scrape globalelectricityprice.com"
+      }
+    },
+    "trade_duties": {
+      "add_cvd_lookup": {
+        "source": "USITC ADD/CVD Search",
+        "url": "https://dataweb.usitc.gov/trade/add-cvd-cases",
+        "hs_code_filter": "4412",
+        "notes": "No public JSON API. Query manually quarterly or scrape the case search."
+      },
+      "tariff_rates": {
+        "source": "USITC HTS Online",
+        "url": "https://hts.usitc.gov",
+        "hs_heading": "4412",
+        "notes": "Chapter 44 — Wood and articles of wood. MFN general rate typically 8% for plywood."
+      }
+    },
+    "teu_freight_rates": {
+      "source": "Freightos Baltic Index (FBX)",
+      "composite_index_url": "https://fbx.freightos.com",
+      "route_indices": {
+        "FBX11": "China/East Asia to US West Coast",
+        "FBX01": "China/East Asia to US East Coast",
+        "FBX21": "Europe to US East Coast"
+      },
+      "notes": "API access requires subscription. Free weekly composite at fbx.freightos.com. Drewry WCI alternative: drewry.co.uk/sea-freight/world-container-index"
+    }
+  },
+  "country_port_codes": {
+    "Indonesia": { "primary_port": "Surabaya", "un_locode": "ID SUB", "us_east_nm": 11800, "us_west_nm": 8200, "canal_exposure": "malacca" },
+    "Vietnam": { "primary_port": "Ho Chi Minh City", "un_locode": "VN SGN", "us_east_nm": 12100, "us_west_nm": 8600, "canal_exposure": "malacca" },
+    "Cambodia": { "primary_port": "Sihanoukville", "un_locode": "KH SSN", "us_east_nm": 12400, "us_west_nm": 8900, "canal_exposure": "malacca" },
+    "Malaysia": { "primary_port": "Port Klang", "un_locode": "MY PKG", "us_east_nm": 11500, "us_west_nm": 8000, "canal_exposure": "malacca" },
+    "Thailand": { "primary_port": "Laem Chabang", "un_locode": "TH LCH", "us_east_nm": 12000, "us_west_nm": 8400, "canal_exposure": "malacca" },
+    "Canada_BC": { "primary_port": "Vancouver", "un_locode": "CA VAN", "us_west_nm": 900, "us_east_nm": 9600, "canal_exposure": "panama_eastbound_only" },
+    "Canada_QC": { "primary_port": "Montreal", "un_locode": "CA MTR", "us_east_nm": 2000, "canal_exposure": "none" },
+    "Chile": { "primary_port": "San Antonio", "un_locode": "CL SAI", "us_east_nm": 5100, "us_west_nm": 5800, "canal_exposure": "panama" },
+    "Brazil": { "primary_port": "Santos", "un_locode": "BR SSZ", "us_east_nm": 5800, "us_west_nm": 7200, "canal_exposure": "panama" },
+    "Uruguay": { "primary_port": "Montevideo", "un_locode": "UY MVD", "us_east_nm": 6100, "us_west_nm": 7400, "canal_exposure": "panama" },
+    "Finland": { "primary_port": "Helsinki", "un_locode": "FI HEL", "us_east_nm": 4800, "canal_exposure": "none" },
+    "Sweden": { "primary_port": "Gothenburg", "un_locode": "SE GOT", "us_east_nm": 4200, "canal_exposure": "none" },
+    "Germany": { "primary_port": "Hamburg", "un_locode": "DE HAM", "us_east_nm": 4100, "canal_exposure": "none" },
+    "Poland": { "primary_port": "Gdansk", "un_locode": "PL GDN", "us_east_nm": 4600, "canal_exposure": "none" },
+    "Italy": { "primary_port": "Genoa", "un_locode": "IT GOA", "us_east_nm": 4700, "canal_exposure": "none" },
+    "Spain": { "primary_port": "Bilbao", "un_locode": "ES BIO", "us_east_nm": 3900, "canal_exposure": "none" },
+    "Belgium": { "primary_port": "Antwerp", "un_locode": "BE ANR", "us_east_nm": 3900, "canal_exposure": "none" },
+    "Gabon": { "primary_port": "Owendo/Libreville", "un_locode": "GA OWE", "us_east_nm": 5200, "canal_exposure": "none" }
+  }
+}

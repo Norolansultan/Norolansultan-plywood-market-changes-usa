@@ -1,0 +1,131 @@
+{
+  "version": "1.0",
+  "description": "Canonical output schema for plywood sensitivity swarm agents. All three regional swarms (Alpha/Beta/Gamma) must write JSON conforming to this structure.",
+  "product_reference": {
+    "description": "18mm structural plywood, 1220x2440mm, moisture content ≤12%, F17/equivalent grade",
+    "hs_code": "4412",
+    "unit": "m3",
+    "container_loading_m3": 23
+  },
+  "vulnerability_weights": {
+    "freight": 0.20,
+    "resin": 0.20,
+    "electricity": 0.20,
+    "log_price": 0.20,
+    "labor": 0.10,
+    "fx_buffer": 0.10,
+    "notes": "Weights sum to 1.0. Each dimension scored 0–10; multiply by weight for composite score (0–10 total)."
+  },
+  "country_record_schema": {
+    "country": { "type": "string", "required": true, "example": "Indonesia" },
+    "region": { "type": "string", "required": true, "enum": ["Asia", "Americas", "EMEA"] },
+    "analysis_date": { "type": "string", "required": true, "format": "YYYY-MM-DD" },
+    "brent_baseline_usd": { "type": "number", "required": true, "example": 92 },
+    "sensitivity_per_10_bbl": {
+      "description": "USD/m3 increase in total delivered cost per $10 rise in Brent Crude",
+      "required": true,
+      "fields": {
+        "resin_usd_per_m3": { "type": "number", "notes": "Oil-to-glue pass-through, 15-20% COGS" },
+        "log_usd_per_m3": { "type": "number", "notes": "Harvest/transport cost linkage to diesel" },
+        "electricity_usd_per_m3": { "type": "number", "notes": "Grid cost increase; 0 if own biomass generation" },
+        "freight_usd_per_m3": { "type": "number", "notes": "TEU rate increase ÷ 23 m3/container" },
+        "labor_usd_per_m3": { "type": "number", "notes": "Indirect — wage inflation from energy costs; typically 0-1 for low-wage countries" },
+        "total_usd_per_m3": { "type": "number", "notes": "Sum of all components" },
+        "exceeds_25_threshold": { "type": "boolean", "notes": "Flag if total > $25/m3 per $10 oil rise" }
+      }
+    },
+    "baseline_costs_usd_per_m3": {
+      "description": "Current Q1 2026 cost components at $92/bbl baseline",
+      "required": false,
+      "fields": {
+        "log_input": { "type": "number", "notes": "Mid-range of log price estimate" },
+        "resin": { "type": "number", "notes": "~15-20% of total COGS" },
+        "electricity": { "type": "number", "notes": "kWh/m3 × USD/MWh" },
+        "drying_energy": { "type": "number", "notes": "Separate from grid electricity if biomass" },
+        "labor": { "type": "number", "notes": "Worker-days per m3 × daily wage rate" },
+        "freight_to_savannah": { "type": "number", "notes": "TEU rate ÷ 23 m3" },
+        "freight_to_long_beach": { "type": ["number", "null"], "notes": "null if no West Coast route" },
+        "trade_duty": { "type": "number", "notes": "ADD/CVD + MFN duty in USD/m3" },
+        "total_delivered_savannah": { "type": "number" },
+        "total_delivered_long_beach": { "type": ["number", "null"] }
+      }
+    },
+    "vulnerability_score": {
+      "type": "number",
+      "required": true,
+      "range": "0-10",
+      "notes": "Weighted composite. 10 = most vulnerable to energy price increases."
+    },
+    "vulnerability_breakdown": {
+      "required": false,
+      "fields": {
+        "freight": { "type": "number", "range": "0-10" },
+        "resin": { "type": "number", "range": "0-10" },
+        "electricity": { "type": "number", "range": "0-10" },
+        "log_price": { "type": "number", "range": "0-10" },
+        "labor": { "type": "number", "range": "0-10" },
+        "fx_buffer": { "type": "number", "range": "0-10", "notes": "Inverted: higher score = LESS buffer (more vulnerable)" }
+      }
+    },
+    "drying_energy_type": {
+      "type": "string",
+      "required": true,
+      "enum": ["biomass", "gas", "fuel_oil", "grid_electric", "mixed_biomass_gas", "mixed_biomass_grid"]
+    },
+    "canal_exposure": {
+      "type": "string",
+      "required": true,
+      "enum": ["none", "panama", "suez", "malacca", "panama_and_malacca", "hormuz_indirect"]
+    },
+    "currency_shield_pct_per_10_bbl": {
+      "type": "number",
+      "required": false,
+      "notes": "% of $10/bbl cost increase absorbed by local currency depreciation vs USD. Positive = currency weakening provides buffer."
+    },
+    "trade_duties": {
+      "required": true,
+      "fields": {
+        "add_cvd_usd_per_m3": { "type": "number", "notes": "0 if no ADD/CVD in effect" },
+        "mfn_duty_pct": { "type": "number", "notes": "US MFN tariff rate. 0 for FTA partners (Canada via USMCA, Chile via US-Chile FTA)" },
+        "fta_status": { "type": "string", "example": "USMCA zero-duty | US-Chile FTA zero-duty | MFN 8% | GSP reduced" }
+      }
+    },
+    "key_risks": {
+      "type": "array",
+      "items": "string",
+      "required": true,
+      "notes": "Top 3-5 specific risks for this country's export competitiveness"
+    },
+    "structural_flags": {
+      "type": "array",
+      "items": "string",
+      "required": false,
+      "notes": "Policy, regulatory, or supply chain structural changes affecting long-term trajectory"
+    },
+    "data_confidence": {
+      "type": "string",
+      "required": true,
+      "enum": ["high", "medium", "low"],
+      "notes": "high = official sources confirmed; medium = indicative/estimated; low = limited data availability"
+    },
+    "sources_used": {
+      "type": "array",
+      "items": "string",
+      "required": true
+    }
+  },
+  "swarm_file_output": {
+    "alpha_asia": "data/alpha_asia_analysis.json",
+    "beta_americas": "data/beta_americas_analysis.json",
+    "gamma_emea": "data/gamma_emea_analysis.json",
+    "synthesis": "data/sensitivity_analysis_2026.json",
+    "report": "data/sensitivity_report_2026.md"
+  },
+  "validation_rules": [
+    "total_usd_per_m3 must equal sum of resin + log + electricity + freight + labor components",
+    "exceeds_25_threshold must be true if total_usd_per_m3 > 25",
+    "vulnerability_score must be between 0 and 10",
+    "analysis_date must match the swarm run date",
+    "brent_baseline_usd must match the monitoring-config.json last_analysis.brent_baseline_usd"
+  ]
+}

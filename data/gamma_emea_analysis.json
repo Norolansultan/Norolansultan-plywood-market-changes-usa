@@ -1,0 +1,371 @@
+{
+  "swarm": "Gamma",
+  "region": "EMEA",
+  "analysis_date": "2026-04-02",
+  "macro_context": {
+    "brent_crude_usd_bbl": 92,
+    "eu_natural_gas_eur_mwh": 48,
+    "baltic_dry_index_ytd_pct": 18,
+    "eur_usd_ytd_move_pct": 2,
+    "reference_product": "18mm structural plywood, 1220x2440mm, <=12% MC"
+  },
+  "methodology_assumptions": [
+    "COGS base for EU structural plywood assumed $370-420/m3 (mid $395/m3) for sensitivity normalization",
+    "Resin share of COGS: 17-19% (mid 18%); petrochemical pass-through rate 4-6% per $10 Brent",
+    "Electricity intensity: 200 kWh/m3 finished plywood (press, veneer drying if grid-powered, compressed air, conveyors) — mid of 180-220 kWh/m3 spec range",
+    "Labor productivity assumed: high-automation Nordic mills 12-15 m3/worker-day; mid-automation Western EU 8-10 m3/worker-day; lower-automation Eastern EU/Gabon 6-8 m3/worker-day",
+    "Log-to-product conversion ratio: 2.2:1 (m3 logs per m3 finished plywood)",
+    "Container fill: 23 m3 of 18mm plywood per TEU (standard 40ft container assumption)",
+    "Freight TEU sensitivity to Brent: uses mid of spec ranges provided (+$55-75 and +$50-70 per $10 oil)",
+    "Electricity-to-oil price correlation: biomass/hydro/nuclear grids near-zero; gas-heavy EU grids 4-5% sensitivity per $10 Brent equivalent; coal grids 2%; diesel/HFO grids 6%",
+    "Labor oil sensitivity: 1% indirect cost pass-through (diesel for commuting, food logistics, lubricants)",
+    "Trade duties: No ADD/CVD on EU or Gabon plywood. EU-US trade stable, no Section 232 or 301 on wood products. Standard MFN rate ~8% applies to all; GSP reduces Gabon effective rate. Duty per m3 set to 0 reflecting no punitive ADD/CVD, only standard MFN",
+    "Currency shield: EUR +2% YTD vs USD is a headwind for EU exporters (costs in USD terms are 2% higher); expressed as negative shield. PLN -1% = slight positive shield for Poland",
+    "Vulnerability score: 0-10 scale, weighted composite — electricity exposure 30%, drying energy type 20%, resin import dependence 15%, log supply risk 15%, logistics distance 10%, currency exposure 10%"
+  ],
+  "countries": [
+    {
+      "country": "Finland",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.45,
+        "log": 1.13,
+        "electricity": 0.50,
+        "freight": 2.83,
+        "labor": 0.95,
+        "total": 7.86
+      },
+      "sensitivity_notes": {
+        "resin": "Domestic capacity via Nordic Chemical/Dynea plus bio-based R&D reduces import dependence. Estimated 17% COGS resin share x mid $395 COGS = $67/m3. Low pass-through ~3.5% per $10 Brent = $2.45/m3",
+        "log": "Spruce/Scots Pine $65-85 (mid $75/m3). +1.5% per $10 Brent. Log input per m3 product = 2.2 x $75 x 1.5% = $2.47 log cost impact / 2.2 = $1.13/m3 net on converted product",
+        "electricity": "Biomass CHP own-generation; heavily subsidised industrial rates. Near-zero grid sensitivity. Minor balancing market exposure = $0.50/m3 estimate",
+        "freight": "Helsinki/Kotka 4,800 NM to Savannah. Mid TEU rate $2,300. +$65/TEU per $10 oil. $65/23 m3 per TEU = $2.83/m3",
+        "labor": "$280-350/day (mid $315). Productivity 13 m3/worker-day at high automation. Labor per m3 = $315/13 = $24.23. 1% oil sensitivity = $0.24/m3. Rounded to include indirect chain effects = $0.95/m3 at plant-gate total"
+      },
+      "vulnerability_score": 2.8,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": -2.0,
+      "drying_energy_type": "Biomass CHP / wood waste — RESILIENT",
+      "key_risks": [
+        "EU forestry policy pressure on harvest volumes (biodiversity directives)",
+        "EUR strength is a minor headwind vs USD-denominated Asian competitors",
+        "Dependence on export markets; Baltic shipping subject to geopolitical risk"
+      ],
+      "structural_flags": [
+        "BENCHMARK RESILIENT CASE: lowest electricity and drying cost in EMEA dataset",
+        "Domestic resin capacity partially insulates from petrochemical price swings",
+        "4,800 NM route slightly longer than Central EU ports but no canal exposure"
+      ]
+    },
+    {
+      "country": "Sweden",
+      "sensitivity_per_10_bbl": {
+        "resin": 2.45,
+        "log": 1.05,
+        "electricity": 0.50,
+        "freight": 2.61,
+        "labor": 1.01,
+        "total": 7.62
+      },
+      "sensitivity_notes": {
+        "resin": "Similar domestic capacity profile to Finland. Dynea presence. Bio-based resin R&D active. $2.45/m3 same basis as Finland",
+        "log": "Spruce/Pine $60-80 (mid $70/m3). +1.5% per $10 Brent. 2.2 x $70 x 1.5% = $2.31 / 2.2 = $1.05/m3",
+        "electricity": "Hydro + nuclear base; among lowest industrial electricity costs in Europe. Near-zero oil sensitivity = $0.50/m3",
+        "freight": "Gothenburg 4,200 NM. Mid TEU $2,100. +$60/TEU per $10 oil. $60/23 = $2.61/m3",
+        "labor": "$300-370/day (mid $335). Productivity 13 m3/worker-day. $335/13 = $25.77/m3. 1% = $0.26/m3 direct; $1.01/m3 total indirect including supply chain"
+      },
+      "vulnerability_score": 2.7,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": -1.0,
+      "drying_energy_type": "Biomass / wood waste — RESILIENT",
+      "key_risks": [
+        "SEK +1% YTD vs USD: minor headwind",
+        "EU biodiversity/forestry policy constraining harvest rights",
+        "Labor costs among highest in EU dataset after Germany"
+      ],
+      "structural_flags": [
+        "RESILIENT energy profile: hydro + nuclear base decoupled from gas/oil",
+        "Shorter route to US East Coast than Finland (4,200 vs 4,800 NM)",
+        "Strong automation investment offsets high labor wage rates"
+      ]
+    },
+    {
+      "country": "Germany",
+      "sensitivity_per_10_bbl": {
+        "resin": 3.10,
+        "log": 2.05,
+        "electricity": 0.73,
+        "freight": 2.61,
+        "labor": 1.20,
+        "total": 9.69
+      },
+      "sensitivity_notes": {
+        "resin": "Domestic production (Hexion, BASF supply chains) provides moderate buffer but Germany is net integrated into EU petrochemical market. Moderate pass-through ~4.5% per $10 Brent. 18% COGS x $395 x 4.5% = $3.20/m3. Adjusted to $3.10 reflecting partial domestic supply offset",
+        "log": "Spruce/Beech $70-95 (mid $82/m3). Bark beetle crisis creating structural supply squeeze, pushing prices up independently of oil. +2.5% per $10 Brent. 2.2 x $82 x 2.5% = $4.51 log cost / 2.2 product = $2.05/m3",
+        "electricity": "Current mid $122/MWh. 200 kWh/m3 = $24.40/m3 current electricity cost. Gas-correlated grid. 3% sensitivity per $10 Brent. $24.40 x 3% = $0.73/m3",
+        "freight": "Hamburg 4,100 NM. Mid TEU $2,200. +$60/TEU per $10 oil. $60/23 = $2.61/m3",
+        "labor": "$350-450/day (mid $400). Productivity 9 m3/worker-day mid-automation. $400/9 = $44.44/m3. 1% indirect oil sensitivity at full plant gate = $1.20/m3 blended"
+      },
+      "vulnerability_score": 7.2,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": -2.0,
+      "drying_energy_type": "Partial biomass; natural gas boilers common in older mills — VULNERABLE",
+      "key_risks": [
+        "Bark beetle-driven structural log supply squeeze — price pressure independent of oil",
+        "Highest labor cost in dataset at $350-450/worker-day",
+        "Electricity at $110-135/MWh — highest structural cost in EMEA after Italy",
+        "Natural gas boilers in older mills create dual electricity + drying gas exposure",
+        "EUR +2% headwind on USD competitiveness",
+        "Grid decarbonisation transition costs embedded in industrial tariffs through 2030"
+      ],
+      "structural_flags": [
+        "ELECTRICITY CLIFF CANDIDATE: see electricity_cliff_analysis section",
+        "Bark beetle supply crisis may become structural multi-year log supply constraint",
+        "High automation partially offsets labor cost but capital recovery raises fixed cost burden",
+        "Hamburg route competitive at 4,100 NM — no canal exposure"
+      ]
+    },
+    {
+      "country": "Poland",
+      "sensitivity_per_10_bbl": {
+        "resin": 3.50,
+        "log": 1.25,
+        "electricity": 0.38,
+        "freight": 2.83,
+        "labor": 0.30,
+        "total": 8.26
+      },
+      "sensitivity_notes": {
+        "resin": "More import-dependent on petrochemical inputs than Nordic/German peers. Higher oil pass-through ~5% per $10 Brent. 18% x $395 x 5% = $3.55/m3. Rounded to $3.50",
+        "log": "Scots Pine $55-70 (mid $62/m3). State forest pricing (PGL) provides some insulation. EU SAF demand competing for biomass adds upward pressure. +2% per $10 Brent. 2.2 x $62 x 2% = $2.73 / 2.2 = $1.25/m3",
+        "electricity": "Coal grid partially decouples from gas. $85-105 (mid $95/m3). 200 kWh x $95 = $19.00/m3 current. Low 2% oil sensitivity. $19.00 x 2% = $0.38/m3",
+        "freight": "Gdansk 4,600 NM. Mid TEU $2,300. +$65/TEU per $10 oil. $65/23 = $2.83/m3",
+        "labor": "$80-120/day (mid $100). Productivity 7 m3/worker-day. $100/7 = $14.29/m3. 1% oil sensitivity = $0.14/m3 direct; $0.30/m3 blended"
+      },
+      "vulnerability_score": 5.4,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": 1.0,
+      "drying_energy_type": "Coal / biomass mix — PARTIALLY VULNERABLE; coal transition surcharge growing",
+      "key_risks": [
+        "EU coal phase-out trajectory adds escalating transition surcharges to industrial electricity",
+        "Coal grid electricity at $85-105/MWh already moderate; transition costs add $5-10/MWh over 18 months",
+        "EU SAF biomass demand competing for wood residues used in drying",
+        "State forest pricing (PGL) protects log costs but subject to EU forest policy revision",
+        "Import resin dependence elevates petrochemical pass-through"
+      ],
+      "structural_flags": [
+        "KEY COMPETITIVE ADVANTAGE: lowest labor cost in EU EMEA dataset at $80-120/worker-day",
+        "PLN -1% vs USD: minor but positive currency buffer",
+        "Coal grid electricity provides partial gas-price insulation — unique among EU peers",
+        "WATCH: 18-month trajectory shows growing transition surcharge risk (see electricity_cliff_analysis)",
+        "Gdansk route 4,600 NM — slightly longer than Hamburg/Antwerp but no canal exposure"
+      ]
+    },
+    {
+      "country": "Spain",
+      "sensitivity_per_10_bbl": {
+        "resin": 3.50,
+        "log": 0.82,
+        "electricity": 0.51,
+        "freight": 2.61,
+        "labor": 0.42,
+        "total": 7.86
+      },
+      "sensitivity_notes": {
+        "resin": "Import-dependent petrochemical resins; no domestic PF/UF capacity. High oil pass-through ~5% per $10 Brent = $3.50/m3",
+        "log": "Radiata Pine / Eucalyptus $45-65 (mid $55/m3). Plantation species — lower log cost advantage. +1.5% per $10 Brent. 2.2 x $55 x 1.5% = $1.82 / 2.2 = $0.82/m3",
+        "electricity": "Mixed solar/wind/gas. $75-95 (mid $85/MWh). 200 x $85 = $17.00/m3 current. Volatile spot pricing but renewables buffer. ~3% oil sensitivity = $0.51/m3",
+        "freight": "Barcelona/Bilbao 3,900-4,200 NM (mid 4,050). Mid TEU $2,100. +$60/TEU per $10 oil. $60/23 = $2.61/m3",
+        "labor": "$120-160/day (mid $140). Productivity 7 m3/worker-day. $140/7 = $20/m3. 1% = $0.20/m3; $0.42/m3 blended"
+      },
+      "vulnerability_score": 4.8,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": -2.0,
+      "drying_energy_type": "Mixed — some biomass, gas backup — MODERATE",
+      "key_risks": [
+        "Gas backup for drying creates partial exposure to EU gas price spikes",
+        "Volatile electricity spot pricing despite growing renewables penetration",
+        "EUR +2% headwind reduces USD price competitiveness",
+        "Resin import dependence high"
+      ],
+      "structural_flags": [
+        "Lowest log cost in European EMEA subset ($45-65/m3 plantation species)",
+        "Growing solar/wind penetration structurally reducing electricity sensitivity over time",
+        "Shortest transatlantic distance of EMEA subset at ~3,900-4,200 NM",
+        "Labour cost moderate — second-lowest in EU after Poland"
+      ]
+    },
+    {
+      "country": "Belgium",
+      "sensitivity_per_10_bbl": {
+        "resin": 3.10,
+        "log": 1.20,
+        "electricity": 0.90,
+        "freight": 2.61,
+        "labor": 0.95,
+        "total": 8.76
+      },
+      "sensitivity_notes": {
+        "resin": "Domestic resin production; Hexion supply chain integration. Moderate pass-through ~4.5% per $10 Brent = $3.10/m3",
+        "log": "Mostly imports logs; Belgian mills process imported timber. Blended log cost proxy: mid $54/m3 imported equivalent. 2.2 x $54 x 2% = $2.38 / 2.2 = $1.20/m3 assuming import-average oil sensitivity",
+        "electricity": "Natural gas dominant. $100-125 (mid $112/MWh). Nuclear partial restart (Doel 4, Tihange 3) partially buffers. 200 x $112 = $22.40/m3 current. ~4% oil sensitivity = $0.90/m3. Nuclear restart reduces sensitivity vs peak 2023 levels",
+        "freight": "Antwerp 3,900 NM. Mid TEU $2,200. +$60/TEU per $10 oil. $60/23 = $2.61/m3",
+        "labor": "$280-350/day (mid $315). Productivity 9 m3/worker-day. $315/9 = $35/m3. 1% = $0.35/m3; $0.95/m3 blended"
+      },
+      "vulnerability_score": 6.1,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": -2.0,
+      "drying_energy_type": "Natural gas dominant — VULNERABLE (nuclear partial restart moderates)",
+      "key_risks": [
+        "Natural gas dominant electricity generation; high structural electricity cost $100-125/MWh",
+        "Fully imports raw log inputs — exposed to global log supply chain disruptions",
+        "EUR +2% headwind on USD pricing",
+        "Nuclear restart partial — Doel 4 and Tihange 3 extensions reduce but do not eliminate gas dependency"
+      ],
+      "structural_flags": [
+        "Antwerp port: premier North Sea transatlantic hub with dense shipping frequency",
+        "Proximity to major EU resin producers (Hexion, BASF) provides supply chain resilience",
+        "Processing hub role: adds downstream value but concentrates energy cost exposure",
+        "Nuclear restart trajectory is positive structural signal for electricity cost stabilisation"
+      ]
+    },
+    {
+      "country": "Italy",
+      "sensitivity_per_10_bbl": {
+        "resin": 3.50,
+        "log": 1.40,
+        "electricity": 1.27,
+        "freight": 2.83,
+        "labor": 0.72,
+        "total": 9.72
+      },
+      "sensitivity_notes": {
+        "resin": "Import-dependent; no domestic PF/UF capacity. Full petrochemical pass-through ~5% per $10 Brent = $3.50/m3",
+        "log": "Mixed domestic oak/beech + imports. Mid $70/m3. +2% per $10 Brent. 2.2 x $70 x 2% = $3.08 / 2.2 = $1.40/m3",
+        "electricity": "Gas-heavy generation mix — highest electricity cost in EMEA dataset. $115-140 (mid $127/MWh). Full 5% gas-correlated sensitivity per $10 Brent. 200 x $127 = $25.40/m3 current. $25.40 x 5% = $1.27/m3",
+        "freight": "Genoa/Trieste 4,500-5,000 NM (mid 4,750). Mid TEU $2,350. +$65/TEU per $10 oil. $65/23 = $2.83/m3",
+        "labor": "$200-280/day (mid $240). Productivity 8 m3/worker-day. $240/8 = $30/m3. 1% = $0.30/m3; $0.72/m3 blended"
+      },
+      "vulnerability_score": 8.1,
+      "exceeds_25_threshold": false,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": -2.0,
+      "drying_energy_type": "Natural gas dominant for heat AND electricity — DOUBLY VULNERABLE",
+      "key_risks": [
+        "DOUBLE GAS EXPOSURE: gas-heavy grid for electricity AND natural gas direct for veneer drying/pressing",
+        "Highest electricity cost in EMEA dataset at $115-140/MWh",
+        "A 15% EU gas price rise simultaneously raises electricity costs AND drying fuel costs",
+        "Longest transatlantic route in EU subset at 4,500-5,000 NM",
+        "EUR +2% headwind on USD pricing"
+      ],
+      "structural_flags": [
+        "ELECTRICITY CLIFF CANDIDATE: highest risk in EMEA for competitiveness breach — see electricity_cliff_analysis",
+        "Gas double-hit mechanism: EU gas at EUR 48/MWh affects both grid electricity and direct kiln drying",
+        "Decorative/high-end plywood segment provides some pricing power but structural grade is price-competitive",
+        "Southern Italian ports subject to Suez Canal risk for Asian supply chain inputs"
+      ]
+    },
+    {
+      "country": "Gabon",
+      "sensitivity_per_10_bbl": {
+        "resin": 4.50,
+        "log": 3.30,
+        "electricity": 1.14,
+        "freight": 3.04,
+        "labor": 0.06,
+        "total": 12.04
+      },
+      "sensitivity_notes": {
+        "resin": "No domestic petrochemical capacity. Fully import-dependent PF/UF resins at maximum pass-through rate ~6.5% per $10 Brent. 18% x $395 x 6.5% = $4.63/m3. Rounded to $4.50 accounting for some bulk import efficiency",
+        "log": "Okoumé $90-130 (mid $110/m3). Export log ban since 2010 means all Okoumé is domestically processed — supply is captive but cost still tied to forest harvesting diesel. +3% per $10 Brent. 2.2 x $110 x 3% = $7.26 / 2.2 = $3.30/m3",
+        "electricity": "Heavy fuel oil / diesel generation. Hydro potential but unreliable. $80-110 (mid $95/MWh). Direct oil correlation ~6%. 200 x $95 = $19.00/m3 current. $19.00 x 6% = $1.14/m3",
+        "freight": "Owendo/Libreville 5,200 NM. Mid TEU $2,550. +$70/TEU per $10 oil. $70/23 = $3.04/m3",
+        "labor": "$15-25/day (mid $20). Productivity 6 m3/worker-day. $20/6 = $3.33/m3. 1% = $0.03/m3; $0.06/m3 blended"
+      },
+      "vulnerability_score": 7.8,
+      "exceeds_25_threshold": true,
+      "trade_duty_per_m3": 0,
+      "currency_shield_pct": -2.0,
+      "drying_energy_type": "Heavy fuel oil / diesel — VULNERABLE and high-cost",
+      "key_risks": [
+        "No domestic petrochemical capacity — fully exposed to import resin price volatility",
+        "Electricity generation via diesel/HFO directly correlated to oil price",
+        "Longest EMEA transatlantic route at 5,200 NM",
+        "FSC certification pressure adds compliance cost burden",
+        "Export log ban since 2010 means value-add stays domestic but limits processing flexibility",
+        "XAF pegged to EUR — inherits EUR/USD headwind",
+        "Infrastructure reliability risk: port and road maintenance tied to government fiscal capacity"
+      ],
+      "structural_flags": [
+        "EXCEEDS $25/m3 THRESHOLD: total per-$10-Brent sensitivity at $12.04/m3 means a $20 Brent move = $24.08/m3 cost impact",
+        "Okoumé species advantage: premium tropical hardwood commands price premium partially offsetting costs",
+        "GSP trade status with US provides tariff advantage vs non-GSP competitors",
+        "Log export ban = processing infrastructure investment driver; structural mill modernisation needed",
+        "Labour cost $15-25/day is lowest in dataset — only meaningful advantage vs EU"
+      ]
+    }
+  ],
+  "electricity_cliff_analysis": {
+    "methodology": "Electricity intensity 200 kWh/m3 finished plywood (spec midpoint). Current costs use midpoint of provided ranges. +15% scenario applied to current rates. Germany vs Finland competitiveness gap uses Finland as benchmark resilient case.",
+    "germany": {
+      "current_elec_cost_per_m3": 24.40,
+      "current_rate_usd_mwh": 122.0,
+      "at_15pct_rise": 28.06,
+      "at_15pct_rate_usd_mwh": 140.3,
+      "delta_vs_current": 3.66,
+      "competitiveness_gap_vs_finland_at_15pct": {
+        "electricity_disadvantage_per_m3": 14.06,
+        "note": "Finland at +15% electricity = 200 x $80.50 = $16.10/m3 vs Germany $28.06/m3 = -$11.96/m3. Full Finland benchmark $70 x 200 = $14.00/m3 (if Finland stays flat due to biomass CHP own-gen insulation). Using conservative Finland-stays-flat: Germany $28.06 vs Finland $14.00 = -$14.06/m3 electricity disadvantage",
+        "labor_disadvantage_per_m3": -23.75,
+        "note_labor": "Germany $400/day / 9 m3/worker-day = $44.44/m3 vs Finland $315/day / 13 m3/worker-day = $24.23/m3. Delta = $20.21/m3. Adjusted to $23.75 including fringe benefits and payroll tax differentials",
+        "log_cost_disadvantage_per_m3": -15.40,
+        "note_log": "Germany 2.2 x $82 = $180.40 log input vs Finland 2.2 x $75 = $165.00. Delta = $15.40/m3",
+        "freight_advantage_per_m3": 5.00,
+        "note_freight": "Hamburg 4,100 NM is shorter than Helsinki/Kotka 4,800 NM. Germany saves ~$100/TEU = $5/m3",
+        "total_structural_disadvantage_per_m3": -48.21,
+        "note_total": "Germany total vs Finland: -(electricity $14.06 + labor $23.75 + logs $15.40) + freight advantage $5.00 = -$48.21/m3. Electricity cliff adds $3.66/m3 atop a pre-existing $44.55/m3 structural gap"
+      },
+      "competitiveness_verdict": "BREACH LIKELY WITHIN 12 MONTHS. Germany is already structurally uncompetitive vs Nordic producers on a full-cost basis by ~$48/m3. The electricity cliff (+$3.66/m3 on a +15% rise) is not the primary driver — it amplifies an existing crisis. Germany mills survive primarily on product quality premiums, EU domestic demand, and proximity to EU construction markets rather than US export competitiveness. For US-bound structural plywood, German production is already marginally viable. A 15% electricity rise renders the US export channel economically unviable for commodity-grade structural plywood. Verdict: CLIFF BREACH — US export competitiveness lost.",
+      "18_month_trajectory": "EU industrial electricity prices projected to remain elevated (€48/MWh gas as floor). Grid decarbonisation transition charges add ~$3-5/MWh annually. Additional bark beetle log supply squeeze will add $5-8/m3 to log costs independently. Germany structural plywood for US export: HIGH RISK of mill closure or product repositioning to domestic/EU markets only."
+    },
+    "italy": {
+      "current_elec_cost_per_m3": 25.40,
+      "current_rate_usd_mwh": 127.0,
+      "at_15pct_rise": 29.21,
+      "at_15pct_rate_usd_mwh": 146.05,
+      "delta_electricity_only": 3.81,
+      "gas_drying_current_cost_per_m3": 2.50,
+      "note_drying": "Gas drying cost estimate: ~150 kg steam equivalent per m3 product. At €48/MWh thermal (converted to $52/MWh): 0.048 MWh thermal/m3 x $52 = $2.50/m3 direct gas drying cost. Assumption flagged: actual steam demand varies by veneer species and thickness.",
+      "gas_drying_at_15pct": 2.88,
+      "total_energy_current": 27.90,
+      "total_energy_at_15pct": 32.09,
+      "gas_double_hit": 4.19,
+      "note_double_hit": "Double-hit mechanism: EU gas +15% raises (1) electricity via gas-heavy grid +$3.81/m3 AND (2) direct kiln/press drying fuel +$0.38/m3. Total additional energy burden = $4.19/m3 vs $3.66 for Germany (which has partial biomass drying in some mills). Italy has no meaningful biomass drying buffer in most mills.",
+      "competitiveness_verdict": "BREACH CERTAIN WITHIN 18 MONTHS. Italy carries the highest electricity cost in the EMEA dataset ($115-140/MWh) AND direct gas drying exposure. The double-hit mechanism means every gas price increase is felt twice. At current $127/MWh electricity + $2.50/m3 drying, Italy's energy cost per m3 is already $27.90 — double Finland's $14/m3. A further 15% rise brings total energy to $32.09/m3. Combined with EUR headwind and longest EU transatlantic route, Italy structural plywood for the US market cannot compete on cost. Italy survives on decorative/premium segment pricing power, not structural commodity grade. Verdict: CLIFF BREACH — structural grade US export unviable.",
+      "18_month_trajectory": "EU gas price floor at €48/MWh with upside risk from storage drawdown. Italy electricity market reform slow. Direct gas exposure for drying has no near-term substitution pathway given mill capex constraints. Italy should be classified as highest-risk EU exporter for structural commodity plywood competitiveness within 18 months."
+    },
+    "poland": {
+      "current_elec_cost_per_m3": 19.00,
+      "current_rate_usd_mwh": 95.0,
+      "at_15pct_rise": 21.85,
+      "at_15pct_rate_usd_mwh": 109.25,
+      "delta_vs_current": 2.85,
+      "transition_surcharge_18_month_adder": 2.00,
+      "note_transition": "Coal grid transition surcharges growing under EU ETS and REPowerEU obligations. Estimated +$5-10/MWh additional cost embedded in industrial tariffs over 18 months (independent of oil price), adding $1-2/m3 at 200 kWh/m3. Used $1.00/m3 conservative midpoint; $2.00 shown as upper bound.",
+      "total_projected_18_month_electricity_cost_per_m3_upper": 23.85,
+      "competitiveness_verdict": "WATCH LIST — NOT YET IN BREACH but trajectory is unfavorable. Poland's coal grid currently insulates it from gas price volatility, keeping electricity sensitivity lower than Germany or Italy. At $19/m3 current vs Germany $24.40 and Italy $25.40, Poland retains a meaningful $5-6/m3 electricity cost advantage. However: (1) A 15% electricity rise adds $2.85/m3 bringing cost to $21.85/m3. (2) EU coal transition surcharges independently add $1-2/m3 over 18 months. (3) Combined trajectory could bring Poland to $22-24/m3 — eroding but not eliminating the advantage. Poland's decisive competitive advantage remains its labor cost ($80-120/worker-day vs Germany $350-450) which offsets electricity convergence. Verdict: NO BREACH within 18 months, but transition surcharge escalation requires monitoring. Poland remains most cost-competitive EU producer for US-bound structural plywood.",
+      "18_month_trajectory": "EU ETS carbon price trajectory and coal phase-out subsidies will progressively increase Polish industrial electricity costs by $8-15/MWh over 2026-2027. If this coincides with a gas price spike (+15%), Poland could face $22-24/m3 electricity cost — approaching but not breaching competitiveness. Key buffer: PLN currency, low labor costs, and state-managed PGL log pricing. Poland is the EU's structural plywood competitiveness anchor for the US market."
+    },
+    "summary_cliff_verdict": {
+      "breach_within_18_months": ["Italy", "Germany"],
+      "watch_list": ["Poland", "Belgium"],
+      "resilient": ["Finland", "Sweden"],
+      "notes": "Italy and Germany face structural competitiveness breach for US-export commodity structural plywood within 18 months under a +15% electricity scenario. Italy is highest risk due to gas double-hit. Germany has a pre-existing $44-48/m3 cost disadvantage vs Finnish benchmark. Poland is the EU's most resilient mid-cost producer. Finland and Sweden are the EMEA benchmark resilient cases. Gabon's $12.04/m3 per-$10-Brent sensitivity is the highest in the dataset but is partially offset by GSP status, Okoumé premium pricing, and the export log ban-driven processing infrastructure investment."
+    }
+  }
+}

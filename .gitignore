@@ -1,4 +1,19 @@
 
+# Dependencies
+node_modules
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# API response cache (fetched data should not be committed)
+data/raw/
+
+# Logs
+*.log
+npm-debug.log*
+
 # Claude Flow runtime files
 .claude-flow/daemon.log
 .claude-flow/daemon.pid
@@ -10,4 +25,3 @@
 
 # Local Claude settings (machine-specific)
 .claude/settings.local.json
-node_modules

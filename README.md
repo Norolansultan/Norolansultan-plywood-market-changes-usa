@@ -1,67 +1,139 @@
-US Plywood Market Intelligence System
-A BI platform that automates collection and analysis of macroeconomic, trade, pricing, and regulatory data for the US plywood industry. Built with Power Query, Power Pivot, and DAX — designed to run on any corporate laptop with zero licensing costs.
-Full design rationale and architecture details are in specs/.
+# US Plywood Market Intelligence System
 
-Folder Structure
-plywood-market-intel/
-├── specs/                          # Design documents & strategic context
-│   ├── design-document.docx        # Full architecture, decision framework, DAX examples
-│   ├── portfolio-page.html         # Self-contained interactive overview (open in browser)
-│   └── data-dictionary.md          # KPI definitions, source mappings, refresh schedules
-│
-├── src/                            # Implementation code
-│   ├── power-query/                # M-language scripts for data acquisition
-│   │   ├── fred-api.pq             # FRED REST API connector (housing, PPI, rates)
-│   │   ├── usitc-imports.pq        # USITC DataWeb import volume pipeline
-│   │   ├── exchange-rates.pq       # Daily FX rates (CAD, CLP, BRL, MXN, IDR)
-│   │   └── scraper-canada-chile.pq # NRC and INFOR report parsers
-│   │
-│   ├── dax/                        # DAX measures and calculated columns
-│   │   ├── trend-measures.dax      # YoY growth, rolling averages, seasonal decomposition
-│   │   ├── pricing-engine.dax      # Currency conversion, RPI, competitive benchmarking
-│   │   ├── scenario-models.dax     # Interest rate, currency shock, tariff impact models
-│   │   └── health-score.dax        # Composite Market Health Score (0-100)
-│   │
-│   ├── data-quality/               # Governance and validation logic
-│   │   ├── freshness-checks.pq     # Staleness detection per source
-│   │   ├── validation-rules.pq     # Cross-validation and threshold alerts
-│   │   └── audit-log.pq            # Refresh timestamps, row counts, pass/fail
-│   │
-│   └── dashboards/                 # Excel dashboard files
-│       ├── executive-view.xlsx     # Market Health Score, KPI cards, 12-month outlook
-│       ├── procurement-view.xlsx   # RPI by country, buy/hold/wait signals
-│       └── strategic-view.xlsx     # Scenario tools, regional breakdowns, substitution analysis
-│
-└── README.md
-Why specs/ and src/ are separated: The specs/ folder is the strategic layer — it documents what the system should do and why. The src/ folder is the implementation layer — how it does it. This separation means the design rationale survives independently of the code. If the platform migrates from Excel to Power BI or Tableau, specs/ stays intact and src/ gets rebuilt.
+Automated BI platform analyzing how war, energy disruptions, and trade policy
+affect plywood export costs to the United States across 20 nations. Tracks Brent
+crude, container freight rates, FX movements, electricity tariffs, and log prices
+to build delivered-cost (CIF) estimates for both US East Coast (Savannah) and
+West Coast (Long Beach).
 
-Prerequisites
+Live dashboards: <https://norolansultan.github.io/Norolansultan-plywood-market-changes-usa/>
 
-Microsoft Excel 2016+ (or Microsoft 365) with Power Query and Power Pivot enabled
-A free FRED API key — register at fred.stlouisfed.org/docs/api
-Internet access for API calls and web scraping on refresh
+## Architecture
 
-etup
+```
+Free APIs (EIA, FRED, OXR, World Bank)
+  |
+  v
+src/pipeline/fetch.js        Ingest live Brent, FX, EU gas prices
+  |
+  v
+data/manual-overrides.json   Fill gaps where no free API exists
+  |
+  v
+src/pipeline/proxy.js        Derive estimates (resin, log, electricity, freight)
+  |                           from oil price delta and country-specific elasticities
+  v
+src/pipeline/calculate.js    Build dual-coast CIF, vulnerability scores,
+  |                           sensitivity breakdowns per country
+  v
+src/pipeline/validate.js     Schema and arithmetic validation
+  |
+  v
+scripts/run-pipeline.js      Orchestrator: fetch -> proxy -> calculate -> validate
+  |
+  v
+data/pipeline-output.json    Structured JSON for all 20 countries
+  |
+  v
+scripts/build.js             Inject data into HTML templates
+  |
+  v
+dist/*.html                  Static dashboards served via GitHub Pages
+```
 
-Clone the repo
+## Dashboards
 
-bash   git clone https://github.com/your-username/plywood-market-intel.git
+| File | Purpose |
+|------|---------|
+| `dashboard.html` | Core market analytics -- CIF breakdown, duty rates, historical trends |
+| `executive-summary.html` | One-page management briefing with key risk indicators |
+| `inflation-risk.html` | Supply chain risk heatmap and forward-cost projections |
+| `sensitivity-dashboard.html` | Dual-coast CIF comparison with interactive oil price simulator |
 
-Configure the FRED API key
-Open any .pq file in src/power-query/ and replace the placeholder YOUR_API_KEY with your FRED key. This is referenced by all FRED-connected queries.
-Import Power Query scripts
-In Excel, go to Data → Get Data → From Other Sources → Blank Query → Advanced Editor, then paste the contents of each .pq file. Repeat for all connectors in src/power-query/.
-Load DAX measures
-In Power Pivot, open the measure editor and add the measures from each .dax file in src/dax/. Start with pricing-engine.dax (other measures depend on it).
-Set up data quality checks
-Import the three scripts from src/data-quality/ as additional Power Query connections. These run on every refresh and write to the audit log table.
-Refresh all connections
-Data → Refresh All. First run pulls historical data and may take 2–3 minutes. Subsequent refreshes are incremental.
+## Data Pipeline
 
+```bash
+npm run pipeline              # Full: fetch APIs + calculate + validate
+npm run pipeline:calculate    # Calculate only (no API keys needed, uses cached/overrides)
+npm run pipeline:full         # Pipeline + rebuild dashboards
+npm run build                 # Rebuild HTML from existing pipeline-output.json
+```
 
-Usage
-Daily workflow: Open any dashboard file in src/dashboards/ and hit Refresh All. The data quality layer validates every source automatically — stale or suspect data surfaces as amber/red indicators on the dashboard.
-Scenario modeling: In the Strategic View (strategic-view.xlsx), use the slicer panel to select a scenario type (interest rate shock, currency move, or tariff change), set the input parameters, and the DAX models recalculate projected impacts across all affected KPIs.
-Adding a new data source: Write the Power Query connector in src/power-query/, add corresponding DAX measures in src/dax/, then update specs/data-dictionary.md. Before adding any metric, verify it passes the Decision Framework test: if it doesn't connect to a specific business decision, it's deferred.
+The pipeline can run without API keys by using `--calculate-only` mode, which
+derives all estimates from `data/manual-overrides.json` and cached fetch results.
 
-See specs/design-document.docx for the full architecture, decision framework, and implementation plan.
+## API Keys Setup
+
+Copy `.env.example` to `.env` and fill in free API keys:
+
+| Key | Source | Registration |
+|-----|--------|-------------|
+| `EIA_API_KEY` | Brent crude spot price | <https://www.eia.gov/opendata/register.php> |
+| `FRED_API_KEY` | FX rates (CAD, EUR, BRL, SEK, PLN) | <https://fred.stlouisfed.org/docs/api/api_key.html> |
+| `OXR_APP_ID` | FX rates (VND, IDR, MYR, CLP, THB, etc.) | <https://openexchangerates.org/signup/free> |
+
+All APIs are free tier. No paid subscriptions required.
+
+## Countries Covered (20)
+
+**Alpha Asia (6):** Indonesia, Vietnam, Cambodia, Malaysia, Thailand, Taiwan
+
+**Beta Americas (6):** Canada, Chile, Brazil, Uruguay, Ecuador, Paraguay
+
+**Gamma EMEA (8):** Finland, Sweden, Germany, Poland, Italy, Spain, Belgium, Gabon
+
+## Key Metrics
+
+- **Dual-coast CIF** -- East Coast (Savannah) and West Coast (Long Beach) delivered cost per m3
+- **Sensitivity per $10 Brent rise** -- component-level USD/m3 impact (freight, resin, log, electricity)
+- **Vulnerability score** -- 0-10 weighted composite (freight 20%, resin 20%, electricity 20%, log 20%, labor 10%, FX 10%)
+- **Breakeven oil price** -- price at which one origin becomes cheaper than another (e.g., Indonesia vs Canada)
+- **Electricity cliff analysis** -- identifies countries where gas-to-power costs spike non-linearly (Germany, Italy, Cambodia)
+
+## Project Structure
+
+```
+├── config/
+│   ├── data-sources.json          # API endpoints, cadences, field mappings
+│   ├── monitoring-config.json     # Alert thresholds for re-analysis triggers
+│   └── swarm-output-schema.json   # Expected output format for analysis files
+├── data/
+│   ├── manual-overrides.json      # Freight rates, log prices, labor costs (manual entry)
+│   ├── pipeline-output.json       # Calculated output for all 20 countries
+│   ├── alpha_asia_analysis.json   # Swarm analysis: Asia region detail
+│   ├── beta_americas_analysis.json
+│   ├── gamma_emea_analysis.json
+│   ├── sensitivity_analysis_2026.json
+│   ├── Inflation_multiplier_on_country_level.csv
+│   ├── plywood_market_data.csv    # Raw USITC import data (wide format)
+│   └── raw/                       # Cached API fetch results
+├── dist/                          # Built dashboards (GitHub Pages deployment)
+├── scripts/
+│   ├── build.js                   # HTML data injection
+│   └── run-pipeline.js            # Pipeline orchestrator
+├── specs/
+│   ├── architecture.md            # System architecture document
+│   └── USA_Market_*_agent.md      # Agent specifications per dashboard
+└── src/
+    ├── pipeline/
+    │   ├── fetch.js               # API data ingestion (EIA, FRED, OXR, World Bank)
+    │   ├── proxy.js               # Derived cost estimates from oil price elasticity
+    │   ├── calculate.js           # CIF assembly, vulnerability scoring
+    │   └── validate.js            # Schema and arithmetic checks
+    ├── dashboard.html             # Template: core analytics
+    ├── executive-summary.html     # Template: management briefing
+    ├── inflation-risk.html        # Template: risk heatmap
+    └── sensitivity-dashboard.html # Template: dual-coast simulator
+```
+
+## Tech Stack
+
+- **Runtime:** Node.js (CommonJS)
+- **Visualization:** Chart.js (CDN)
+- **Frameworks:** None -- pure vanilla JavaScript and HTML
+- **Hosting:** GitHub Pages (static)
+- **APIs:** EIA, FRED, Open Exchange Rates, World Bank (all free tier)
+
+## License
+
+ISC

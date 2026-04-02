@@ -1,0 +1,993 @@
+{
+  "metadata": {
+    "analysis_date": "2026-04-02",
+    "brent_baseline": 92,
+    "product_unit": "18mm structural plywood 1220x2440mm CIF US port",
+    "analyst": "Global Timber Intelligence Swarm — Queen Coordinator synthesis",
+    "data_vintage": "Q1 2026 indicative",
+    "assumptions": [
+      "23 m³ per TEU (standard for 18mm sheets, 1220×2440)",
+      "0.25 MWh electricity consumption per m³ finished plywood (industry average)",
+      "Resin/adhesive represents 17% of production COGS at $92/bbl baseline",
+      "Canadian Eastern mill labor: 200 workers, 250 days/year, 150,000 m³/year = $80/m³ effective",
+      "Indonesian/Vietnamese mill labor: 2 effective worker-days/m³ at $10–12/day = $20–24/m³",
+      "80% automation assumption for Indonesia per brief — reduces effective labor to ~$8/m³",
+      "VND depreciation (-6% YTD) applied only to domestic cost component (~$100/m³ non-traded input base)",
+      "BRL depreciation (-4% YTD) applied to domestic cost component (~$90/m³)",
+      "EUR appreciation (+2% YTD) is a minor headwind applied to EU domestic cost base",
+      "ADD duty for Vietnam: $22/m³ average (range $18–26/m³)",
+      "No ADD/CVD for Indonesia, Canada, Brazil, Uruguay, Chile, Finland at analysis date",
+      "Freight per m³ = spot TEU rate (mid) divided by 23 m³",
+      "Log price sensitivity per $10/bbl oil applied as midpoint of stated % range",
+      "Electricity sensitivity: 15% increase scenario applied to stated kWh/m³",
+      "Tropical log +20% shock applied to Indonesia ($65 mid), Malaysia ($95 mid), Gabon ($110 mid)",
+      "Eucalyptus/pine benchmark for Brazil ($47.50 mid) and Uruguay ($41.50 mid) held constant in log shock"
+    ]
+  },
+
+  "cost_build_at_92bbl": {
+    "note": "All figures USD/m³, CIF Savannah/US East Coast equivalent. Mid-range estimates used throughout.",
+    "indonesia": {
+      "log": 65.0,
+      "resin_adhesive": 12.0,
+      "electricity": 14.5,
+      "labor_net_automation": 8.0,
+      "freight_cif": 152.2,
+      "port_handling_misc": 15.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 266.7,
+      "freight_detail": "$3,500 mid TEU / 23 m³"
+    },
+    "vietnam": {
+      "log": 52.5,
+      "resin_adhesive": 11.5,
+      "electricity": 16.0,
+      "labor_net_automation": 10.0,
+      "freight_cif": 143.5,
+      "port_handling_misc": 14.0,
+      "add_duty": 22.0,
+      "fx_adjustment": -3.8,
+      "total_cif": 265.7,
+      "freight_detail": "$3,300 mid TEU / 23 m³; VND -6% saves ~$3.8/m³ on domestic inputs",
+      "note": "ADD duty converts a raw-cost advantage into near-parity with Indonesia"
+    },
+    "canada_qc": {
+      "log": 75.0,
+      "resin_adhesive": 10.0,
+      "electricity": 11.75,
+      "labor_net_automation": 80.0,
+      "freight_cif": 58.7,
+      "port_handling_misc": 12.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 247.5,
+      "freight_detail": "$1,350 mid TEU / 23 m³; CAD -1% YTD (negligible)",
+      "note": "Lowest CIF in analysis despite highest labor — labor efficiency at scale and short freight are decisive"
+    },
+    "canada_bc": {
+      "log": 75.0,
+      "resin_adhesive": 10.0,
+      "electricity": 11.75,
+      "labor_net_automation": 78.0,
+      "freight_cif": 47.8,
+      "port_handling_misc": 12.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 234.5,
+      "freight_detail": "$1,100 mid TEU WC / 23 m³",
+      "note": "BC/Vancouver to US West Coast is the cheapest lane in the dataset"
+    },
+    "brazil": {
+      "log": 47.5,
+      "resin_adhesive": 9.5,
+      "electricity": 12.0,
+      "labor_net_automation": 25.0,
+      "freight_cif": 97.8,
+      "port_handling_misc": 13.0,
+      "add_duty": 0.0,
+      "fx_adjustment": -3.5,
+      "total_cif": 201.3,
+      "freight_detail": "$2,250 mid TEU / 23 m³; BRL -4% saves ~$3.5/m³",
+      "note": "Lowest CIF in entire dataset — eucalyptus/pine economics and hydro power compelling"
+    },
+    "uruguay": {
+      "log": 41.5,
+      "resin_adhesive": 9.0,
+      "electricity": 11.5,
+      "labor_net_automation": 30.0,
+      "freight_cif": 87.0,
+      "port_handling_misc": 13.0,
+      "add_duty": 0.0,
+      "fx_adjustment": -2.0,
+      "total_cif": 190.0,
+      "freight_detail": "$2,000 mid TEU / 23 m³; UYU modest depreciation",
+      "note": "Best-in-class CIF driven by lowest log costs, hydro electricity, short Atlantic freight — confirmed hidden winner"
+    },
+    "chile": {
+      "log": 60.0,
+      "resin_adhesive": 10.0,
+      "electricity": 19.0,
+      "labor_net_automation": 35.0,
+      "freight_cif": 95.7,
+      "port_handling_misc": 13.0,
+      "add_duty": 0.0,
+      "fx_adjustment": -2.0,
+      "total_cif": 230.7,
+      "freight_detail": "$2,200 mid TEU / 23 m³; electricity $90 mid MWh is the key weakness"
+    },
+    "finland": {
+      "log": 75.0,
+      "resin_adhesive": 10.5,
+      "electricity": 14.5,
+      "labor_net_automation": 95.0,
+      "freight_cif": 104.3,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 2.5,
+      "total_cif": 315.8,
+      "freight_detail": "$2,400 mid TEU / 23 m³; EUR +2% adds ~$2.5/m³ headwind",
+      "note": "High labor cost and EUR headwind limit competitiveness for commodity structural plywood"
+    },
+    "germany": {
+      "log": 82.5,
+      "resin_adhesive": 12.0,
+      "electricity": 25.5,
+      "labor_net_automation": 110.0,
+      "freight_cif": 104.3,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 3.0,
+      "total_cif": 351.3,
+      "freight_detail": "$2,400 mid TEU / 23 m³; electricity $122.50 mid × 0.25 MWh/m³ = $30.6 less 17% for non-electric costs",
+      "note": "Highest CIF — electricity costs at $122.50/MWh are the primary structural vulnerability"
+    },
+    "cambodia": {
+      "log": 47.5,
+      "resin_adhesive": 10.5,
+      "electricity": 22.5,
+      "labor_net_automation": 6.0,
+      "freight_cif": 160.9,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 261.4,
+      "freight_detail": "$3,700 mid TEU / 23 m³; $105 mid MWh × 0.25 = $26.25/m³ electricity",
+      "note": "Cheap labor and logs undercut by highest freight exposure and electricity costs in SE Asia"
+    },
+    "malaysia": {
+      "log": 95.0,
+      "resin_adhesive": 11.5,
+      "electricity": 13.5,
+      "labor_net_automation": 18.0,
+      "freight_cif": 139.1,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 291.1,
+      "freight_detail": "$3,200 mid TEU / 23 m³"
+    },
+    "gabon": {
+      "log": 110.0,
+      "resin_adhesive": 11.0,
+      "electricity": 20.0,
+      "labor_net_automation": 15.0,
+      "freight_cif": 113.0,
+      "port_handling_misc": 15.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 284.0,
+      "freight_detail": "$2,600 mid TEU / 23 m³; okoumé log premium limits competitiveness"
+    }
+  },
+
+  "cost_build_at_92bbl_west_coast": {
+    "note": "All figures USD/m³, CIF Long Beach/US West Coast equivalent. Production costs identical to East Coast builds — only freight changes. TEU rates estimated using distance ratio (WC NM / EC NM) applied to EC spot rates, validated against FBX11 (Asia-USWC) market range. Asian routes are DIRECT TRANSPACIFIC — no Panama Canal transit needed. Americas routes to WC require Panama Canal transit (surcharge ~$200/TEU added).",
+    "methodology": {
+      "teu_rate_estimation": "WC_TEU = EC_TEU × (NM_to_Long_Beach / NM_to_Savannah), cross-checked against Freightos FBX11 route index range. Asian direct transpacific avoids canal surcharges.",
+      "sensitivity_estimation": "Freight sensitivity per $10 Brent scales with distance: WC_sensitivity = EC_sensitivity × (NM_WC / NM_EC). Non-freight components (resin, log, electricity, labor) unchanged.",
+      "panama_surcharge": "$200/TEU added for South American routes that must transit Panama Canal to reach US West Coast.",
+      "emea_exclusion": "European and Gabon routes to US West Coast would require Panama Canal transit adding 7,000-9,000 NM. These routes are economically unviable for commodity plywood and are excluded."
+    },
+    "indonesia": {
+      "log": 65.0,
+      "resin_adhesive": 12.0,
+      "electricity": 14.5,
+      "labor_net_automation": 8.0,
+      "freight_cif": 104.3,
+      "port_handling_misc": 15.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 218.8,
+      "freight_detail": "Surabaya → Long Beach 8,200 NM. $3,500 EC × (8200/11800) = $2,432. Market-adjusted mid $2,400/TEU. $2,400 / 23 m³ = $104.3/m³. Direct transpacific, no canal.",
+      "savings_vs_east_coast": 47.9,
+      "note": "Indonesia is $15.7/m³ CHEAPER than Canada BC ($234.5) on West Coast delivery. This reverses the East Coast finding where Canada was $19.2 cheaper."
+    },
+    "vietnam": {
+      "log": 52.5,
+      "resin_adhesive": 11.5,
+      "electricity": 16.0,
+      "labor_net_automation": 10.0,
+      "freight_cif": 102.2,
+      "port_handling_misc": 14.0,
+      "add_duty": 22.0,
+      "fx_adjustment": -3.8,
+      "total_cif": 224.4,
+      "freight_detail": "HCMC → Long Beach 8,600 NM. $3,300 EC × (8600/12100) = $2,347. Mid $2,350/TEU. $2,350 / 23 = $102.2/m³. Direct transpacific.",
+      "savings_vs_east_coast": 41.3,
+      "note": "Vietnam WC CIF still burdened by $22/m³ ADD. But $224.4 is now $10.1 cheaper than Canada BC ($234.5). ADD is the decisive factor — without it, Vietnam WC CIF would be ~$202."
+    },
+    "cambodia": {
+      "log": 47.5,
+      "resin_adhesive": 10.5,
+      "electricity": 22.5,
+      "labor_net_automation": 6.0,
+      "freight_cif": 115.2,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 215.7,
+      "freight_detail": "Sihanoukville → Long Beach 8,900 NM. $3,700 EC × (8900/12400) = $2,656. Mid $2,650/TEU. $2,650 / 23 = $115.2/m³. Includes transshipment premium via Singapore/HCMC.",
+      "savings_vs_east_coast": 45.7,
+      "note": "Cambodia WC is cheapest Asian CIF at $215.7, but carries highest transshipment and ADD investigation risk."
+    },
+    "malaysia": {
+      "log": 95.0,
+      "resin_adhesive": 11.5,
+      "electricity": 13.5,
+      "labor_net_automation": 18.0,
+      "freight_cif": 96.7,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 248.7,
+      "freight_detail": "Port Klang → Long Beach 8,000 NM. $3,200 EC × (8000/11500) = $2,226. Mid $2,225/TEU. $2,225 / 23 = $96.7/m³. Hub port advantage.",
+      "savings_vs_east_coast": 42.4,
+      "note": "Malaysia WC CIF elevated by high tropical log prices ($95/m³ mid). Comparable to Canada BC despite much lower labor."
+    },
+    "thailand": {
+      "log": 37.5,
+      "resin_adhesive": 10.5,
+      "electricity": 13.5,
+      "labor_net_automation": 20.0,
+      "freight_cif": 103.5,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 199.0,
+      "freight_detail": "Laem Chabang → Long Beach 8,400 NM. $3,400 EC × (8400/12000) = $2,380. Mid $2,380/TEU. $2,380 / 23 = $103.5/m³. Major deep-water port.",
+      "savings_vs_east_coast_est": 45.0,
+      "note": "Thailand WC CIF is second-lowest in entire dataset after Uruguay EC ($190). Rubberwood at $37.5/m³ is the cheapest log input. Not in synthesis EC build — added here for completeness.",
+      "data_confidence": "medium — production costs estimated from Alpha swarm data, not independently verified for synthesis"
+    },
+    "taiwan": {
+      "log": 85.0,
+      "resin_adhesive": 12.0,
+      "electricity": 21.0,
+      "labor_net_automation": 100.0,
+      "freight_cif": 76.1,
+      "port_handling_misc": 14.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 308.1,
+      "freight_detail": "Kaohsiung → Long Beach 6,200 NM (shortest Asia-WC route). $3,100 EC × (6200/11000) = $1,747. Mid $1,750/TEU. $1,750 / 23 = $76.1/m³.",
+      "savings_vs_east_coast_est": 27.0,
+      "note": "Shortest Asian route to WC but high labor ($100/m³) and 100% imported logs ($85/m³) make Taiwan uncompetitive. Commodity plywood production is declining.",
+      "data_confidence": "medium — production costs from Alpha swarm"
+    },
+    "canada_bc": {
+      "log": 75.0,
+      "resin_adhesive": 10.0,
+      "electricity": 11.75,
+      "labor_net_automation": 78.0,
+      "freight_cif": 47.8,
+      "port_handling_misc": 12.0,
+      "add_duty": 0.0,
+      "fx_adjustment": 0.0,
+      "total_cif": 234.5,
+      "freight_detail": "Vancouver → US West Coast 900 NM. $1,100/TEU / 23 = $47.8/m³. Shortest lane in dataset.",
+      "note": "Unchanged from EC build — Canada BC is already a WC-optimized supplier."
+    },
+    "canada_qc": {
+      "total_cif": null,
+      "note": "Canada QC (Montreal) to US West Coast requires Panama Canal transit (~9,600 NM). Not a viable WC supply route. QC mills serve US East Coast exclusively."
+    },
+    "chile": {
+      "log": 60.0,
+      "resin_adhesive": 10.0,
+      "electricity": 19.0,
+      "labor_net_automation": 35.0,
+      "freight_cif": 108.7,
+      "port_handling_misc": 13.0,
+      "add_duty": 0.0,
+      "fx_adjustment": -2.0,
+      "total_cif": 243.7,
+      "freight_detail": "San Antonio → Long Beach 5,800 NM direct up Pacific coast (no canal needed). Mid $2,500/TEU. $2,500 / 23 = $108.7/m³.",
+      "savings_vs_east_coast": -13.0,
+      "note": "Chile WC is MORE expensive than EC ($243.7 vs $230.7) because the WC route is 700 NM longer. Chile's natural market is US East Coast via Panama."
+    },
+    "brazil": {
+      "log": 47.5,
+      "resin_adhesive": 9.5,
+      "electricity": 12.0,
+      "labor_net_automation": 25.0,
+      "freight_cif": 130.4,
+      "port_handling_misc": 13.0,
+      "add_duty": 0.0,
+      "fx_adjustment": -3.5,
+      "total_cif": 233.9,
+      "freight_detail": "Santos → Long Beach via Panama Canal 7,200 NM. Base TEU ~$2,800 + $200 Panama surcharge = $3,000/TEU. $3,000 / 23 = $130.4/m³.",
+      "savings_vs_east_coast": -32.6,
+      "note": "Brazil WC is $32.6/m³ MORE expensive than EC ($233.9 vs $201.3). Panama Canal transit adds distance + surcharge. Brazil's compelling cost advantage is ATLANTIC/EAST COAST ONLY."
+    },
+    "uruguay": {
+      "log": 41.5,
+      "resin_adhesive": 9.0,
+      "electricity": 11.5,
+      "labor_net_automation": 30.0,
+      "freight_cif": 114.1,
+      "port_handling_misc": 13.0,
+      "add_duty": 0.0,
+      "fx_adjustment": -2.0,
+      "total_cif": 217.1,
+      "freight_detail": "Montevideo → Long Beach via Panama Canal 7,400 NM. Base TEU ~$2,425 + $200 Panama surcharge = $2,625/TEU. $2,625 / 23 = $114.1/m³.",
+      "savings_vs_east_coast": -27.1,
+      "note": "Uruguay WC is $27.1/m³ more expensive than EC ($217.1 vs $190.0). Still competitive with Canada BC ($234.5) even via Panama, but the cost advantage narrows significantly vs. EC."
+    },
+    "emea_countries": {
+      "note": "Finland, Sweden, Germany, Poland, Italy, Spain, Belgium, and Gabon are EXCLUDED from West Coast builds. Routing via Panama Canal would add 7,000-9,000+ NM to already-long transatlantic distances, resulting in 12,000-16,000 NM total routes with TEU costs exceeding $5,000. These routes are economically unviable for commodity structural plywood."
+    }
+  },
+
+  "west_coast_rankings": {
+    "note": "CIF Long Beach/US West Coast at $92/bbl Brent. Only countries with viable WC routes included.",
+    "rankings": [
+      {"rank": 1, "country": "Thailand", "cif_wc": 199.0, "note": "Cheapest WC CIF — rubberwood log advantage + biomass drying. Not in EC synthesis, needs validation."},
+      {"rank": 2, "country": "Cambodia", "cif_wc": 215.7, "note": "Low labor offsets high electricity. HIGH risk: transshipment ADD investigation."},
+      {"rank": 3, "country": "Uruguay", "cif_wc": 217.1, "note": "Competitive even via Panama but $27/m³ more expensive than its own EC CIF ($190)."},
+      {"rank": 4, "country": "Indonesia", "cif_wc": 218.8, "note": "REVERSAL: Indonesia beats Canada BC by $15.7/m³ on WC. Key finding."},
+      {"rank": 5, "country": "Vietnam", "cif_wc": 224.4, "note": "ADD burden ($22/m³) still weighs. Without ADD, would be #2 at ~$202."},
+      {"rank": 6, "country": "Chile", "cif_wc": 230.7, "note": "Radiata Pine. WC route slightly more expensive than EC."},
+      {"rank": 7, "country": "Brazil", "cif_wc": 233.9, "note": "Panama transit erodes the EC cost advantage. Still viable but not dominant."},
+      {"rank": 8, "country": "Canada BC", "cif_wc": 234.5, "note": "Shortest route but highest labor. Beaten by 4 Asian + 2 South American suppliers."},
+      {"rank": 9, "country": "Malaysia", "cif_wc": 248.7, "note": "High tropical log prices ($95/m³) offset freight savings."},
+      {"rank": 10, "country": "Taiwan", "cif_wc": 308.1, "note": "High labor + 100% imported logs. Not competitive on commodity grade."}
+    ]
+  },
+
+  "west_coast_breakeven_analysis": {
+    "indonesia_vs_canada_bc_wc": {
+      "indonesia_cif_wc_at_92": 218.8,
+      "canada_bc_cif_wc_at_92": 234.5,
+      "gap_at_92bbl": -15.7,
+      "gap_direction": "Indonesia is CHEAPER by $15.7/m³ at $92/bbl on West Coast",
+      "indonesia_sensitivity_wc_per_10bbl": {
+        "freight": 3.17,
+        "resin": 2.30,
+        "log": 2.60,
+        "electricity": 0.90,
+        "labor": 0.20,
+        "total": 9.17,
+        "note": "WC freight sensitivity = EC $4.57 × (8200/11800) = $3.17. Other components unchanged from Alpha swarm."
+      },
+      "canada_bc_sensitivity_per_10bbl": {
+        "freight": 1.09,
+        "resin": 0.20,
+        "log": 1.13,
+        "electricity": 0.05,
+        "labor": 0.00,
+        "total": 2.47,
+        "note": "Vancouver-WC 900 NM. Minimal freight sensitivity. $25/TEU per $10 / 23 = $1.09/m³"
+      },
+      "net_differential_per_10bbl": 6.70,
+      "net_direction": "Canada BC gains $6.70/m³ per $10/bbl oil increase vs Indonesia WC",
+      "breakeven_calculation": {
+        "oil_rise_needed_from_92": 23.4,
+        "breakeven_brent": 115.4,
+        "range": "$112–120/bbl",
+        "formula": "Gap ($15.7) / Net differential ($6.70/m³ per $10) × $10 = $23.4 rise needed. $92 + $23.4 = $115.4",
+        "interpretation": "Indonesia remains cheaper than Canada BC on US West Coast until Brent reaches ~$115/bbl. This is $66/bbl HIGHER than the East Coast breakeven (~$49/bbl). The Pacific routing advantage fundamentally changes the competitive calculus for West Coast buyers."
+      }
+    },
+    "east_coast_vs_west_coast_summary": {
+      "finding": "The competitive landscape is ROUTE-DEPENDENT. The same country can be the best or worst option depending on destination coast.",
+      "east_coast_winner": "Uruguay ($190/m³) — Atlantic routing, hydro power, eucalyptus plantation",
+      "west_coast_winner": "Thailand ($199/m³) or Indonesia ($218.8/m³) — direct transpacific, biomass drying, low-cost logs",
+      "canada_position": "Canada QC dominates East Coast supply chain resilience ($247.5). Canada BC is competitive on West Coast ($234.5) but beaten on price by Asian producers until $115/bbl oil.",
+      "brazil_uruguay_position": "Dominant East Coast suppliers ($190-201/m³ EC). Lose 15-30% cost advantage on West Coast due to Panama Canal transit.",
+      "critical_implication": "The original analysis conclusion that 'Canada is cheaper than Indonesia at $92/bbl' is ONLY true for East Coast delivery. For West Coast delivery, Indonesia is $15.7/m³ cheaper than Canada BC and remains competitive until $115/bbl. US procurement strategy MUST be split by destination coast."
+    }
+  },
+
+  "west_coast_sensitivity_per_10bbl": {
+    "note": "Freight sensitivity scales with distance. WC_freight = EC_freight × (NM_WC / NM_EC). Non-freight components unchanged.",
+    "indonesia": {"freight_wc": 3.17, "total_wc": 9.17, "total_ec": 10.60, "savings": 1.43},
+    "vietnam": {"freight_wc": 3.09, "total_wc": 9.79, "total_ec": 11.00, "savings": 1.21},
+    "cambodia": {"freight_wc": 3.52, "total_wc": 11.87, "total_ec": 13.15, "savings": 1.28},
+    "malaysia": {"freight_wc": 2.71, "total_wc": 7.31, "total_ec": 8.60, "savings": 1.29},
+    "thailand": {"freight_wc": 3.05, "total_wc": 7.60, "total_ec": 8.85, "savings": 1.25},
+    "taiwan": {"freight_wc": 1.97, "total_wc": 11.67, "total_ec": 13.20, "savings": 1.53},
+    "canada_bc": {"freight_wc": 1.09, "total_wc": 2.47, "total_ec": 2.47, "savings": 0.00},
+    "chile": {"freight_wc": 3.04, "total_wc": 4.90, "total_ec": 4.61, "savings": -0.29, "note": "Chile WC sensitivity is HIGHER than EC — longer route to WC than EC"},
+    "brazil": {"freight_wc": 3.52, "total_wc": 5.62, "total_ec": 4.83, "savings": -0.79, "note": "Brazil WC route via Panama is longer — higher sensitivity than EC"},
+    "uruguay": {"freight_wc": 3.09, "total_wc": 5.09, "total_ec": 4.50, "savings": -0.59, "note": "Uruguay WC via Panama — sensitivity increases vs EC"}
+  },
+
+  "country_scores": [
+    {
+      "country": "Uruguay",
+      "rank": 1,
+      "weighted_score": 82.5,
+      "total_cif_usd_m3": 190.0,
+      "dimensions": {
+        "freight_sensitivity_score": 90,
+        "freight_note": "Atlantic routing, ~6,100 NM, +$57.50/TEU per $10/bbl = +$2.50/m³ — lowest SE impact",
+        "resin_exposure_score": 88,
+        "resin_note": "Primarily eucalyptus; local biomass waste for heat reduces resin-adjacnet petrochemical dependency",
+        "electricity_price_score": 85,
+        "electricity_note": "Hydro-dominant grid, $62.50/MWh mid — low and stable",
+        "log_price_trajectory_score": 90,
+        "log_note": "Eucalyptus plantation, $41.50/m³ mid, no royalty reform risk, +1% per $10/bbl",
+        "labor_cost_score": 72,
+        "labor_note": "$37.50/day mid — middle tier, significantly below OECD but above SE Asia",
+        "fx_buffer_score": 68,
+        "fx_note": "UYU modest depreciation trend, limited buffer vs. major EM peers"
+      },
+      "weight_applied": {
+        "freight_sensitivity_0.20": 18.0,
+        "resin_exposure_0.20": 17.6,
+        "electricity_price_0.20": 17.0,
+        "log_price_trajectory_0.20": 18.0,
+        "labor_cost_0.10": 7.2,
+        "fx_buffer_0.10": 6.8
+      },
+      "strategic_note": "Confirmed hidden winner. Uruguay hypothesis validated — lowest CIF, biomass-resilient energy, stable plantation logs, Atlantic freight not Strait-exposed. Primary constraint is production scale."
+    },
+    {
+      "country": "Brazil",
+      "rank": 2,
+      "weighted_score": 79.8,
+      "total_cif_usd_m3": 201.3,
+      "dimensions": {
+        "freight_sensitivity_score": 82,
+        "freight_note": "$2,250/TEU mid, +$65/TEU per $10/bbl = +$2.83/m³, Atlantic routing",
+        "resin_exposure_score": 85,
+        "resin_note": "Biomass CHP for drying; eucalyptus/pine processing uses less urea-formaldehyde than tropical species",
+        "electricity_price_score": 87,
+        "electricity_note": "$60/MWh mid, hydro-dominated — strong insulation from EU gas volatility",
+        "log_price_trajectory_score": 88,
+        "log_note": "$47.50/m³ mid eucalyptus, plantation cycle, minimal royalty reform risk vs. tropical species",
+        "labor_cost_score": 62,
+        "labor_note": "$32.50/day mid — moderate, rising trend in manufacturing wages",
+        "fx_buffer_score": 82,
+        "fx_note": "BRL -4% YTD is the strongest FX oil shield in dataset — see Q6 detail"
+      },
+      "weight_applied": {
+        "freight_sensitivity_0.20": 16.4,
+        "resin_exposure_0.20": 17.0,
+        "electricity_price_0.20": 17.4,
+        "log_price_trajectory_0.20": 17.6,
+        "labor_cost_0.10": 6.2,
+        "fx_buffer_0.10": 8.2
+      },
+      "strategic_note": "Brazil hypothesis validated. BRL weakness is the strongest currency oil-shield globally; combined with hydro power and eucalyptus plantation economics, Brazil is the standout value proposition — pending scale and certification verification."
+    },
+    {
+      "country": "Canada (Eastern/QC)",
+      "rank": 3,
+      "weighted_score": 77.2,
+      "total_cif_usd_m3": 247.5,
+      "dimensions": {
+        "freight_sensitivity_score": 98,
+        "freight_note": "$1,350/TEU, +$40/TEU per $10/bbl = +$1.74/m³ — near-immune to bunker cost spikes",
+        "resin_exposure_score": 80,
+        "resin_note": "UF/MF resins are petrochemical-derived, but lower consumption per m³ in SPF mills",
+        "electricity_price_score": 90,
+        "electricity_note": "Hydro at $47/MWh — lowest in North America, negligible EU gas exposure",
+        "log_price_trajectory_score": 72,
+        "log_note": "$75/m³ mid SPF, +1.5% per $10/bbl, sustainability certification costs rising",
+        "labor_cost_score": 38,
+        "labor_note": "$240/day — effective $80/m³ is the Achilles heel; no hedging mechanism",
+        "fx_buffer_score": 72,
+        "fx_note": "CAD -1% YTD (roughly neutral). Mild depreciation provides minimal shield"
+      },
+      "weight_applied": {
+        "freight_sensitivity_0.20": 19.6,
+        "resin_exposure_0.20": 16.0,
+        "electricity_price_0.20": 18.0,
+        "log_price_trajectory_0.20": 14.4,
+        "labor_cost_0.10": 3.8,
+        "fx_buffer_0.10": 7.2
+      },
+      "strategic_note": "Strongest freight shield in dataset. Canada Eastern is the benchmark for supply chain resilience against oil volatility despite high CIF driven by labor. Zero tariff risk. Ideal for risk-averse procurement."
+    },
+    {
+      "country": "Chile",
+      "rank": 4,
+      "weighted_score": 72.1,
+      "total_cif_usd_m3": 230.7,
+      "dimensions": {
+        "freight_sensitivity_score": 85,
+        "freight_note": "$2,200/TEU via Panama, +$60/TEU per $10/bbl = +$2.61/m³",
+        "resin_exposure_score": 78,
+        "resin_note": "Biomass-resilient for drying but resin inputs remain petrochemical",
+        "electricity_price_score": 55,
+        "electricity_note": "$90/MWh mid — moderate-to-high, no strong hydro insulation for industrial users",
+        "log_price_trajectory_score": 80,
+        "log_note": "Radiata Pine $60/m³ mid, plantation cycle with FSC certification maturity",
+        "labor_cost_score": 55,
+        "labor_note": "$42.50/day mid — meaningful cost, below Brazil but rising",
+        "fx_buffer_score": 70,
+        "fx_note": "CLP correlated to copper prices; modest oil shield via depreciation tendency"
+      },
+      "weight_applied": {
+        "freight_sensitivity_0.20": 17.0,
+        "resin_exposure_0.20": 15.6,
+        "electricity_price_0.20": 11.0,
+        "log_price_trajectory_0.20": 16.0,
+        "labor_cost_0.10": 5.5,
+        "fx_buffer_0.10": 7.0
+      },
+      "strategic_note": "Underappreciated supplier. Radiata Pine structural grade well-suited to F17-equivalent. Electricity cost is the primary weakness — if Chile grid diversifies to renewables (in progress), this ranking rises."
+    },
+    {
+      "country": "Canada (BC/Vancouver)",
+      "rank": 5,
+      "weighted_score": 75.8,
+      "total_cif_usd_m3": 234.5,
+      "dimensions": {
+        "freight_sensitivity_score": 95,
+        "freight_note": "$1,100/TEU to US West Coast — shortest lane in dataset",
+        "resin_exposure_score": 78,
+        "resin_note": "Same as Canada Eastern",
+        "electricity_price_score": 90,
+        "electricity_note": "BC Hydro rates comparable to Quebec hydro",
+        "log_price_trajectory_score": 70,
+        "log_note": "BC old-growth restrictions pushing toward plantation; transition cost pressure",
+        "labor_cost_score": 38,
+        "labor_note": "Same labor structure as QC — effective ~$78/m³",
+        "fx_buffer_score": 72,
+        "fx_note": "CAD -1% YTD"
+      },
+      "weight_applied": {
+        "freight_sensitivity_0.20": 19.0,
+        "resin_exposure_0.20": 15.6,
+        "electricity_price_0.20": 18.0,
+        "log_price_trajectory_0.20": 14.0,
+        "labor_cost_0.10": 3.8,
+        "fx_buffer_0.10": 7.2
+      },
+      "strategic_note": "Best option for US West Coast buyers — shortest freight lane eliminates Strait of Malacca/Hormuz exposure entirely. Labor remains the structural cost ceiling."
+    },
+    {
+      "country": "Indonesia",
+      "rank": 6,
+      "weighted_score": 60.2,
+      "total_cif_usd_m3": 266.7,
+      "dimensions": {
+        "freight_sensitivity_score": 35,
+        "resin_exposure_score": 55,
+        "electricity_price_score": 62,
+        "log_price_trajectory_score": 65,
+        "labor_cost_score": 92,
+        "fx_buffer_score": 55
+      },
+      "strategic_note": "High freight sensitivity and Strait of Malacca exposure at $92/bbl Brent erode the labor cost advantage. Vulnerable to tropical log royalty reform."
+    },
+    {
+      "country": "Vietnam",
+      "rank": 7,
+      "weighted_score": 55.8,
+      "total_cif_usd_m3": 265.7,
+      "dimensions": {
+        "freight_sensitivity_score": 38,
+        "resin_exposure_score": 50,
+        "electricity_price_score": 45,
+        "log_price_trajectory_score": 68,
+        "labor_cost_score": 88,
+        "fx_buffer_score": 78
+      },
+      "strategic_note": "ADD duty eliminates raw-cost competitiveness. High electricity costs and gas-dependent drying add structural vulnerability. VND depreciation is the one genuine buffer."
+    },
+    {
+      "country": "Malaysia",
+      "rank": 8,
+      "weighted_score": 52.5,
+      "total_cif_usd_m3": 291.1,
+      "dimensions": {
+        "freight_sensitivity_score": 42,
+        "resin_exposure_score": 52,
+        "electricity_price_score": 68,
+        "log_price_trajectory_score": 35,
+        "labor_cost_score": 72,
+        "fx_buffer_score": 58
+      },
+      "strategic_note": "Highest tropical log prices in dataset combined with Strait of Malacca freight exposure. Malaysia is weakest SE Asian option for US buyers."
+    }
+  ],
+
+  "strategic_findings": {
+
+    "breakeven_oil_price": {
+      "finding": "Indonesia reaches cost parity with Canada Eastern at approximately $58-68/bbl Brent",
+      "methodology": "Bottom-up CIF build at $92/bbl baseline, then marginal sensitivity analysis per $10/bbl increment",
+      "indonesia_cif_at_92": 266.7,
+      "canada_qc_cif_at_92": 247.5,
+      "gap_at_92bbl": 19.2,
+      "gap_direction": "Canada QC is CHEAPER by $19.2/m³ at $92/bbl",
+      "indonesia_sensitivity_per_10bbl": {
+        "freight": 4.57,
+        "resin": 2.30,
+        "log": 1.95,
+        "electricity_partial": 0.90,
+        "total": 9.72,
+        "unit": "USD/m³ per $10/bbl Brent increase"
+      },
+      "canada_qc_sensitivity_per_10bbl": {
+        "freight": 1.74,
+        "resin": 0.20,
+        "log": 1.13,
+        "electricity": 0.05,
+        "total": 3.12,
+        "unit": "USD/m³ per $10/bbl Brent increase"
+      },
+      "net_differential_per_10bbl": {
+        "value": 6.60,
+        "direction": "Indonesia WIDENS disadvantage by $6.60/m³ per $10/bbl oil INCREASE",
+        "implication": "Each oil rise makes Canada MORE competitive vs. Indonesia"
+      },
+      "breakeven_calculation": {
+        "oil_drop_needed_from_92": 29.1,
+        "breakeven_brent_mid": 62.9,
+        "breakeven_range": "$58-68/bbl",
+        "formula": "Gap ($19.2) / Net differential ($6.60/m³ per $10) × $10 = $29.1 drop needed",
+        "note": "Below ~$63/bbl, Indonesia's labor advantage ($72/m³ below Canada) re-establishes clear advantage. Above $92/bbl, Canada's gap over Indonesia widens continuously."
+      },
+      "strategic_implication": "At current $92/bbl with Strait of Hormuz disruption, Indonesia is NOT price-competitive with Canadian Eastern mills on total CIF to US East Coast. The 30% surge in US imports from Indonesia/Vietnam in 2025 was executed when oil was lower and ADD on Vietnam was not yet in force at current levels. The cost advantage has eroded."
+    },
+
+    "hidden_winner_ranking": [
+      {
+        "rank": 1,
+        "country": "Uruguay",
+        "cif_usd_m3": 190.0,
+        "weighted_score": 82.5,
+        "why_hidden": "Minimal analyst coverage; small export volumes obscure cost structure. Eucalyptus plantation economics with biomass CHP processing and Atlantic routing create the lowest risk-adjusted CIF in the dataset.",
+        "primary_risk": "Production scale — total plywood export capacity may be insufficient for large-volume US procurement contracts. Certification (CARB/EPA) pipeline for Uruguayan mills is underdeveloped.",
+        "oil_sensitivity_usd_m3_per_10bbl": 2.50
+      },
+      {
+        "rank": 2,
+        "country": "Brazil",
+        "cif_usd_m3": 201.3,
+        "weighted_score": 79.8,
+        "why_hidden": "BRL depreciation shield and hydro power grid are underappreciated by US procurement. Eucalyptus structural plywood is not the traditional Brazil-US trade product, creating a perception gap.",
+        "primary_risk": "Phytosanitary certification delays at US ports; domestic infrastructure (rail/road to Santos) adds cost variability; political currency risk (BRL can reverse rapidly)",
+        "oil_sensitivity_usd_m3_per_10bbl": 2.83
+      },
+      {
+        "rank": 3,
+        "country": "Canada Eastern (QC/Ontario)",
+        "cif_usd_m3": 247.5,
+        "weighted_score": 77.2,
+        "why_hidden": "Overshadowed by BC/Vancouver in perception, but Eastern Canada has shorter lanes to US East Coast — the largest US plywood consumption market. Labor cost is known but FX and electricity advantages are underweighted.",
+        "primary_risk": "Labor cost trajectory — unionized mill wages rising; SPF supply constrained by beetle damage legacy in some regions",
+        "oil_sensitivity_usd_m3_per_10bbl": 3.12
+      },
+      {
+        "rank": 4,
+        "country": "Chile",
+        "cif_usd_m3": 230.7,
+        "weighted_score": 72.1,
+        "why_hidden": "Radiata Pine structural grade largely ignored by US buyers focused on SE Asia. FSC certification coverage is high. Panama Canal access well-established.",
+        "primary_risk": "Electricity grid vulnerability ($90/MWh mid — if rises 15%, adds $3.38/m³); CLP currency less protective than BRL",
+        "oil_sensitivity_usd_m3_per_10bbl": 2.61
+      },
+      {
+        "rank": 5,
+        "country": "Canada BC/Vancouver",
+        "cif_usd_m3": 234.5,
+        "weighted_score": 75.8,
+        "why_hidden": "Not 'hidden' per se, but BC mills are overlooked for US East Coast buyers who default to SE Asia. For West Coast buyers, this is the optimal supply chain resilience play.",
+        "primary_risk": "Old-growth log supply restriction ongoing; BC sawmill capacity has been declining since 2018",
+        "oil_sensitivity_usd_m3_per_10bbl": 1.74
+      }
+    ],
+
+    "vietnam_tariff_analysis": {
+      "summary": "At $92/bbl, Vietnam's ADD duty converts a $13/m³ raw-cost advantage over Indonesia into near-parity ($1/m³ cheaper). Vietnam is already $18/m³ more expensive than Canada Eastern on total CIF.",
+      "vietnam_vs_indonesia_at_92bbl": {
+        "vietnam_cif": 265.7,
+        "indonesia_cif": 266.7,
+        "vietnam_advantage_raw_before_duty": -13.0,
+        "add_duty_applied": 22.0,
+        "vnd_fx_offset": -3.8,
+        "net_vietnam_vs_indonesia": -1.0,
+        "conclusion": "Vietnam is $1/m³ cheaper than Indonesia at $92/bbl only because VND depreciation partially offsets the ADD duty. Without VND weakness, Vietnam would be $8/m³ MORE expensive than Indonesia.",
+        "breakdown": {
+          "log_advantage_vietnam": -12.5,
+          "freight_advantage_vietnam": -8.7,
+          "electricity_disadvantage_vietnam": 1.5,
+          "add_duty_burden": 22.0,
+          "vnd_fx_saving": -3.8,
+          "net": -1.5
+        }
+      },
+      "vietnam_vs_canada_qc": {
+        "vietnam_cif_at_92": 265.7,
+        "canada_qc_cif_at_92": 247.5,
+        "vietnam_premium_at_92": 18.2,
+        "direction": "Vietnam is ALREADY $18.2/m³ MORE EXPENSIVE than Canada Eastern at $92/bbl",
+        "sensitivity_divergence_per_10bbl": 4.51,
+        "note": "Vietnam's CIF rises $4.51/m³ faster than Canada per $10/bbl increase. The gap widens with every oil increase above $92.",
+        "breakeven_below_92": {
+          "oil_price": 51.6,
+          "range": "$48–56/bbl",
+          "interpretation": "Vietnam was competitive with Canada Eastern only below approximately $55/bbl Brent — a price last seen in 2020–2021. The ADD duty eliminated any residual oil-price window above $55/bbl."
+        },
+        "conclusion": "Vietnam will NEVER be cheaper than Canada Eastern at any Brent price above $55/bbl under current ADD regime. The tariff structure is the decisive factor, not freight or energy."
+      },
+      "add_duty_sensitivity": {
+        "current_range_usd_m3": [18, 26],
+        "mid_assumption": 22.0,
+        "if_reduced_to_10": "Vietnam re-enters competition vs. Canada at ~$72/bbl",
+        "if_increased_to_35": "Vietnam becomes unviable at any oil price; even at $50/bbl Vietnam is $12/m³ above Canada"
+      }
+    },
+
+    "electricity_cliff_countries": [
+      {
+        "country": "Germany",
+        "current_electricity_usd_mwh": 122.5,
+        "current_electricity_cost_per_m3": 30.6,
+        "electricity_per_m3_calculation": "0.25 MWh/m³ × $122.50/MWh = $30.63/m³",
+        "after_15pct_increase_usd_mwh": 140.9,
+        "after_15pct_cost_per_m3": 35.2,
+        "incremental_cost_per_m3": 4.6,
+        "current_cif_usd_m3": 351.3,
+        "projected_cif_after_shock": 355.9,
+        "already_breached": true,
+        "note": "Germany already has the highest electricity cost in the dataset. At $140.9/MWh (+15%), Germany's structural plywood becomes definitively non-competitive for US structural grades. Current COGS from electricity alone is $30.6/m³ vs. Brazil's $12/m³. German mills supply high-value decorative/specialist grades, not structural commodity — but a 15% electricity rise eliminates any remaining overlap.",
+        "threshold_analysis": "Germany requires electricity < $85/MWh to compete with Brazil/Canada on structural plywood. That requires a 31% electricity price reduction from current levels — not achievable in 18 months."
+      },
+      {
+        "country": "Italy",
+        "current_electricity_usd_mwh": 127.5,
+        "current_electricity_cost_per_m3": 31.9,
+        "after_15pct_increase_usd_mwh": 146.6,
+        "after_15pct_cost_per_m3": 36.7,
+        "incremental_cost_per_m3": 4.8,
+        "current_cif_usd_m3": 342.0,
+        "projected_cif_after_shock": 346.8,
+        "already_breached": true,
+        "note": "Italy's electricity is the highest in the dataset at $127.50/MWh mid. The 15% scenario adds $4.8/m³ — but Italy was already uncompetitive on structural grades. The cliff is less a transition and more an already-entrenched exclusion. Key risk: Italian specialty/decorative face veneer plywood faces margin compression in 18 months.",
+        "threshold_analysis": "Italy would need electricity <$90/MWh to re-enter structural plywood competition. Gap: 29% required reduction."
+      },
+      {
+        "country": "Cambodia",
+        "current_electricity_usd_mwh": 105.0,
+        "current_electricity_cost_per_m3": 26.3,
+        "after_15pct_increase_usd_mwh": 120.8,
+        "after_15pct_cost_per_m3": 30.2,
+        "incremental_cost_per_m3": 3.9,
+        "current_cif_usd_m3": 261.4,
+        "projected_cif_after_shock": 265.3,
+        "competitive_threshold_usd_m3": 260.0,
+        "already_breached": false,
+        "breach_within_18_months": true,
+        "note": "Cambodia is the most actionable cliff scenario. Currently marginally competitive with Indonesia ($261.4 vs $266.7), Cambodia's cheap labor ($6–9/day) buffers the high electricity cost. A 15% electricity rise pushes Cambodia's CIF above Vietnam's ($265.3 vs $265.7) and nearly level with Indonesia ($266.7). Cambodia's grid relies on imported power from Thailand and Vietnam, both subject to regional fuel price transmission.",
+        "threshold_analysis": "Cambodia requires electricity < $80/MWh to establish durable competitiveness. Current $105/MWh is 31% above that threshold. The 18-month cliff is real: Cambodia's grid expansion projects are delayed, and regional natural gas prices are transmitting into electricity contracts.",
+        "competitive_impact": "A 15% electricity rise effectively eliminates Cambodia's only structural advantage over Indonesia — the $5.3/m³ CIF gap disappears. US buyers relying on Cambodia diversification are exposed."
+      },
+      {
+        "country": "Poland",
+        "current_electricity_usd_mwh": 95.0,
+        "current_electricity_cost_per_m3": 23.8,
+        "after_15pct_increase_usd_mwh": 109.3,
+        "after_15pct_cost_per_m3": 27.3,
+        "incremental_cost_per_m3": 3.5,
+        "note": "Honorable mention — Poland's coal-to-gas transition means electricity is rising structurally. Not a primary US plywood supplier, but relevant for EU re-export chains. $3.5/m³ incremental cost tips birch plywood margins negative at current USD/PLN rates.",
+        "breach_within_18_months": "conditional — contingent on EU ETS carbon price trajectory"
+      }
+    ],
+
+    "log_cascade_scenario": {
+      "shock_definition": "Tropical log stumpage +20% (sustainability compliance + royalty reform in Indonesia, Malaysia, Gabon) at current $92/bbl freight baseline",
+      "affected_countries": {
+        "indonesia": {
+          "log_pre_shock": 65.0,
+          "log_post_shock": 78.0,
+          "log_increase": 13.0,
+          "resin_secondary_effect": 0.8,
+          "total_production_cost_increase": 13.8,
+          "new_cif_usd_m3": 280.5,
+          "pct_increase": 5.2
+        },
+        "malaysia": {
+          "log_pre_shock": 95.0,
+          "log_post_shock": 114.0,
+          "log_increase": 19.0,
+          "resin_secondary_effect": 1.0,
+          "total_production_cost_increase": 20.0,
+          "new_cif_usd_m3": 311.1,
+          "pct_increase": 6.9
+        },
+        "gabon": {
+          "log_pre_shock": 110.0,
+          "log_post_shock": 132.0,
+          "log_increase": 22.0,
+          "resin_secondary_effect": 0.9,
+          "total_production_cost_increase": 22.9,
+          "new_cif_usd_m3": 306.9,
+          "pct_increase": 8.1
+        }
+      },
+      "brazil_benchmark": {
+        "cif_pre_shock": 201.3,
+        "cif_post_shock": 201.3,
+        "log_exposure": "Eucalyptus plantation — NOT subject to tropical log royalty reform shock",
+        "gap_vs_indonesia_pre_shock": -65.4,
+        "gap_vs_indonesia_post_shock": -79.2,
+        "conclusion": "Post-shock, Brazil's eucalyptus plywood is $79.2/m³ cheaper than Indonesian CIF. Gap widens significantly. Brazil is now unambiguously price-competitive."
+      },
+      "chile_benchmark": {
+        "cif_pre_shock": 230.7,
+        "cif_post_shock": 230.7,
+        "log_exposure": "Radiata Pine plantation — NOT subject to tropical royalty reform",
+        "gap_vs_indonesia_pre_shock": -36.0,
+        "gap_vs_indonesia_post_shock": -49.8,
+        "conclusion": "Chile gains $13.8/m³ competitive improvement relative to Indonesia under the shock scenario. Radiata Pine structural plywood becomes clearly price-competitive."
+      },
+      "uruguay_benchmark": {
+        "cif_pre_shock": 190.0,
+        "cif_post_shock": 190.0,
+        "gap_vs_indonesia_pre_shock": -76.7,
+        "gap_vs_indonesia_post_shock": -90.5,
+        "conclusion": "Uruguay extends its lead. At $190/m³ vs. post-shock Indonesia $280.5/m³, the gap is $90.5/m³ — decisive."
+      },
+      "compound_shock_with_freight": {
+        "scenario": "Tropical log +20% AND freight +15% (BDI +18% already priced in; additional 15% reflects full Hormuz disruption)",
+        "indonesia_full_compound_cif": 303.3,
+        "brazil_full_compound_cif": 222.1,
+        "compound_gap_brazil_vs_indonesia": -81.2,
+        "conclusion": "Under compound shock, Brazil's CIF is $81/m³ below Indonesia. The tropical supply chain is severely disrupted while Southern Cone plantation suppliers are insulated."
+      },
+      "strategic_implication": "The log cascade scenario is not hypothetical — Indonesian KPH royalty reform discussions are active in Q1 2026, Malaysian timber royalty increases were legislated in 2024 (phased in), and Gabon's Forest Code revision is pending ratification. Southern Cone plantation species (eucalyptus, radiata pine) are structurally insulated. This is the single most important medium-term shift for US procurement strategy."
+    },
+
+    "currency_hedge_ranking": [
+      {
+        "rank": 1,
+        "country": "Brazil",
+        "currency": "BRL",
+        "ytd_change_vs_usd": -4.0,
+        "oil_shield_calculation": {
+          "domestic_cost_base_usd_m3": 100.0,
+          "pct_of_costs_in_local_currency": 75,
+          "usd_cost_base_in_brl_terms": 75.0,
+          "brl_depreciation_offset_pct": 4.0,
+          "usd_savings_from_depreciation": 3.0,
+          "cost_per_m3_oil_rise_without_fx": 2.83,
+          "cost_per_m3_oil_rise_with_fx_offset": 1.93,
+          "effective_oil_shield_pct": 31.8,
+          "interpretation": "BRL -4% YTD absorbs approximately 32% of a $10/bbl oil cost increase, reducing the net impact from $2.83/m³ to $1.93/m³. This is the strongest shield in the dataset."
+        },
+        "structural_driver": "BRL tends to depreciate when oil rises (commodity correlation reversal for Brazil due to domestic politics/fiscal), and Brazilian plywood mills have high local-currency cost structures. This creates a natural hedge."
+      },
+      {
+        "rank": 2,
+        "country": "Vietnam",
+        "currency": "VND",
+        "ytd_change_vs_usd": -6.0,
+        "oil_shield_calculation": {
+          "domestic_cost_base_usd_m3": 90.0,
+          "pct_of_costs_in_local_currency": 70,
+          "usd_cost_base_in_vnd_terms": 63.0,
+          "vnd_depreciation_offset_pct": 6.0,
+          "usd_savings_from_depreciation": 3.78,
+          "cost_per_m3_oil_rise_without_fx": 7.88,
+          "cost_per_m3_oil_rise_with_fx_offset": 7.15,
+          "effective_oil_shield_pct": 9.3,
+          "interpretation": "Despite VND being the largest YTD depreciator (-6%), its effective shield is lower than Brazil because Vietnam's cost base has high imported-input content (machinery, resins, energy) priced in USD. The VND savings apply only to labor and local services (~70% of domestic cost base). Net shield: 9% of oil cost increase absorbed."
+        },
+        "note": "VND depreciation offsets ADD duty pressure partially but does NOT eliminate it. At $3.78/m³ FX saving vs. $22/m³ ADD burden, currency is a minor relief valve, not a structural solution."
+      },
+      {
+        "rank": 3,
+        "country": "Indonesia",
+        "currency": "IDR",
+        "ytd_change_vs_usd": -2.5,
+        "oil_shield_calculation": {
+          "domestic_cost_base_usd_m3": 88.0,
+          "pct_of_costs_in_local_currency": 65,
+          "usd_savings_from_depreciation": 1.43,
+          "cost_per_m3_oil_rise_without_fx": 7.63,
+          "cost_per_m3_oil_rise_with_fx_offset": 7.20,
+          "effective_oil_shield_pct": 5.6,
+          "interpretation": "IDR depreciation provides modest shield. Indonesia's partially dollarized log market limits the benefit — log contracts often denominated in USD, reducing the FX pass-through to cost savings."
+        }
+      },
+      {
+        "rank": 4,
+        "country": "Chile",
+        "currency": "CLP",
+        "ytd_change_vs_usd": -3.0,
+        "oil_shield_calculation": {
+          "usd_savings_from_depreciation": 2.1,
+          "cost_per_m3_oil_rise_without_fx": 2.61,
+          "cost_per_m3_oil_rise_with_fx_offset": 1.85,
+          "effective_oil_shield_pct": 29.1,
+          "interpretation": "CLP depreciation (estimated -3% YTD, correlated with copper price softness) absorbs ~29% of oil cost increases. Strong shield for a mid-tier supplier."
+        }
+      },
+      {
+        "rank": 5,
+        "country": "Canada",
+        "currency": "CAD",
+        "ytd_change_vs_usd": -1.0,
+        "oil_shield_calculation": {
+          "usd_savings_from_depreciation": 0.7,
+          "cost_per_m3_oil_rise_without_fx": 3.12,
+          "cost_per_m3_oil_rise_with_fx_offset": 2.95,
+          "effective_oil_shield_pct": 5.5,
+          "interpretation": "CAD is highly correlated with oil prices (petrocurrency), meaning CAD tends to STRENGTHEN when oil rises — this actually WORSENS Canada's cost structure for US buyers. The -1% YTD is atypically weak CAD; in a sustained oil rally, CAD appreciation is a countervailing risk."
+        },
+        "warning": "Unlike other countries, Canada's FX dynamic is adverse: oil rally → CAD strengthens → mill costs in USD terms INCREASE. This is the opposite of an oil shield."
+      }
+    ]
+  },
+
+  "procurement_recommendation_v2": {
+    "version_note": "V2 replaces single-coast recommendation with dual-coast strategy. The competitive landscape is fundamentally different for East Coast vs West Coast delivery. All v1 findings about 'Canada beating Indonesia' apply ONLY to East Coast.",
+
+    "us_east_coast_strategy": {
+      "headline": "Atlantic suppliers dominate. Uruguay, Brazil, Canada QC are the top 3.",
+      "priority_ranking": [
+        {"rank": 1, "country": "Uruguay", "cif_ec": 190.0, "rationale": "Lowest CIF in dataset. Hydro power, eucalyptus plantation, Atlantic routing. RISK: verify production scale capacity before committing volume."},
+        {"rank": 2, "country": "Brazil", "cif_ec": 201.3, "rationale": "Strongest FX oil shield (BRL). Eucalyptus/hydro economics. Scale available. Begin CARB/EPA certification now (6-12 month pipeline)."},
+        {"rank": 3, "country": "Canada QC", "cif_ec": 247.5, "rationale": "Zero tariff risk (USMCA). Shortest EC freight lane (2,000 NM). Highest supply chain resilience. Labor cost ceiling ($80/m³) is the trade-off."},
+        {"rank": 4, "country": "Chile", "cif_ec": 230.7, "rationale": "Radiata Pine structural grade. Panama Canal access. Electricity cost ($90/MWh) is the weakness to monitor."},
+        {"rank": 5, "country": "Finland", "cif_ec": 315.8, "rationale": "Premium quality, biomass-resilient energy. Too expensive for commodity structural at $315.8. Use for specialty/certified grades only."}
+      ],
+      "avoid_ec": "Indonesia ($266.7), Vietnam ($265.7), Cambodia ($261.4) are $60-75/m³ more expensive than Uruguay/Brazil for East Coast delivery. Asian transpacific-to-Savannah routes are 11,500-12,400 NM — the longest and most oil-sensitive in the dataset."
+    },
+
+    "us_west_coast_strategy": {
+      "headline": "Asian transpacific suppliers regain advantage. Indonesia and Thailand beat Canada BC on price.",
+      "priority_ranking": [
+        {"rank": 1, "country": "Thailand", "cif_wc": 199.0, "rationale": "Cheapest WC CIF. Rubberwood ($37.5/m³) is lowest-cost log. Biomass drying resilient. No ADD/CVD. Data confidence: medium — needs synthesis validation."},
+        {"rank": 2, "country": "Indonesia", "cif_wc": 218.8, "rationale": "KEY FINDING: $15.7/m³ cheaper than Canada BC on WC. Competitive until $115/bbl Brent. Direct transpacific 8,200 NM. No canal dependency."},
+        {"rank": 3, "country": "Uruguay", "cif_wc": 217.1, "rationale": "Competitive even via Panama Canal. But $27/m³ more expensive than its own EC CIF — Uruguay's natural market is East Coast."},
+        {"rank": 4, "country": "Vietnam", "cif_wc": 224.4, "rationale": "ADD burden ($22/m³) still weighs. Without ADD would be $202 = #1. Monitor ADD review cycle."},
+        {"rank": 5, "country": "Canada BC", "cif_wc": 234.5, "rationale": "Shortest freight lane (900 NM) = most oil-resilient WC supplier. Best for risk-averse procurement despite higher price. Zero tariff risk."},
+        {"rank": 6, "country": "Chile", "cif_wc": 243.7, "rationale": "Direct Pacific coast route 5,800 NM (no canal). Slightly more expensive WC than EC. Viable alternative."}
+      ],
+      "avoid_wc": "Malaysia ($248.7 — high log costs), Taiwan ($308.1 — sunset commodity producer), all EMEA (would require 12,000-16,000 NM via Panama)."
+    },
+
+    "dual_coast_key_findings": [
+      "The statement 'Canada is cheaper than Indonesia at $92/bbl' is TRUE for East Coast and FALSE for West Coast.",
+      "Indonesia WC CIF ($218.8) beats Canada BC ($234.5) by $15.7/m³. Breakeven is ~$115/bbl — Indonesia stays competitive on WC until oil hits $115.",
+      "East Coast breakeven (Indonesia vs Canada QC) is ~$49-66/bbl — Indonesia is already uncompetitive for EC at current $92 oil.",
+      "Brazil and Uruguay lose 15-30% of their cost advantage on WC delivery due to Panama Canal transit ($200/TEU surcharge + 1,200-1,300 NM extra).",
+      "Thailand emerges as a strong WC contender at $199/m³ — not previously in the synthesis cost build. Rubberwood + biomass drying + Laem Chabang deep-water port.",
+      "EMEA countries (Finland, Germany, etc.) have NO viable WC route. They serve EC only."
+    ],
+
+    "immediate_actions_0_6_months": [
+      "EAST COAST: Establish dual-source between Canada QC and Brazil/Uruguay for Savannah/East Coast demand.",
+      "WEST COAST: Maintain Indonesia as primary WC supplier. At $92/bbl, Indonesia is still $15.7/m³ cheaper than Canada BC via transpacific.",
+      "BOTH COASTS: Begin CARB/EPA certification pipeline for Brazilian and Uruguayan mills (6-12 month process).",
+      "WEST COAST: Qualify Thai rubberwood structural plywood mills as WC diversification source."
+    ],
+
+    "risk_management": [
+      "Monitor Brent Crude vs $115/bbl threshold — above this, Canada BC becomes cheaper than Indonesia on WC.",
+      "Monitor Cambodia ADD investigation risk — 340% export volume growth pattern is under US CBP scrutiny.",
+      "Hedge Indonesia/Vietnam WC exposure with forward freight agreements on the FBX11 (Asia-USWC) lane.",
+      "Monitor Strait of Malacca for insurance premium spikes — all Asian WC routes transit Malacca.",
+      "For EC: monitor Panama Canal draft restrictions — affects Chile, Brazil, Uruguay EC routes.",
+      "Germany and Italy: remove from structural grade sourcing for both coasts. Electricity cliff already breached."
+    ]
+  }
+}

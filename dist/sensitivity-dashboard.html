@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plywood Market Sensitivity Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1a1a2e;--bg:#f4f6f9;--card:#fff;--shadow:0 2px 8px rgba(0,0,0,.08);--blue:#2563eb;--green:#16a34a;--orange:#ea580c;--gold:#eab308;--red:#dc2626;--yellow:#ca8a04;--text:#1e293b;--muted:#64748b}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;font-size:14px}
+header{background:var(--navy);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header h1{font-size:20px;font-weight:700}
+header .sub{font-size:13px;color:#94a3b8}
+header .meta{display:flex;gap:16px;font-size:12px;color:#94a3b8}
+header .meta span{background:rgba(255,255,255,.1);padding:3px 10px;border-radius:4px}
+.wrap{max-width:1400px;margin:0 auto;padding:16px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.card{background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow)}
+.card h3{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px}
+.card .val{font-size:22px;font-weight:700}
+.card .detail{font-size:12px;color:var(--muted);margin-top:4px}
+.card.best-ec{border-left:4px solid var(--green)}
+.card.best-wc{border-left:4px solid var(--blue)}
+.card.risk{border-left:4px solid var(--red)}
+.slider-section{background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px}
+.slider-section h2{font-size:15px;margin-bottom:10px}
+.slider-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.slider-row input[type=range]{flex:1;min-width:200px;accent-color:var(--blue)}
+.slider-val{font-size:18px;font-weight:700;min-width:90px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.chart-box{background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow)}
+.chart-box h2{font-size:15px;margin-bottom:10px}
+.chart-box canvas{width:100%!important}
+.tbl-wrap{background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow);overflow-x:auto;margin-bottom:16px}
+.tbl-wrap h2{font-size:15px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{cursor:pointer;user-select:none;background:#f1f5f9;padding:6px 8px;text-align:left;font-weight:600;white-space:nowrap;border-bottom:2px solid #e2e8f0}
+th:hover{background:#e2e8f0}
+td{padding:5px 8px;border-bottom:1px solid #f1f5f9;white-space:nowrap}
+tr.high-cost{background:#fef2f2}
+.vuln{display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;font-size:11px}
+.v-green{background:#dcfce7;color:#166534}
+.v-yellow{background:#fef9c3;color:#854d0e}
+.v-orange{background:#ffedd5;color:#9a3412}
+.v-red{background:#fee2e2;color:#991b1b}
+.legend{display:flex;gap:14px;margin-bottom:10px;font-size:12px}
+.legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.leg-asia::before{background:var(--blue)}
+.leg-amer::before{background:var(--green)}
+.leg-emea::before{background:var(--orange)}
+.radar-section{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:16px}
+.radar-box{background:var(--card);border-radius:8px;padding:16px;box-shadow:var(--shadow)}
+.radar-box h2{font-size:15px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Plywood Market Sensitivity Dashboard</h1><div class="sub">War &amp; Energy Impact on Export Costs to USA</div></div>
+  <div class="meta"><span id="m-brent"></span><span id="m-date"></span><span id="m-count"></span></div>
+</header>
+<div class="wrap">
+  <div class="cards">
+    <div class="card best-ec"><h3>East Coast Best</h3><div class="val" id="ec-best"></div><div class="detail" id="ec-detail"></div></div>
+    <div class="card best-wc"><h3>West Coast Best</h3><div class="val" id="wc-best"></div><div class="detail" id="wc-detail"></div></div>
+    <div class="card risk"><h3>Highest Risk</h3><div class="val" id="risk-name"></div><div class="detail" id="risk-detail"></div></div>
+  </div>
+  <div class="slider-section">
+    <h2>Oil Price Sensitivity Simulator</h2>
+    <div class="slider-row">
+      <label>Brent Crude:</label>
+      <input type="range" id="brent-slider" min="50" max="150" step="1" value="92">
+      <div class="slider-val" id="brent-display">$92/bbl</div>
+      <span style="font-size:12px;color:var(--muted)">(Baseline: $92/bbl &mdash; drag to simulate)</span>
+    </div>
+  </div>
+  <div class="legend"><span class="leg-asia">Asia</span><span class="leg-amer">Americas</span><span class="leg-emea">EMEA</span></div>
+  <div class="charts">
+    <div class="chart-box"><h2>East Coast CIF Rankings</h2><canvas id="ec-chart"></canvas></div>
+    <div class="chart-box"><h2>West Coast CIF Rankings</h2><canvas id="wc-chart"></canvas></div>
+  </div>
+  <div class="radar-section" id="radar-wrap" style="display:none">
+    <div class="radar-box"><h2>Top 5 Most Vulnerable &mdash; Risk Breakdown</h2><canvas id="radar-chart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+    <h2>Cost Breakdown by Country <span id="tbl-brent" style="font-size:12px;color:var(--muted)"></span></h2>
+    <table id="data-table"><thead><tr></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+<script>
+/* ---- DATA INJECTION (build script replaces these; fallback fetches JSON) ---- */
+let PIPELINE_DATA = []; // <<PIPELINE_DATA>>
+let OVERRIDES_DATA = {}; // <<OVERRIDES_DATA>>
+
+const REGION_COLORS = {Asia:'#2563eb',Americas:'#16a34a',EMEA:'#ea580c'};
+const BASELINE_BRENT = 92;
+let ecChart, wcChart, radarChart;
+let sortCol = -1, sortAsc = true;
+
+async function loadData() {
+  if (!PIPELINE_DATA || !PIPELINE_DATA.countries || PIPELINE_DATA.countries.length === 0) {
+    try {
+      const [p, o] = await Promise.all([
+        fetch('../data/pipeline-output.json').then(r => r.json()),
+        fetch('../data/manual-overrides.json').then(r => r.json())
+      ]);
+      PIPELINE_DATA = p; OVERRIDES_DATA = o;
+    } catch(e) { document.body.innerHTML = '<p style="padding:40px;color:red">Failed to load data. Ensure data/pipeline-output.json and data/manual-overrides.json exist.</p>'; return; }
+  }
+  init();
+}
+
+function init() {
+  const d = PIPELINE_DATA;
+  document.getElementById('m-brent').textContent = 'Brent: $' + d.brent_baseline_usd + '/bbl';
+  document.getElementById('m-date').textContent = 'Generated: ' + (d.generated_at || '').slice(0,10);
+  document.getElementById('m-count').textContent = d.country_count + ' countries';
+  const slider = document.getElementById('brent-slider');
+  slider.value = d.brent_baseline_usd || 92;
+  slider.addEventListener('input', () => recalc(+slider.value));
+  recalc(+slider.value);
+  buildRadar();
+}
+
+function getOverride(country) {
+  const key = country.toLowerCase();
+  const lp = OVERRIDES_DATA.log_prices?.prices_usd_per_m3?.[key] || {};
+  const el = OVERRIDES_DATA.electricity?.tariffs_usd_per_mwh?.[key] || {};
+  const lab = OVERRIDES_DATA.labor?.cost_usd_per_m3?.[key] || 0;
+  const fr = OVERRIDES_DATA.freight_rates?.rates_usd_per_teu || {};
+  const ecKey = Object.keys(fr).find(k => k.startsWith(key) && (k.includes('savannah') || k.includes('_qc_')));
+  const wcKey = Object.keys(fr).find(k => k.startsWith(key) && (k.includes('long_beach') || k.includes('_bc_')));
+  return { log: lp.price_mid||0, logSens: lp.oil_sensitivity_pct_per_10||0, elecMid: el.mid||0, elecCorr: el.oil_correlation||0, labor: lab, freightEC: fr[ecKey]||0, freightWC: fr[wcKey]||0 };
+}
+
+function calcCIF(country, brent) {
+  const c = PIPELINE_DATA.countries.find(x => x.country === country);
+  if (!c) return null;
+  const ov = getOverride(country);
+  const delta = brent - BASELINE_BRENT;
+  const d10 = delta / 10;
+  const logAdj = ov.log * (1 + (ov.logSens / 100) * d10);
+  const resinAdj = (ov.log * 0.18) * (1 + 0.015 * delta);
+  const elecAdj = ov.elecMid * 0.2 * (1 + ov.elecCorr * delta);
+  const freightECadj = ov.freightEC > 0 ? (ov.freightEC * (1 + 0.035 * d10)) / 23 : 0;
+  const freightWCadj = ov.freightWC > 0 ? (ov.freightWC * (1 + 0.035 * d10)) / 23 : 0;
+  const base = c.cif.east_coast;
+  const dutyRate = base.add_duty / (base.total_cif - base.add_duty - base.fx_adjustment) || 0;
+  const buildEC = logAdj + resinAdj + elecAdj + ov.labor + freightECadj + 14;
+  const buildWC = c.cif.west_coast ? logAdj + resinAdj + elecAdj + ov.labor + freightWCadj + 14 : null;
+  const ecDuty = buildEC * dutyRate, wcDuty = buildWC !== null ? buildWC * dutyRate : null;
+  const totalEC = buildEC + ecDuty + base.fx_adjustment;
+  const totalWC = buildWC !== null ? buildWC + wcDuty + (c.cif.west_coast?.fx_adjustment || 0) : null;
+  return { country, region: c.region, totalEC: +totalEC.toFixed(2), totalWC: totalWC !== null ? +totalWC.toFixed(2) : null,
+    log: +logAdj.toFixed(2), resin: +resinAdj.toFixed(2), elec: +elecAdj.toFixed(2), labor: ov.labor,
+    freightEC: +freightECadj.toFixed(2), freightWC: freightWCadj > 0 ? +freightWCadj.toFixed(2) : null,
+    duty: +(ecDuty).toFixed(2), fx: base.fx_adjustment, vuln: c.vulnerability_score };
+}
+
+function recalc(brent) {
+  document.getElementById('brent-display').textContent = '$' + brent + '/bbl';
+  document.getElementById('tbl-brent').textContent = brent !== BASELINE_BRENT ? '(at $' + brent + '/bbl)' : '';
+  const rows = PIPELINE_DATA.countries.map(c => calcCIF(c.country, brent)).filter(Boolean);
+  const ecSorted = [...rows].sort((a,b) => a.totalEC - b.totalEC);
+  const wcRows = rows.filter(r => r.totalWC !== null);
+  const wcSorted = [...wcRows].sort((a,b) => a.totalWC - b.totalWC);
+  updateCards(ecSorted, wcSorted);
+  updateCharts(ecSorted, wcSorted);
+  updateTable(rows);
+}
+
+function updateCards(ec, wc) {
+  const best = ec[0], worst = ec[ec.length-1];
+  document.getElementById('ec-best').textContent = best.country + ' $' + best.totalEC;
+  document.getElementById('ec-detail').textContent = 'Saves $' + (worst.totalEC - best.totalEC).toFixed(0) + ' vs ' + worst.country;
+  if (wc.length) {
+    const bw = wc[0], ww = wc[wc.length-1];
+    document.getElementById('wc-best').textContent = bw.country + ' $' + bw.totalWC;
+    document.getElementById('wc-detail').textContent = 'Saves $' + (ww.totalWC - bw.totalWC).toFixed(0) + ' vs ' + ww.country;
+  }
+  const risk = [...PIPELINE_DATA.countries].sort((a,b) => b.vulnerability_score - a.vulnerability_score)[0];
+  document.getElementById('risk-name').textContent = risk.country + ' (' + risk.vulnerability_score + '/10)';
+  document.getElementById('risk-detail').textContent = 'Region: ' + risk.region;
+}
+
+function updateCharts(ec, wc) {
+  const mkData = (items, key) => ({ labels: items.map(r=>r.country), datasets: [{ data: items.map(r=>r[key]),
+    backgroundColor: items.map(r => REGION_COLORS[r.region] + 'cc'), borderColor: items.map((r,i) => i===0 ? '#eab308' : REGION_COLORS[r.region]),
+    borderWidth: items.map((_,i) => i===0 ? 3 : 1) }] });
+  const opts = (title) => ({ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.x.toFixed(2)}}}, scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} });
+  if (ecChart) { ecChart.data = mkData(ec,'totalEC'); ecChart.update(); }
+  else { ecChart = new Chart(document.getElementById('ec-chart'), { type:'bar', data:mkData(ec,'totalEC'), options:opts('East Coast') });
+    document.getElementById('ec-chart').parentElement.style.height = Math.max(400, ec.length * 28) + 'px'; }
+  if (wcChart) { wcChart.data = mkData(wc,'totalWC'); wcChart.update(); }
+  else { wcChart = new Chart(document.getElementById('wc-chart'), { type:'bar', data:mkData(wc,'totalWC'), options:opts('West Coast') });
+    document.getElementById('wc-chart').parentElement.style.height = Math.max(400, wc.length * 28) + 'px'; }
+}
+
+function buildRadar() {
+  const top5 = [...PIPELINE_DATA.countries].sort((a,b) => b.vulnerability_score - a.vulnerability_score).slice(0,5);
+  if (!top5[0]?.vulnerability_breakdown) return;
+  document.getElementById('radar-wrap').style.display = '';
+  const labels = ['Freight','Resin','Electricity','Log Price','Labor','FX Buffer'];
+  const keys = ['freight','resin','electricity','log_price','labor','fx_buffer'];
+  const colors = ['#2563eb','#16a34a','#ea580c','#dc2626','#8b5cf6','#06b6d4'];
+  const datasets = top5.map((c,i) => ({ label:c.country, data:keys.map(k=>c.vulnerability_breakdown[k]||0),
+    borderColor:colors[i], backgroundColor:colors[i]+'22', borderWidth:2, pointRadius:3 }));
+  radarChart = new Chart(document.getElementById('radar-chart'), { type:'radar', data:{labels,datasets},
+    options:{responsive:true,maintainAspectRatio:true,scales:{r:{min:0,max:10,ticks:{stepSize:2}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}} });
+}
+
+const COLS = ['Country','Region','Log','Resin','Elec','Labor','Frt EC','Frt WC','Duty','FX','Total EC','Total WC','Vuln'];
+const KEYS = ['country','region','log','resin','elec','labor','freightEC','freightWC','duty','fx','totalEC','totalWC','vuln'];
+
+function updateTable(rows) {
+  const thead = document.querySelector('#data-table thead tr');
+  if (!thead.children.length) {
+    COLS.forEach((c,i) => { const th = document.createElement('th'); th.textContent = c;
+      th.onclick = () => { sortAsc = sortCol===i ? !sortAsc : true; sortCol=i; updateTable(rows); }; thead.appendChild(th); });
+  }
+  if (sortCol >= 0) { const k = KEYS[sortCol]; rows.sort((a,b) => { const av=a[k]??999,bv=b[k]??999;
+    return typeof av==='string' ? (sortAsc?1:-1)*av.localeCompare(bv) : (sortAsc?1:-1)*(av-bv); }); }
+  const tbody = document.querySelector('#data-table tbody'); tbody.innerHTML = '';
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    if (r.totalEC > 300) tr.className = 'high-cost';
+    KEYS.forEach(k => { const td = document.createElement('td'); let v = r[k];
+      if (k === 'vuln') { td.innerHTML = '<span class="vuln ' + vulnClass(v) + '">' + v + '</span>'; }
+      else if (typeof v === 'number') td.textContent = '$' + v.toFixed(2);
+      else if (v === null) td.textContent = '--';
+      else td.textContent = v;
+      tr.appendChild(td); });
+    tbody.appendChild(tr);
+  });
+}
+
+function vulnClass(v) { if (v<=3) return 'v-green'; if (v<=6) return 'v-yellow'; if (v<=8) return 'v-orange'; return 'v-red'; }
+
+loadData();
+</script>
+</body>
+</html>

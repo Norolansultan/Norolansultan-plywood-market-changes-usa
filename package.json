@@ -4,7 +4,12 @@
   "description": "US Plywood Market Intelligence System\r A BI platform that automates collection and analysis of macroeconomic, trade, pricing, and regulatory data for the US plywood industry. Built with Power Query, Power Pivot, and DAX — designed to run on any corporate laptop with zero licensing costs.\r Full design rationale and architecture details are in specs/.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node scripts/build.js",
+    "pipeline": "node scripts/run-pipeline.js",
+    "pipeline:fetch": "node scripts/run-pipeline.js --fetch-only",
+    "pipeline:calculate": "node scripts/run-pipeline.js --calculate-only",
+    "pipeline:full": "node scripts/run-pipeline.js && node scripts/build.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,7 @@
   },
   "dependencies": {
     "agentic-flow": "^2.0.7",
+    "dotenv": "^16.6.1",
     "sql.js": "^1.14.1"
   }
 }
