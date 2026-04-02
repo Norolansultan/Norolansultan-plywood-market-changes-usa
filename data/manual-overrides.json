@@ -43,6 +43,14 @@
       "spain_savannah": 2100,
       "belgium_savannah": 2200,
       "gabon_savannah": 2600,
+      "gabon_long_beach": 4200,
+      "finland_long_beach": 4800,
+      "sweden_long_beach": 4500,
+      "germany_long_beach": 4300,
+      "poland_long_beach": 4600,
+      "italy_long_beach": 4400,
+      "spain_long_beach": 4000,
+      "belgium_long_beach": 4300,
       "ecuador_savannah": 2100,
       "ecuador_long_beach": 2400,
       "paraguay_savannah": 2800,
@@ -53,6 +61,7 @@
       "transpacific_wc": 73,
       "transatlantic": 62,
       "americas_short": 40,
+      "transatlantic_wc": 95,
       "panama_surcharge": 200
     }
   },
@@ -134,6 +143,36 @@
     "fta_zero_duty": ["canada", "chile"],
     "gsp_reduced": ["gabon", "cambodia", "indonesia"],
     "notes": "Standard MFN tariff is 8% on HS 4412. Canada zero via USMCA. Chile zero via US-Chile FTA. GSP status may reduce effective rate for qualifying countries."
+  },
+
+  "price_per_unit": {
+    "last_updated": "2026-04-02",
+    "source": "USITC import data 2023-2025, median CIF/qty converted to $/m3",
+    "notes": "m2 products (flooring) converted using 18mm thickness. Only monthly shipments >= 50 units included.",
+    "median_usd_per_m3": {
+      "belgium": 206,
+      "brazil": 828,
+      "cambodia": 1275,
+      "canada": 768,
+      "chile": 533,
+      "ecuador": 0,
+      "finland": 772,
+      "gabon": 0,
+      "germany": 478,
+      "guatemala": 1868,
+      "indonesia": 1745,
+      "italy": 228,
+      "malaysia": 1806,
+      "mexico": 581,
+      "paraguay": 819,
+      "poland": 1714,
+      "spain": 743,
+      "sweden": 2055,
+      "taiwan": 458,
+      "thailand": 970,
+      "uruguay": 0,
+      "vietnam": 608
+    }
   },
 
   "fx_baselines": {

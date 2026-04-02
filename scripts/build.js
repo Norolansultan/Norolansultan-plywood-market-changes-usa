@@ -87,11 +87,11 @@ function parseMarketCSV(csvPath) {
     const thickMm = thickMatch ? parseFloat(thickMatch[1]) : (isFlooring ? 18 : 12);
     const thickM  = thickMm / 1000;
 
-    // Only show price/unit for products explicitly measured in m3.
-    // m2 products and threshold-based conversions are excluded (set to 0).
     let pricePerQty = 0;
     if (rawPpu > 0 && isM3) {
       pricePerQty = Math.round(rawPpu * 100) / 100;
+    } else if (rawPpu > 0 && isM2) {
+      pricePerQty = Math.round((rawPpu / thickM) * 100) / 100;
     }
 
     const key = `${c}|${wt}|${sp}|${t}`;
@@ -168,8 +168,8 @@ templates.forEach(tpl => {
 // ── Build sensitivity dashboard (separate data injection) ────────────────────
 const sensTplPath = path.join(ROOT, 'src/sensitivity-dashboard.html');
 if (fs.existsSync(sensTplPath)) {
-  const PIPELINE_PLACEHOLDER = 'const PIPELINE_DATA = []; // <<PIPELINE_DATA>>';
-  const OVERRIDES_PLACEHOLDER = 'const OVERRIDES_DATA = {}; // <<OVERRIDES_DATA>>';
+  const PIPELINE_PLACEHOLDER = 'let PIPELINE_DATA = []; // <<PIPELINE_DATA>>';
+  const OVERRIDES_PLACEHOLDER = 'let OVERRIDES_DATA = {}; // <<OVERRIDES_DATA>>';
 
   let sensTpl = fs.readFileSync(sensTplPath, 'utf8');
   const pipelinePath = path.join(ROOT, 'data/pipeline-output.json');
@@ -181,8 +181,8 @@ if (fs.existsSync(sensTplPath)) {
 
     if (sensTpl.includes(PIPELINE_PLACEHOLDER)) {
       sensTpl = sensTpl
-        .replace(PIPELINE_PLACEHOLDER, `const PIPELINE_DATA = ${pipelineStr};`)
-        .replace(OVERRIDES_PLACEHOLDER, `const OVERRIDES_DATA = ${overridesStr};`);
+        .replace(PIPELINE_PLACEHOLDER, `let PIPELINE_DATA = ${pipelineStr};`)
+        .replace(OVERRIDES_PLACEHOLDER, `let OVERRIDES_DATA = ${overridesStr};`);
     }
 
     const sensOut = path.join(distDir, 'sensitivity-dashboard.html');

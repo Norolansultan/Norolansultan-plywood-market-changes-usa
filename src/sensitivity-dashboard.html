@@ -56,8 +56,15 @@ tr.high-cost{background:#fef2f2}
 </style>
 </head>
 <body>
+<nav style="background:var(--navy);display:flex;align-items:center;gap:2px;padding:0 20px;height:48px;font-size:13px">
+  <span style="font-size:15px;font-weight:700;color:#eab308;margin-right:16px;white-space:nowrap">📊 Sensitivity</span>
+  <a href="dashboard.html" style="color:#94a3b8;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .15s">Full Dashboard</a>
+  <a href="executive-summary.html" style="color:#94a3b8;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .15s">Executive Brief</a>
+  <a href="inflation-risk.html" style="color:#94a3b8;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .15s">Risk Analysis</a>
+  <a href="sensitivity-dashboard.html" style="color:#e2e8f0;background:rgba(255,255,255,.1);text-decoration:none;padding:6px 12px;border-radius:6px">Sensitivity</a>
+</nav>
 <header>
-  <div><h1>Plywood Market Sensitivity Dashboard</h1><div class="sub">War &amp; Energy Impact on Export Costs to USA</div></div>
+  <div><h1>Plywood Market Sensitivity Dashboard</h1><div class="sub">War &amp; Energy Impact on Export Costs to USA &mdash; PPU from USITC import data 2023&ndash;2025</div></div>
   <div class="meta"><span id="m-brent"></span><span id="m-date"></span><span id="m-count"></span></div>
 </header>
 <div class="wrap">
@@ -152,7 +159,8 @@ function calcCIF(country, brent) {
   const ecDuty = buildEC * dutyRate, wcDuty = buildWC !== null ? buildWC * dutyRate : null;
   const totalEC = buildEC + ecDuty + base.fx_adjustment;
   const totalWC = buildWC !== null ? buildWC + wcDuty + (c.cif.west_coast?.fx_adjustment || 0) : null;
-  return { country, region: c.region, totalEC: +totalEC.toFixed(2), totalWC: totalWC !== null ? +totalWC.toFixed(2) : null,
+  const ppu = c.price_per_unit_m3 || OVERRIDES_DATA.price_per_unit?.median_usd_per_m3?.[country.toLowerCase()] || 0;
+  return { country, region: c.region, ppu, totalEC: +totalEC.toFixed(2), totalWC: totalWC !== null ? +totalWC.toFixed(2) : null,
     log: +logAdj.toFixed(2), resin: +resinAdj.toFixed(2), elec: +elecAdj.toFixed(2), labor: ov.labor,
     freightEC: +freightECadj.toFixed(2), freightWC: freightWCadj > 0 ? +freightWCadj.toFixed(2) : null,
     duty: +(ecDuty).toFixed(2), fx: base.fx_adjustment, vuln: c.vulnerability_score };
@@ -188,13 +196,13 @@ function updateCharts(ec, wc) {
   const mkData = (items, key) => ({ labels: items.map(r=>r.country), datasets: [{ data: items.map(r=>r[key]),
     backgroundColor: items.map(r => REGION_COLORS[r.region] + 'cc'), borderColor: items.map((r,i) => i===0 ? '#eab308' : REGION_COLORS[r.region]),
     borderWidth: items.map((_,i) => i===0 ? 3 : 1) }] });
-  const opts = (title) => ({ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
-    tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.x.toFixed(2)}}}, scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} });
-  if (ecChart) { ecChart.data = mkData(ec,'totalEC'); ecChart.update(); }
-  else { ecChart = new Chart(document.getElementById('ec-chart'), { type:'bar', data:mkData(ec,'totalEC'), options:opts('East Coast') });
+  const opts = (title, items) => ({ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>{ const r = items[ctx.dataIndex]; const ppu = r && r.ppu > 0 ? ' | PPU: $' + r.ppu + '/m3' : ''; return 'CIF: $'+ctx.parsed.x.toFixed(2)+ppu; }}}}, scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} });
+  if (ecChart) { ecChart.data = mkData(ec,'totalEC'); ecChart.options = opts('East Coast', ec); ecChart.update(); }
+  else { ecChart = new Chart(document.getElementById('ec-chart'), { type:'bar', data:mkData(ec,'totalEC'), options:opts('East Coast', ec) });
     document.getElementById('ec-chart').parentElement.style.height = Math.max(400, ec.length * 28) + 'px'; }
-  if (wcChart) { wcChart.data = mkData(wc,'totalWC'); wcChart.update(); }
-  else { wcChart = new Chart(document.getElementById('wc-chart'), { type:'bar', data:mkData(wc,'totalWC'), options:opts('West Coast') });
+  if (wcChart) { wcChart.data = mkData(wc,'totalWC'); wcChart.options = opts('West Coast', wc); wcChart.update(); }
+  else { wcChart = new Chart(document.getElementById('wc-chart'), { type:'bar', data:mkData(wc,'totalWC'), options:opts('West Coast', wc) });
     document.getElementById('wc-chart').parentElement.style.height = Math.max(400, wc.length * 28) + 'px'; }
 }
 
@@ -212,8 +220,8 @@ function buildRadar() {
     plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}} });
 }
 
-const COLS = ['Country','Region','Log','Resin','Elec','Labor','Frt EC','Frt WC','Duty','FX','Total EC','Total WC','Vuln'];
-const KEYS = ['country','region','log','resin','elec','labor','freightEC','freightWC','duty','fx','totalEC','totalWC','vuln'];
+const COLS = ['Country','Region','PPU $/m3','Log','Resin','Elec','Labor','Frt EC','Frt WC','Duty','FX','Total EC','Total WC','Vuln'];
+const KEYS = ['country','region','ppu','log','resin','elec','labor','freightEC','freightWC','duty','fx','totalEC','totalWC','vuln'];
 
 function updateTable(rows) {
   const thead = document.querySelector('#data-table thead tr');
@@ -229,6 +237,7 @@ function updateTable(rows) {
     if (r.totalEC > 300) tr.className = 'high-cost';
     KEYS.forEach(k => { const td = document.createElement('td'); let v = r[k];
       if (k === 'vuln') { td.innerHTML = '<span class="vuln ' + vulnClass(v) + '">' + v + '</span>'; }
+      else if (k === 'ppu') { td.textContent = v > 0 ? '$' + v : '--'; td.style.fontWeight = v > 0 ? '600' : 'normal'; td.style.color = v > 0 ? 'var(--text)' : 'var(--muted)'; }
       else if (typeof v === 'number') td.textContent = '$' + v.toFixed(2);
       else if (v === null) td.textContent = '--';
       else td.textContent = v;

@@ -56,6 +56,13 @@ tr.high-cost{background:#fef2f2}
 </style>
 </head>
 <body>
+<nav style="background:var(--navy);display:flex;align-items:center;gap:2px;padding:0 20px;height:48px;font-size:13px">
+  <span style="font-size:15px;font-weight:700;color:#eab308;margin-right:16px;white-space:nowrap">📊 Sensitivity</span>
+  <a href="dashboard.html" style="color:#94a3b8;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .15s">Full Dashboard</a>
+  <a href="executive-summary.html" style="color:#94a3b8;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .15s">Executive Brief</a>
+  <a href="inflation-risk.html" style="color:#94a3b8;text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .15s">Risk Analysis</a>
+  <a href="sensitivity-dashboard.html" style="color:#e2e8f0;background:rgba(255,255,255,.1);text-decoration:none;padding:6px 12px;border-radius:6px">Sensitivity</a>
+</nav>
 <header>
   <div><h1>Plywood Market Sensitivity Dashboard</h1><div class="sub">War &amp; Energy Impact on Export Costs to USA</div></div>
   <div class="meta"><span id="m-brent"></span><span id="m-date"></span><span id="m-count"></span></div>
@@ -90,8 +97,1191 @@ tr.high-cost{background:#fef2f2}
 </div>
 <script>
 /* ---- DATA INJECTION (build script replaces these; fallback fetches JSON) ---- */
-let PIPELINE_DATA = []; // <<PIPELINE_DATA>>
-let OVERRIDES_DATA = {}; // <<OVERRIDES_DATA>>
+let PIPELINE_DATA = {
+  "generated_at": "2026-04-02T15:15:37.468Z",
+  "brent_baseline_usd": 92,
+  "country_count": 20,
+  "countries": [
+    {
+      "country": "Indonesia",
+      "region": "Asia",
+      "currency": "IDR",
+      "cif": {
+        "east_coast": {
+          "log": 65,
+          "resin": 11.7,
+          "electricity": 14.5,
+          "labor": 8,
+          "freight": 152.17,
+          "port_handling": 14,
+          "add_duty": 7.94,
+          "fx_adjustment": 1.63,
+          "total_cif": 274.94
+        },
+        "west_coast": {
+          "log": 65,
+          "resin": 11.7,
+          "electricity": 14.5,
+          "labor": 8,
+          "freight": 104.35,
+          "port_handling": 14,
+          "add_duty": 7.94,
+          "fx_adjustment": 1.63,
+          "total_cif": 227.12
+        }
+      },
+      "price_per_unit_m3": 1745,
+      "vulnerability_score": 6.5,
+      "vulnerability_breakdown": {
+        "freight": 8,
+        "resin": 6,
+        "electricity": 5,
+        "log_price": 6,
+        "labor": 9,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Vietnam",
+      "region": "Asia",
+      "currency": "VND",
+      "cif": {
+        "east_coast": {
+          "log": 52.5,
+          "resin": 9.45,
+          "electricity": 16,
+          "labor": 10,
+          "freight": 143.48,
+          "port_handling": 14,
+          "add_duty": 29.04,
+          "fx_adjustment": 3.15,
+          "total_cif": 277.62
+        },
+        "west_coast": {
+          "log": 52.5,
+          "resin": 9.45,
+          "electricity": 16,
+          "labor": 10,
+          "freight": 102.17,
+          "port_handling": 14,
+          "add_duty": 29.04,
+          "fx_adjustment": 3.15,
+          "total_cif": 236.31
+        }
+      },
+      "price_per_unit_m3": 608,
+      "vulnerability_score": 5.7,
+      "vulnerability_breakdown": {
+        "freight": 8,
+        "resin": 6,
+        "electricity": 5,
+        "log_price": 4,
+        "labor": 9,
+        "fx_buffer": 2
+      }
+    },
+    {
+      "country": "Cambodia",
+      "region": "Asia",
+      "currency": "KHR",
+      "cif": {
+        "east_coast": {
+          "log": 47.5,
+          "resin": 8.55,
+          "electricity": 21,
+          "labor": 6,
+          "freight": 160.87,
+          "port_handling": 14,
+          "add_duty": 6.64,
+          "fx_adjustment": 0,
+          "total_cif": 264.56
+        },
+        "west_coast": {
+          "log": 47.5,
+          "resin": 8.55,
+          "electricity": 21,
+          "labor": 6,
+          "freight": 115.22,
+          "port_handling": 14,
+          "add_duty": 6.64,
+          "fx_adjustment": 0,
+          "total_cif": 218.91
+        }
+      },
+      "price_per_unit_m3": 1275,
+      "vulnerability_score": 7.1,
+      "vulnerability_breakdown": {
+        "freight": 8,
+        "resin": 8,
+        "electricity": 7,
+        "log_price": 4,
+        "labor": 9,
+        "fx_buffer": 8
+      }
+    },
+    {
+      "country": "Malaysia",
+      "region": "Asia",
+      "currency": "MYR",
+      "cif": {
+        "east_coast": {
+          "log": 95,
+          "resin": 17.1,
+          "electricity": 12.5,
+          "labor": 18,
+          "freight": 139.13,
+          "port_handling": 14,
+          "add_duty": 11.41,
+          "fx_adjustment": 1.9,
+          "total_cif": 309.04
+        },
+        "west_coast": {
+          "log": 95,
+          "resin": 17.1,
+          "electricity": 12.5,
+          "labor": 18,
+          "freight": 96.74,
+          "port_handling": 14,
+          "add_duty": 11.41,
+          "fx_adjustment": 1.9,
+          "total_cif": 266.65
+        }
+      },
+      "price_per_unit_m3": 1806,
+      "vulnerability_score": 6,
+      "vulnerability_breakdown": {
+        "freight": 8,
+        "resin": 4,
+        "electricity": 3,
+        "log_price": 8,
+        "labor": 8,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Thailand",
+      "region": "Asia",
+      "currency": "THB",
+      "cif": {
+        "east_coast": {
+          "log": 37.5,
+          "resin": 6.75,
+          "electricity": 13.5,
+          "labor": 20,
+          "freight": 147.83,
+          "port_handling": 14,
+          "add_duty": 6.22,
+          "fx_adjustment": 0.38,
+          "total_cif": 246.18
+        },
+        "west_coast": {
+          "log": 37.5,
+          "resin": 6.75,
+          "electricity": 13.5,
+          "labor": 20,
+          "freight": 103.48,
+          "port_handling": 14,
+          "add_duty": 6.22,
+          "fx_adjustment": 0.38,
+          "total_cif": 201.83
+        }
+      },
+      "price_per_unit_m3": 970,
+      "vulnerability_score": 4.8,
+      "vulnerability_breakdown": {
+        "freight": 8,
+        "resin": 4,
+        "electricity": 3,
+        "log_price": 2,
+        "labor": 8,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Taiwan",
+      "region": "Asia",
+      "currency": "TWD",
+      "cif": {
+        "east_coast": {
+          "log": 85,
+          "resin": 15.3,
+          "electricity": 21,
+          "labor": 100,
+          "freight": 134.78,
+          "port_handling": 14,
+          "add_duty": 17.7,
+          "fx_adjustment": 0.85,
+          "total_cif": 388.63
+        },
+        "west_coast": {
+          "log": 85,
+          "resin": 15.3,
+          "electricity": 21,
+          "labor": 100,
+          "freight": 76.09,
+          "port_handling": 14,
+          "add_duty": 17.7,
+          "fx_adjustment": 0.85,
+          "total_cif": 329.94
+        }
+      },
+      "price_per_unit_m3": 458,
+      "vulnerability_score": 7,
+      "vulnerability_breakdown": {
+        "freight": 8,
+        "resin": 8,
+        "electricity": 7,
+        "log_price": 8,
+        "labor": 2,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Canada",
+      "region": "Americas",
+      "currency": "CAD",
+      "cif": {
+        "east_coast": {
+          "log": 75,
+          "resin": 13.5,
+          "electricity": 9.4,
+          "labor": 80,
+          "freight": 58.7,
+          "port_handling": 14,
+          "add_duty": 0,
+          "fx_adjustment": 0.75,
+          "total_cif": 251.35
+        },
+        "west_coast": {
+          "log": 75,
+          "resin": 13.5,
+          "electricity": 9.4,
+          "labor": 80,
+          "freight": 47.83,
+          "port_handling": 14,
+          "add_duty": 0,
+          "fx_adjustment": 0.75,
+          "total_cif": 240.48
+        }
+      },
+      "price_per_unit_m3": 768,
+      "vulnerability_score": 4,
+      "vulnerability_breakdown": {
+        "freight": 4,
+        "resin": 4,
+        "electricity": 1,
+        "log_price": 6,
+        "labor": 4,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Chile",
+      "region": "Americas",
+      "currency": "CLP",
+      "cif": {
+        "east_coast": {
+          "log": 60,
+          "resin": 10.8,
+          "electricity": 18,
+          "labor": 35,
+          "freight": 95.65,
+          "port_handling": 14,
+          "add_duty": 0,
+          "fx_adjustment": 1.8,
+          "total_cif": 235.25
+        },
+        "west_coast": {
+          "log": 60,
+          "resin": 10.8,
+          "electricity": 18,
+          "labor": 35,
+          "freight": 108.7,
+          "port_handling": 14,
+          "add_duty": 0,
+          "fx_adjustment": 1.8,
+          "total_cif": 248.3
+        }
+      },
+      "price_per_unit_m3": 533,
+      "vulnerability_score": 4.8,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 5,
+        "log_price": 4,
+        "labor": 6,
+        "fx_buffer": 4
+      }
+    },
+    {
+      "country": "Brazil",
+      "region": "Americas",
+      "currency": "BRL",
+      "cif": {
+        "east_coast": {
+          "log": 47.5,
+          "resin": 8.55,
+          "electricity": 12,
+          "labor": 25,
+          "freight": 97.83,
+          "port_handling": 14,
+          "add_duty": 7.44,
+          "fx_adjustment": 1.9,
+          "total_cif": 214.22
+        },
+        "west_coast": {
+          "log": 47.5,
+          "resin": 8.55,
+          "electricity": 12,
+          "labor": 25,
+          "freight": 130.43,
+          "port_handling": 14,
+          "add_duty": 7.44,
+          "fx_adjustment": 1.9,
+          "total_cif": 246.82
+        }
+      },
+      "price_per_unit_m3": 828,
+      "vulnerability_score": 4.6,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 3,
+        "log_price": 4,
+        "labor": 8,
+        "fx_buffer": 4
+      }
+    },
+    {
+      "country": "Uruguay",
+      "region": "Americas",
+      "currency": "UYU",
+      "cif": {
+        "east_coast": {
+          "log": 41.5,
+          "resin": 7.47,
+          "electricity": 12.5,
+          "labor": 30,
+          "freight": 86.96,
+          "port_handling": 14,
+          "add_duty": 7.32,
+          "fx_adjustment": 0.83,
+          "total_cif": 200.58
+        },
+        "west_coast": {
+          "log": 41.5,
+          "resin": 7.47,
+          "electricity": 12.5,
+          "labor": 30,
+          "freight": 114.13,
+          "port_handling": 14,
+          "add_duty": 7.32,
+          "fx_adjustment": 0.83,
+          "total_cif": 227.75
+        }
+      },
+      "price_per_unit_m3": 0,
+      "vulnerability_score": 3.8,
+      "vulnerability_breakdown": {
+        "freight": 4,
+        "resin": 2,
+        "electricity": 3,
+        "log_price": 4,
+        "labor": 6,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Finland",
+      "region": "EMEA",
+      "currency": "EUR",
+      "cif": {
+        "east_coast": {
+          "log": 75,
+          "resin": 13.5,
+          "electricity": 14,
+          "labor": 95,
+          "freight": 104.35,
+          "port_handling": 14,
+          "add_duty": 15.8,
+          "fx_adjustment": 1.5,
+          "total_cif": 333.15
+        },
+        "west_coast": {
+          "log": 75,
+          "resin": 13.5,
+          "electricity": 14,
+          "labor": 95,
+          "freight": 208.7,
+          "port_handling": 14,
+          "add_duty": 15.8,
+          "fx_adjustment": 1.5,
+          "total_cif": 437.5
+        }
+      },
+      "price_per_unit_m3": 772,
+      "vulnerability_score": 4.9,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 3,
+        "log_price": 6,
+        "labor": 2,
+        "fx_buffer": 9
+      }
+    },
+    {
+      "country": "Sweden",
+      "region": "EMEA",
+      "currency": "SEK",
+      "cif": {
+        "east_coast": {
+          "log": 70,
+          "resin": 12.6,
+          "electricity": 13,
+          "labor": 95,
+          "freight": 91.3,
+          "port_handling": 14,
+          "add_duty": 15.25,
+          "fx_adjustment": 0.7,
+          "total_cif": 311.85
+        },
+        "west_coast": {
+          "log": 70,
+          "resin": 12.6,
+          "electricity": 13,
+          "labor": 95,
+          "freight": 195.65,
+          "port_handling": 14,
+          "add_duty": 15.25,
+          "fx_adjustment": 0.7,
+          "total_cif": 416.2
+        }
+      },
+      "price_per_unit_m3": 2055,
+      "vulnerability_score": 4.6,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 3,
+        "log_price": 6,
+        "labor": 2,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Germany",
+      "region": "EMEA",
+      "currency": "EUR",
+      "cif": {
+        "east_coast": {
+          "log": 82.5,
+          "resin": 14.85,
+          "electricity": 24.4,
+          "labor": 110,
+          "freight": 95.65,
+          "port_handling": 14,
+          "add_duty": 18.54,
+          "fx_adjustment": 1.65,
+          "total_cif": 361.59
+        },
+        "west_coast": {
+          "log": 82.5,
+          "resin": 14.85,
+          "electricity": 24.4,
+          "labor": 110,
+          "freight": 186.96,
+          "port_handling": 14,
+          "add_duty": 18.54,
+          "fx_adjustment": 1.65,
+          "total_cif": 452.9
+        }
+      },
+      "price_per_unit_m3": 478,
+      "vulnerability_score": 6.9,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 6,
+        "electricity": 9,
+        "log_price": 8,
+        "labor": 2,
+        "fx_buffer": 9
+      }
+    },
+    {
+      "country": "Poland",
+      "region": "EMEA",
+      "currency": "PLN",
+      "cif": {
+        "east_coast": {
+          "log": 62,
+          "resin": 11.16,
+          "electricity": 19,
+          "labor": 14,
+          "freight": 100,
+          "port_handling": 14,
+          "add_duty": 8.49,
+          "fx_adjustment": 0.62,
+          "total_cif": 229.27
+        },
+        "west_coast": {
+          "log": 62,
+          "resin": 11.16,
+          "electricity": 19,
+          "labor": 14,
+          "freight": 200,
+          "port_handling": 14,
+          "add_duty": 8.49,
+          "fx_adjustment": 0.62,
+          "total_cif": 329.27
+        }
+      },
+      "price_per_unit_m3": 1714,
+      "vulnerability_score": 6.1,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 7,
+        "log_price": 6,
+        "labor": 9,
+        "fx_buffer": 6
+      }
+    },
+    {
+      "country": "Italy",
+      "region": "EMEA",
+      "currency": "EUR",
+      "cif": {
+        "east_coast": {
+          "log": 70,
+          "resin": 12.6,
+          "electricity": 25.4,
+          "labor": 30,
+          "freight": 102.17,
+          "port_handling": 14,
+          "add_duty": 11.04,
+          "fx_adjustment": 1.4,
+          "total_cif": 266.61
+        },
+        "west_coast": {
+          "log": 70,
+          "resin": 12.6,
+          "electricity": 25.4,
+          "labor": 30,
+          "freight": 191.3,
+          "port_handling": 14,
+          "add_duty": 11.04,
+          "fx_adjustment": 1.4,
+          "total_cif": 355.74
+        }
+      },
+      "price_per_unit_m3": 228,
+      "vulnerability_score": 6.5,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 9,
+        "log_price": 6,
+        "labor": 6,
+        "fx_buffer": 9
+      }
+    },
+    {
+      "country": "Spain",
+      "region": "EMEA",
+      "currency": "EUR",
+      "cif": {
+        "east_coast": {
+          "log": 55,
+          "resin": 9.9,
+          "electricity": 17,
+          "labor": 20,
+          "freight": 91.3,
+          "port_handling": 14,
+          "add_duty": 8.15,
+          "fx_adjustment": 1.1,
+          "total_cif": 216.45
+        },
+        "west_coast": {
+          "log": 55,
+          "resin": 9.9,
+          "electricity": 17,
+          "labor": 20,
+          "freight": 173.91,
+          "port_handling": 14,
+          "add_duty": 8.15,
+          "fx_adjustment": 1.1,
+          "total_cif": 299.06
+        }
+      },
+      "price_per_unit_m3": 743,
+      "vulnerability_score": 5.5,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 5,
+        "log_price": 4,
+        "labor": 8,
+        "fx_buffer": 9
+      }
+    },
+    {
+      "country": "Belgium",
+      "region": "EMEA",
+      "currency": "EUR",
+      "cif": {
+        "east_coast": {
+          "log": 54,
+          "resin": 9.72,
+          "electricity": 22.4,
+          "labor": 35,
+          "freight": 95.65,
+          "port_handling": 14,
+          "add_duty": 9.69,
+          "fx_adjustment": 1.08,
+          "total_cif": 241.54
+        },
+        "west_coast": {
+          "log": 54,
+          "resin": 9.72,
+          "electricity": 22.4,
+          "labor": 35,
+          "freight": 186.96,
+          "port_handling": 14,
+          "add_duty": 9.69,
+          "fx_adjustment": 1.08,
+          "total_cif": 332.85
+        }
+      },
+      "price_per_unit_m3": 206,
+      "vulnerability_score": 6.1,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 9,
+        "log_price": 4,
+        "labor": 6,
+        "fx_buffer": 9
+      }
+    },
+    {
+      "country": "Gabon",
+      "region": "EMEA",
+      "currency": "XAF",
+      "cif": {
+        "east_coast": {
+          "log": 110,
+          "resin": 19.8,
+          "electricity": 19,
+          "labor": 15,
+          "freight": 113.04,
+          "port_handling": 14,
+          "add_duty": 13.1,
+          "fx_adjustment": 2.2,
+          "total_cif": 306.14
+        },
+        "west_coast": {
+          "log": 110,
+          "resin": 19.8,
+          "electricity": 19,
+          "labor": 15,
+          "freight": 182.61,
+          "port_handling": 14,
+          "add_duty": 13.1,
+          "fx_adjustment": 2.2,
+          "total_cif": 375.71
+        }
+      },
+      "price_per_unit_m3": 0,
+      "vulnerability_score": 7.5,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 6,
+        "electricity": 7,
+        "log_price": 10,
+        "labor": 8,
+        "fx_buffer": 9
+      }
+    },
+    {
+      "country": "Ecuador",
+      "region": "Americas",
+      "currency": "USD",
+      "cif": {
+        "east_coast": {
+          "log": 50,
+          "resin": 9,
+          "electricity": 17,
+          "labor": 15,
+          "freight": 91.3,
+          "port_handling": 14,
+          "add_duty": 7.28,
+          "fx_adjustment": 0,
+          "total_cif": 203.58
+        },
+        "west_coast": {
+          "log": 50,
+          "resin": 9,
+          "electricity": 17,
+          "labor": 15,
+          "freight": 104.35,
+          "port_handling": 14,
+          "add_duty": 7.28,
+          "fx_adjustment": 0,
+          "total_cif": 216.63
+        }
+      },
+      "price_per_unit_m3": 0,
+      "vulnerability_score": 5.8,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 6,
+        "electricity": 5,
+        "log_price": 4,
+        "labor": 8,
+        "fx_buffer": 8
+      }
+    },
+    {
+      "country": "Paraguay",
+      "region": "Americas",
+      "currency": "USD",
+      "cif": {
+        "east_coast": {
+          "log": 45,
+          "resin": 8.1,
+          "electricity": 9,
+          "labor": 12,
+          "freight": 121.74,
+          "port_handling": 14,
+          "add_duty": 5.93,
+          "fx_adjustment": 0,
+          "total_cif": 215.77
+        },
+        "west_coast": {
+          "log": 45,
+          "resin": 8.1,
+          "electricity": 9,
+          "labor": 12,
+          "freight": 139.13,
+          "port_handling": 14,
+          "add_duty": 5.93,
+          "fx_adjustment": 0,
+          "total_cif": 233.16
+        }
+      },
+      "price_per_unit_m3": 819,
+      "vulnerability_score": 4.7,
+      "vulnerability_breakdown": {
+        "freight": 6,
+        "resin": 4,
+        "electricity": 1,
+        "log_price": 4,
+        "labor": 9,
+        "fx_buffer": 8
+      }
+    }
+  ],
+  "rankings": {
+    "east_coast": [
+      {
+        "rank": 1,
+        "country": "Uruguay",
+        "total_cif_ec": 200.58
+      },
+      {
+        "rank": 2,
+        "country": "Ecuador",
+        "total_cif_ec": 203.58
+      },
+      {
+        "rank": 3,
+        "country": "Brazil",
+        "total_cif_ec": 214.22
+      },
+      {
+        "rank": 4,
+        "country": "Paraguay",
+        "total_cif_ec": 215.77
+      },
+      {
+        "rank": 5,
+        "country": "Spain",
+        "total_cif_ec": 216.45
+      },
+      {
+        "rank": 6,
+        "country": "Poland",
+        "total_cif_ec": 229.27
+      },
+      {
+        "rank": 7,
+        "country": "Chile",
+        "total_cif_ec": 235.25
+      },
+      {
+        "rank": 8,
+        "country": "Belgium",
+        "total_cif_ec": 241.54
+      },
+      {
+        "rank": 9,
+        "country": "Thailand",
+        "total_cif_ec": 246.18
+      },
+      {
+        "rank": 10,
+        "country": "Canada",
+        "total_cif_ec": 251.35
+      },
+      {
+        "rank": 11,
+        "country": "Cambodia",
+        "total_cif_ec": 264.56
+      },
+      {
+        "rank": 12,
+        "country": "Italy",
+        "total_cif_ec": 266.61
+      },
+      {
+        "rank": 13,
+        "country": "Indonesia",
+        "total_cif_ec": 274.94
+      },
+      {
+        "rank": 14,
+        "country": "Vietnam",
+        "total_cif_ec": 277.62
+      },
+      {
+        "rank": 15,
+        "country": "Gabon",
+        "total_cif_ec": 306.14
+      },
+      {
+        "rank": 16,
+        "country": "Malaysia",
+        "total_cif_ec": 309.04
+      },
+      {
+        "rank": 17,
+        "country": "Sweden",
+        "total_cif_ec": 311.85
+      },
+      {
+        "rank": 18,
+        "country": "Finland",
+        "total_cif_ec": 333.15
+      },
+      {
+        "rank": 19,
+        "country": "Germany",
+        "total_cif_ec": 361.59
+      },
+      {
+        "rank": 20,
+        "country": "Taiwan",
+        "total_cif_ec": 388.63
+      }
+    ],
+    "west_coast": [
+      {
+        "rank": 1,
+        "country": "Thailand",
+        "total_cif_wc": 201.83
+      },
+      {
+        "rank": 2,
+        "country": "Ecuador",
+        "total_cif_wc": 216.63
+      },
+      {
+        "rank": 3,
+        "country": "Cambodia",
+        "total_cif_wc": 218.91
+      },
+      {
+        "rank": 4,
+        "country": "Indonesia",
+        "total_cif_wc": 227.12
+      },
+      {
+        "rank": 5,
+        "country": "Uruguay",
+        "total_cif_wc": 227.75
+      },
+      {
+        "rank": 6,
+        "country": "Paraguay",
+        "total_cif_wc": 233.16
+      },
+      {
+        "rank": 7,
+        "country": "Vietnam",
+        "total_cif_wc": 236.31
+      },
+      {
+        "rank": 8,
+        "country": "Canada",
+        "total_cif_wc": 240.48
+      },
+      {
+        "rank": 9,
+        "country": "Brazil",
+        "total_cif_wc": 246.82
+      },
+      {
+        "rank": 10,
+        "country": "Chile",
+        "total_cif_wc": 248.3
+      },
+      {
+        "rank": 11,
+        "country": "Malaysia",
+        "total_cif_wc": 266.65
+      },
+      {
+        "rank": 12,
+        "country": "Spain",
+        "total_cif_wc": 299.06
+      },
+      {
+        "rank": 13,
+        "country": "Poland",
+        "total_cif_wc": 329.27
+      },
+      {
+        "rank": 14,
+        "country": "Taiwan",
+        "total_cif_wc": 329.94
+      },
+      {
+        "rank": 15,
+        "country": "Belgium",
+        "total_cif_wc": 332.85
+      },
+      {
+        "rank": 16,
+        "country": "Italy",
+        "total_cif_wc": 355.74
+      },
+      {
+        "rank": 17,
+        "country": "Gabon",
+        "total_cif_wc": 375.71
+      },
+      {
+        "rank": 18,
+        "country": "Sweden",
+        "total_cif_wc": 416.2
+      },
+      {
+        "rank": 19,
+        "country": "Finland",
+        "total_cif_wc": 437.5
+      },
+      {
+        "rank": 20,
+        "country": "Germany",
+        "total_cif_wc": 452.9
+      }
+    ]
+  },
+  "monitoring": {
+    "triggered": false,
+    "triggers_fired": []
+  }
+};
+let OVERRIDES_DATA = {
+  "version": "1.0",
+  "last_updated": "2026-04-02",
+  "notes": "Manual overrides for data that cannot be automated via free APIs. Values here take precedence over API data and proxy models. Update quarterly or when significant market events occur.",
+
+  "constants": {
+    "container_fill_m3_per_teu": 23,
+    "electricity_intensity_kwh_per_m3": 200,
+    "resin_share_of_cogs_pct": 18,
+    "log_to_product_ratio": 2.2,
+    "brent_baseline_usd": 92
+  },
+
+  "freight_rates": {
+    "last_updated": "2026-04-02",
+    "source": "Analyst estimate from Freightos FBX weekly composite + Drewry WCI",
+    "rates_usd_per_teu": {
+      "indonesia_savannah": 3500,
+      "indonesia_long_beach": 2400,
+      "vietnam_savannah": 3300,
+      "vietnam_long_beach": 2350,
+      "cambodia_savannah": 3700,
+      "cambodia_long_beach": 2650,
+      "malaysia_savannah": 3200,
+      "malaysia_long_beach": 2225,
+      "thailand_savannah": 3400,
+      "thailand_long_beach": 2380,
+      "taiwan_savannah": 3100,
+      "taiwan_long_beach": 1750,
+      "canada_qc_savannah": 1350,
+      "canada_bc_long_beach": 1100,
+      "chile_savannah": 2200,
+      "chile_long_beach": 2500,
+      "brazil_savannah": 2250,
+      "brazil_long_beach": 3000,
+      "uruguay_savannah": 2000,
+      "uruguay_long_beach": 2625,
+      "finland_savannah": 2400,
+      "sweden_savannah": 2100,
+      "germany_savannah": 2200,
+      "poland_savannah": 2300,
+      "italy_savannah": 2350,
+      "spain_savannah": 2100,
+      "belgium_savannah": 2200,
+      "gabon_savannah": 2600,
+      "gabon_long_beach": 4200,
+      "finland_long_beach": 4800,
+      "sweden_long_beach": 4500,
+      "germany_long_beach": 4300,
+      "poland_long_beach": 4600,
+      "italy_long_beach": 4400,
+      "spain_long_beach": 4000,
+      "belgium_long_beach": 4300,
+      "ecuador_savannah": 2100,
+      "ecuador_long_beach": 2400,
+      "paraguay_savannah": 2800,
+      "paraguay_long_beach": 3200
+    },
+    "sensitivity_per_10_bbl_usd_per_teu": {
+      "transpacific_ec": 105,
+      "transpacific_wc": 73,
+      "transatlantic": 62,
+      "americas_short": 40,
+      "transatlantic_wc": 95,
+      "panama_surcharge": 200
+    }
+  },
+
+  "log_prices": {
+    "last_updated": "2026-04-02",
+    "source": "Analyst estimates, FAOSTAT 2024 baseline + Q1 2026 market intelligence",
+    "prices_usd_per_m3": {
+      "indonesia": { "species": "Meranti/Acacia", "price_mid": 65, "range": [55, 75], "oil_sensitivity_pct_per_10": 3.0 },
+      "vietnam": { "species": "Acacia plantation", "price_mid": 52.5, "range": [45, 60], "oil_sensitivity_pct_per_10": 2.5 },
+      "cambodia": { "species": "Mixed hardwood", "price_mid": 47.5, "range": [40, 55], "oil_sensitivity_pct_per_10": 4.0 },
+      "malaysia": { "species": "Mixed tropical", "price_mid": 95, "range": [80, 110], "oil_sensitivity_pct_per_10": 2.0 },
+      "thailand": { "species": "Rubberwood", "price_mid": 37.5, "range": [30, 45], "oil_sensitivity_pct_per_10": 1.5 },
+      "taiwan": { "species": "Imported tropical", "price_mid": 85, "range": [70, 100], "oil_sensitivity_pct_per_10": 4.0 },
+      "canada": { "species": "SPF", "price_mid": 75, "range": [60, 90], "oil_sensitivity_pct_per_10": 1.5 },
+      "chile": { "species": "Radiata Pine", "price_mid": 60, "range": [50, 70], "oil_sensitivity_pct_per_10": 1.5 },
+      "brazil": { "species": "Eucalyptus/Pine", "price_mid": 47.5, "range": [40, 55], "oil_sensitivity_pct_per_10": 1.5 },
+      "uruguay": { "species": "Eucalyptus", "price_mid": 41.5, "range": [35, 48], "oil_sensitivity_pct_per_10": 1.0 },
+      "finland": { "species": "Spruce/Scots Pine", "price_mid": 75, "range": [65, 85], "oil_sensitivity_pct_per_10": 1.5 },
+      "sweden": { "species": "Spruce/Pine", "price_mid": 70, "range": [60, 80], "oil_sensitivity_pct_per_10": 1.5 },
+      "germany": { "species": "Spruce/Beech", "price_mid": 82.5, "range": [70, 95], "oil_sensitivity_pct_per_10": 2.5 },
+      "poland": { "species": "Scots Pine", "price_mid": 62, "range": [55, 70], "oil_sensitivity_pct_per_10": 2.0 },
+      "italy": { "species": "Oak/Beech + imports", "price_mid": 70, "range": [60, 85], "oil_sensitivity_pct_per_10": 2.0 },
+      "spain": { "species": "Radiata Pine/Eucalyptus", "price_mid": 55, "range": [45, 65], "oil_sensitivity_pct_per_10": 1.5 },
+      "belgium": { "species": "Imported", "price_mid": 54, "range": [45, 65], "oil_sensitivity_pct_per_10": 2.0 },
+      "gabon": { "species": "Okoume", "price_mid": 110, "range": [90, 130], "oil_sensitivity_pct_per_10": 3.0 },
+      "ecuador": { "species": "Balsa/Tropical", "price_mid": 50, "range": [40, 60], "oil_sensitivity_pct_per_10": 3.0 },
+      "paraguay": { "species": "Pine/Eucalyptus", "price_mid": 45, "range": [35, 55], "oil_sensitivity_pct_per_10": 2.0 }
+    }
+  },
+
+  "electricity": {
+    "last_updated": "2026-04-02",
+    "source": "Eurostat (EU), IEA (non-EU), analyst estimates",
+    "tariffs_usd_per_mwh": {
+      "indonesia": { "mid": 72.5, "range": [65, 80], "source_type": "biomass_cph_partial", "oil_correlation": 0.03 },
+      "vietnam": { "mid": 80, "range": [70, 90], "source_type": "coal_grid", "oil_correlation": 0.045 },
+      "cambodia": { "mid": 105, "range": [90, 120], "source_type": "imported_grid_diesel", "oil_correlation": 0.053 },
+      "malaysia": { "mid": 62.5, "range": [55, 70], "source_type": "gas_subsidy", "oil_correlation": 0.025 },
+      "thailand": { "mid": 67.5, "range": [60, 75], "source_type": "mixed_gas_renewables", "oil_correlation": 0.027 },
+      "taiwan": { "mid": 105, "range": [95, 115], "source_type": "gas_coal_nuclear", "oil_correlation": 0.035 },
+      "canada": { "mid": 47, "range": [40, 55], "source_type": "hydro", "oil_correlation": 0.005 },
+      "chile": { "mid": 90, "range": [80, 100], "source_type": "solar_gas_mix", "oil_correlation": 0.03 },
+      "brazil": { "mid": 60, "range": [50, 70], "source_type": "hydro", "oil_correlation": 0.01 },
+      "uruguay": { "mid": 62.5, "range": [55, 70], "source_type": "wind_hydro", "oil_correlation": 0.01 },
+      "finland": { "mid": 70, "range": [60, 80], "source_type": "biomass_chp", "oil_correlation": 0.01 },
+      "sweden": { "mid": 65, "range": [55, 75], "source_type": "hydro_nuclear", "oil_correlation": 0.01 },
+      "germany": { "mid": 122, "range": [110, 135], "source_type": "gas_grid", "oil_correlation": 0.04 },
+      "poland": { "mid": 95, "range": [85, 105], "source_type": "coal_grid", "oil_correlation": 0.02 },
+      "italy": { "mid": 127, "range": [115, 140], "source_type": "gas_heavy", "oil_correlation": 0.05 },
+      "spain": { "mid": 85, "range": [75, 95], "source_type": "solar_wind_gas", "oil_correlation": 0.03 },
+      "belgium": { "mid": 112, "range": [100, 125], "source_type": "gas_nuclear_partial", "oil_correlation": 0.04 },
+      "gabon": { "mid": 95, "range": [80, 110], "source_type": "diesel_hfo", "oil_correlation": 0.06 },
+      "ecuador": { "mid": 85, "range": [70, 100], "source_type": "hydro_thermal_mix", "oil_correlation": 0.03 },
+      "paraguay": { "mid": 45, "range": [35, 55], "source_type": "hydro_itaipu", "oil_correlation": 0.005 }
+    }
+  },
+
+  "labor": {
+    "last_updated": "2026-04-02",
+    "source": "ILO, national statistics, analyst estimates",
+    "cost_usd_per_m3": {
+      "indonesia": 8, "vietnam": 10, "cambodia": 6, "malaysia": 18,
+      "thailand": 20, "taiwan": 100, "canada": 80, "chile": 35,
+      "brazil": 25, "uruguay": 30, "finland": 95, "sweden": 95,
+      "germany": 110, "poland": 14, "italy": 30, "spain": 20,
+      "belgium": 35, "gabon": 15, "ecuador": 15, "paraguay": 12
+    }
+  },
+
+  "trade_duties": {
+    "last_updated": "2026-04-02",
+    "source": "USITC HTS 4412, ADD/CVD case database",
+    "add_cvd_usd_per_m3": {
+      "vietnam": 22,
+      "china": 50
+    },
+    "mfn_rate_pct": 8,
+    "fta_zero_duty": ["canada", "chile"],
+    "gsp_reduced": ["gabon", "cambodia", "indonesia"],
+    "notes": "Standard MFN tariff is 8% on HS 4412. Canada zero via USMCA. Chile zero via US-Chile FTA. GSP status may reduce effective rate for qualifying countries."
+  },
+
+  "price_per_unit": {
+    "last_updated": "2026-04-02",
+    "source": "USITC import data 2023-2025, median CIF/qty converted to $/m3",
+    "notes": "m2 products (flooring) converted using 18mm thickness. Only monthly shipments >= 50 units included.",
+    "median_usd_per_m3": {
+      "belgium": 206,
+      "brazil": 828,
+      "cambodia": 1275,
+      "canada": 768,
+      "chile": 533,
+      "ecuador": 0,
+      "finland": 772,
+      "gabon": 0,
+      "germany": 478,
+      "guatemala": 1868,
+      "indonesia": 1745,
+      "italy": 228,
+      "malaysia": 1806,
+      "mexico": 581,
+      "paraguay": 819,
+      "poland": 1714,
+      "spain": 743,
+      "sweden": 2055,
+      "taiwan": 458,
+      "thailand": 970,
+      "uruguay": 0,
+      "vietnam": 608
+    }
+  },
+
+  "fx_baselines": {
+    "notes": "These are overridden by daily API data when available. Used as fallback only.",
+    "ytd_change_vs_usd_pct": {
+      "IDR": -2.5, "VND": -6.0, "KHR": 0, "MYR": -2.0,
+      "THB": -1.0, "TWD": -1.0, "CAD": -1.0, "CLP": -3.0,
+      "BRL": -4.0, "UYU": -2.0, "EUR": 2.0, "PLN": -1.0,
+      "SEK": -1.0, "XAF": 2.0
+    }
+  }
+}
+;
 
 const REGION_COLORS = {Asia:'#2563eb',Americas:'#16a34a',EMEA:'#ea580c'};
 const BASELINE_BRENT = 92;
@@ -152,7 +1342,8 @@ function calcCIF(country, brent) {
   const ecDuty = buildEC * dutyRate, wcDuty = buildWC !== null ? buildWC * dutyRate : null;
   const totalEC = buildEC + ecDuty + base.fx_adjustment;
   const totalWC = buildWC !== null ? buildWC + wcDuty + (c.cif.west_coast?.fx_adjustment || 0) : null;
-  return { country, region: c.region, totalEC: +totalEC.toFixed(2), totalWC: totalWC !== null ? +totalWC.toFixed(2) : null,
+  const ppu = c.price_per_unit_m3 || OVERRIDES_DATA.price_per_unit?.median_usd_per_m3?.[country.toLowerCase()] || 0;
+  return { country, region: c.region, ppu, totalEC: +totalEC.toFixed(2), totalWC: totalWC !== null ? +totalWC.toFixed(2) : null,
     log: +logAdj.toFixed(2), resin: +resinAdj.toFixed(2), elec: +elecAdj.toFixed(2), labor: ov.labor,
     freightEC: +freightECadj.toFixed(2), freightWC: freightWCadj > 0 ? +freightWCadj.toFixed(2) : null,
     duty: +(ecDuty).toFixed(2), fx: base.fx_adjustment, vuln: c.vulnerability_score };
@@ -188,13 +1379,13 @@ function updateCharts(ec, wc) {
   const mkData = (items, key) => ({ labels: items.map(r=>r.country), datasets: [{ data: items.map(r=>r[key]),
     backgroundColor: items.map(r => REGION_COLORS[r.region] + 'cc'), borderColor: items.map((r,i) => i===0 ? '#eab308' : REGION_COLORS[r.region]),
     borderWidth: items.map((_,i) => i===0 ? 3 : 1) }] });
-  const opts = (title) => ({ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
-    tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.x.toFixed(2)}}}, scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} });
-  if (ecChart) { ecChart.data = mkData(ec,'totalEC'); ecChart.update(); }
-  else { ecChart = new Chart(document.getElementById('ec-chart'), { type:'bar', data:mkData(ec,'totalEC'), options:opts('East Coast') });
+  const opts = (title, items) => ({ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>{ const r = items[ctx.dataIndex]; const ppu = r && r.ppu > 0 ? ' | PPU: $' + r.ppu + '/m3' : ''; return 'CIF: $'+ctx.parsed.x.toFixed(2)+ppu; }}}}, scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} });
+  if (ecChart) { ecChart.data = mkData(ec,'totalEC'); ecChart.options = opts('East Coast', ec); ecChart.update(); }
+  else { ecChart = new Chart(document.getElementById('ec-chart'), { type:'bar', data:mkData(ec,'totalEC'), options:opts('East Coast', ec) });
     document.getElementById('ec-chart').parentElement.style.height = Math.max(400, ec.length * 28) + 'px'; }
-  if (wcChart) { wcChart.data = mkData(wc,'totalWC'); wcChart.update(); }
-  else { wcChart = new Chart(document.getElementById('wc-chart'), { type:'bar', data:mkData(wc,'totalWC'), options:opts('West Coast') });
+  if (wcChart) { wcChart.data = mkData(wc,'totalWC'); wcChart.options = opts('West Coast', wc); wcChart.update(); }
+  else { wcChart = new Chart(document.getElementById('wc-chart'), { type:'bar', data:mkData(wc,'totalWC'), options:opts('West Coast', wc) });
     document.getElementById('wc-chart').parentElement.style.height = Math.max(400, wc.length * 28) + 'px'; }
 }
 
@@ -212,8 +1403,8 @@ function buildRadar() {
     plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}} });
 }
 
-const COLS = ['Country','Region','Log','Resin','Elec','Labor','Frt EC','Frt WC','Duty','FX','Total EC','Total WC','Vuln'];
-const KEYS = ['country','region','log','resin','elec','labor','freightEC','freightWC','duty','fx','totalEC','totalWC','vuln'];
+const COLS = ['Country','Region','PPU $/m3','Log','Resin','Elec','Labor','Frt EC','Frt WC','Duty','FX','Total EC','Total WC','Vuln'];
+const KEYS = ['country','region','ppu','log','resin','elec','labor','freightEC','freightWC','duty','fx','totalEC','totalWC','vuln'];
 
 function updateTable(rows) {
   const thead = document.querySelector('#data-table thead tr');
@@ -229,6 +1420,7 @@ function updateTable(rows) {
     if (r.totalEC > 300) tr.className = 'high-cost';
     KEYS.forEach(k => { const td = document.createElement('td'); let v = r[k];
       if (k === 'vuln') { td.innerHTML = '<span class="vuln ' + vulnClass(v) + '">' + v + '</span>'; }
+      else if (k === 'ppu') { td.textContent = v > 0 ? '$' + v : '--'; td.style.fontWeight = v > 0 ? '600' : 'normal'; td.style.color = v > 0 ? 'var(--text)' : 'var(--muted)'; }
       else if (typeof v === 'number') td.textContent = '$' + v.toFixed(2);
       else if (v === null) td.textContent = '--';
       else td.textContent = v;

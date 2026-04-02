@@ -11,7 +11,8 @@ The "Price per Quantity" row was all zeros. This script:
 Conversion rules
 ----------------
 - If commodity code contains "(m3)"   → use raw CIF/Qty as price per m3
-- All other products (m2, no marker)  → ppu = 0 (excluded from metric)
+- If commodity code contains "(m2)"   → convert m2 price to m3 using thickness (default 18mm for flooring)
+- Products with no unit marker         → ppu = 0 (aggregate heading rows)
 - Minimum qty threshold: 50 (micro-shipments → ppu = 0)
 - qty == 0 or cif == 0 → ppu = 0
 """
@@ -89,11 +90,14 @@ def compute_ppu(
     thickness_mm = extract_thickness_mm(commodity + " " + spec + " " + wood, is_flooring)
     thickness_m  = thickness_mm / 1000.0
 
-    # Only return a ppu for products explicitly measured in m3.
-    # m2 products and threshold-based conversions are excluded.
     if is_m3:
         return round(raw_ppu, 2), False, thickness_mm
 
+    if is_m2:
+        ppu_m3 = raw_ppu / thickness_m
+        return round(ppu_m3, 2), True, thickness_mm
+
+    # No unit marker → aggregate heading row; exclude from metric
     return 0.0, False, thickness_mm
 
 

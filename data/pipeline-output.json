@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-02T14:57:34.120Z",
+  "generated_at": "2026-04-02T15:15:37.468Z",
   "brent_baseline_usd": 92,
   "country_count": 20,
   "countries": [
@@ -31,6 +31,7 @@
           "total_cif": 227.12
         }
       },
+      "price_per_unit_m3": 1745,
       "vulnerability_score": 6.5,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -69,6 +70,7 @@
           "total_cif": 236.31
         }
       },
+      "price_per_unit_m3": 608,
       "vulnerability_score": 5.7,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -107,6 +109,7 @@
           "total_cif": 218.91
         }
       },
+      "price_per_unit_m3": 1275,
       "vulnerability_score": 7.1,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -145,6 +148,7 @@
           "total_cif": 266.65
         }
       },
+      "price_per_unit_m3": 1806,
       "vulnerability_score": 6,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -183,6 +187,7 @@
           "total_cif": 201.83
         }
       },
+      "price_per_unit_m3": 970,
       "vulnerability_score": 4.8,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -221,6 +226,7 @@
           "total_cif": 329.94
         }
       },
+      "price_per_unit_m3": 458,
       "vulnerability_score": 7,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -259,6 +265,7 @@
           "total_cif": 240.48
         }
       },
+      "price_per_unit_m3": 768,
       "vulnerability_score": 4,
       "vulnerability_breakdown": {
         "freight": 4,
@@ -297,6 +304,7 @@
           "total_cif": 248.3
         }
       },
+      "price_per_unit_m3": 533,
       "vulnerability_score": 4.8,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -335,6 +343,7 @@
           "total_cif": 246.82
         }
       },
+      "price_per_unit_m3": 828,
       "vulnerability_score": 4.6,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -373,6 +382,7 @@
           "total_cif": 227.75
         }
       },
+      "price_per_unit_m3": 0,
       "vulnerability_score": 3.8,
       "vulnerability_breakdown": {
         "freight": 4,
@@ -399,8 +409,19 @@
           "fx_adjustment": 1.5,
           "total_cif": 333.15
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 75,
+          "resin": 13.5,
+          "electricity": 14,
+          "labor": 95,
+          "freight": 208.7,
+          "port_handling": 14,
+          "add_duty": 15.8,
+          "fx_adjustment": 1.5,
+          "total_cif": 437.5
+        }
       },
+      "price_per_unit_m3": 772,
       "vulnerability_score": 4.9,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -427,8 +448,19 @@
           "fx_adjustment": 0.7,
           "total_cif": 311.85
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 70,
+          "resin": 12.6,
+          "electricity": 13,
+          "labor": 95,
+          "freight": 195.65,
+          "port_handling": 14,
+          "add_duty": 15.25,
+          "fx_adjustment": 0.7,
+          "total_cif": 416.2
+        }
       },
+      "price_per_unit_m3": 2055,
       "vulnerability_score": 4.6,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -455,8 +487,19 @@
           "fx_adjustment": 1.65,
           "total_cif": 361.59
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 82.5,
+          "resin": 14.85,
+          "electricity": 24.4,
+          "labor": 110,
+          "freight": 186.96,
+          "port_handling": 14,
+          "add_duty": 18.54,
+          "fx_adjustment": 1.65,
+          "total_cif": 452.9
+        }
       },
+      "price_per_unit_m3": 478,
       "vulnerability_score": 6.9,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -483,8 +526,19 @@
           "fx_adjustment": 0.62,
           "total_cif": 229.27
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 62,
+          "resin": 11.16,
+          "electricity": 19,
+          "labor": 14,
+          "freight": 200,
+          "port_handling": 14,
+          "add_duty": 8.49,
+          "fx_adjustment": 0.62,
+          "total_cif": 329.27
+        }
       },
+      "price_per_unit_m3": 1714,
       "vulnerability_score": 6.1,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -511,8 +565,19 @@
           "fx_adjustment": 1.4,
           "total_cif": 266.61
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 70,
+          "resin": 12.6,
+          "electricity": 25.4,
+          "labor": 30,
+          "freight": 191.3,
+          "port_handling": 14,
+          "add_duty": 11.04,
+          "fx_adjustment": 1.4,
+          "total_cif": 355.74
+        }
       },
+      "price_per_unit_m3": 228,
       "vulnerability_score": 6.5,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -539,8 +604,19 @@
           "fx_adjustment": 1.1,
           "total_cif": 216.45
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 55,
+          "resin": 9.9,
+          "electricity": 17,
+          "labor": 20,
+          "freight": 173.91,
+          "port_handling": 14,
+          "add_duty": 8.15,
+          "fx_adjustment": 1.1,
+          "total_cif": 299.06
+        }
       },
+      "price_per_unit_m3": 743,
       "vulnerability_score": 5.5,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -567,8 +643,19 @@
           "fx_adjustment": 1.08,
           "total_cif": 241.54
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 54,
+          "resin": 9.72,
+          "electricity": 22.4,
+          "labor": 35,
+          "freight": 186.96,
+          "port_handling": 14,
+          "add_duty": 9.69,
+          "fx_adjustment": 1.08,
+          "total_cif": 332.85
+        }
       },
+      "price_per_unit_m3": 206,
       "vulnerability_score": 6.1,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -595,8 +682,19 @@
           "fx_adjustment": 2.2,
           "total_cif": 306.14
         },
-        "west_coast": null
+        "west_coast": {
+          "log": 110,
+          "resin": 19.8,
+          "electricity": 19,
+          "labor": 15,
+          "freight": 182.61,
+          "port_handling": 14,
+          "add_duty": 13.1,
+          "fx_adjustment": 2.2,
+          "total_cif": 375.71
+        }
       },
+      "price_per_unit_m3": 0,
       "vulnerability_score": 7.5,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -635,6 +733,7 @@
           "total_cif": 216.63
         }
       },
+      "price_per_unit_m3": 0,
       "vulnerability_score": 5.8,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -673,6 +772,7 @@
           "total_cif": 233.16
         }
       },
+      "price_per_unit_m3": 819,
       "vulnerability_score": 4.7,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -845,8 +945,48 @@
       },
       {
         "rank": 12,
+        "country": "Spain",
+        "total_cif_wc": 299.06
+      },
+      {
+        "rank": 13,
+        "country": "Poland",
+        "total_cif_wc": 329.27
+      },
+      {
+        "rank": 14,
         "country": "Taiwan",
         "total_cif_wc": 329.94
+      },
+      {
+        "rank": 15,
+        "country": "Belgium",
+        "total_cif_wc": 332.85
+      },
+      {
+        "rank": 16,
+        "country": "Italy",
+        "total_cif_wc": 355.74
+      },
+      {
+        "rank": 17,
+        "country": "Gabon",
+        "total_cif_wc": 375.71
+      },
+      {
+        "rank": 18,
+        "country": "Sweden",
+        "total_cif_wc": 416.2
+      },
+      {
+        "rank": 19,
+        "country": "Finland",
+        "total_cif_wc": 437.5
+      },
+      {
+        "rank": 20,
+        "country": "Germany",
+        "total_cif_wc": 452.9
       }
     ]
   },

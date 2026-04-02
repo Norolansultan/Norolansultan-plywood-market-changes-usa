@@ -4,9 +4,7 @@
 // Constants
 // ---------------------------------------------------------------------------
 
-const EMEA_NO_WC = new Set([
-  'finland', 'sweden', 'germany', 'poland', 'italy', 'spain', 'belgium', 'gabon',
-]);
+// All countries now have both East Coast and West Coast routes
 
 const VULNERABILITY_WEIGHTS = {
   freight: 0.20,
@@ -155,7 +153,7 @@ function calculateCIF(countryData, overrides) {
 
   // West Coast
   let westCoast = null;
-  if (!EMEA_NO_WC.has(country)) {
+  {
     const wcTeu = lookupFreight(rates, country, 'long_beach');
     if (wcTeu != null) {
       const wcFreight = round2(freightPerM3(wcTeu, fill));
@@ -290,11 +288,14 @@ function buildFullAnalysis(proxyOutput, overrides, monitoringConfig) {
         : 0,
     }, weights);
 
+    const ppu = overrides.price_per_unit?.median_usd_per_m3?.[country] || 0;
+
     results.push({
       country: cd.country,
       region: cd.region || null,
       currency: cd.currency || null,
       cif,
+      price_per_unit_m3: ppu,
       vulnerability_score: vuln.score,
       vulnerability_breakdown: vuln.breakdown,
     });

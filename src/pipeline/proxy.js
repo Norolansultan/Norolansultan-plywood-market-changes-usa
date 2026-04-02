@@ -38,7 +38,12 @@ const COUNTRY_FREIGHT_WC_CATEGORY = {
   cambodia: 'transpacific_wc', malaysia: 'transpacific_wc',
   thailand: 'transpacific_wc', taiwan: 'transpacific_wc',
   canada: 'americas_short', chile: 'americas_short',
-  brazil: 'americas_short', uruguay: 'americas_short'
+  brazil: 'americas_short', uruguay: 'americas_short',
+  finland: 'transatlantic_wc', sweden: 'transatlantic_wc',
+  germany: 'transatlantic_wc', poland: 'transatlantic_wc',
+  italy: 'transatlantic_wc', spain: 'transatlantic_wc',
+  belgium: 'transatlantic_wc', gabon: 'transatlantic_wc',
+  ecuador: 'americas_short', paraguay: 'americas_short'
 };
 
 const AVERAGE_COGS_ESTIMATE = 300;
