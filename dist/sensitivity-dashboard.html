@@ -64,13 +64,13 @@ tr.high-cost{background:#fef2f2}
   <a href="sensitivity-dashboard.html" style="color:#e2e8f0;background:rgba(255,255,255,.1);text-decoration:none;padding:6px 12px;border-radius:6px">Sensitivity</a>
 </nav>
 <header>
-  <div><h1>Plywood Market Sensitivity Dashboard</h1><div class="sub">War &amp; Energy Impact on Export Costs to USA</div></div>
+  <div><h1>Plywood Market Sensitivity Dashboard</h1><div class="sub">War &amp; Energy Impact on Export Costs to USA &mdash; PPU from USITC import data 2023&ndash;2025</div></div>
   <div class="meta"><span id="m-brent"></span><span id="m-date"></span><span id="m-count"></span></div>
 </header>
 <div class="wrap">
   <div class="cards">
-    <div class="card best-ec"><h3>East Coast Best</h3><div class="val" id="ec-best"></div><div class="detail" id="ec-detail"></div></div>
-    <div class="card best-wc"><h3>West Coast Best</h3><div class="val" id="wc-best"></div><div class="detail" id="wc-detail"></div></div>
+    <div class="card best-ec"><h3>Lowest PPU $/m3</h3><div class="val" id="ec-best"></div><div class="detail" id="ec-detail"></div></div>
+    <div class="card best-wc"><h3>Highest PPU $/m3</h3><div class="val" id="wc-best"></div><div class="detail" id="wc-detail"></div></div>
     <div class="card risk"><h3>Highest Risk</h3><div class="val" id="risk-name"></div><div class="detail" id="risk-detail"></div></div>
   </div>
   <div class="slider-section">
@@ -84,8 +84,8 @@ tr.high-cost{background:#fef2f2}
   </div>
   <div class="legend"><span class="leg-asia">Asia</span><span class="leg-amer">Americas</span><span class="leg-emea">EMEA</span></div>
   <div class="charts">
-    <div class="chart-box"><h2>East Coast CIF Rankings</h2><canvas id="ec-chart"></canvas></div>
-    <div class="chart-box"><h2>West Coast CIF Rankings</h2><canvas id="wc-chart"></canvas></div>
+    <div class="chart-box"><h2>Price Per Unit $/m3 — All Countries</h2><canvas id="ec-chart"></canvas></div>
+    <div class="chart-box"><h2>PPU vs East Coast CIF — Margin Analysis</h2><canvas id="wc-chart"></canvas></div>
   </div>
   <div class="radar-section" id="radar-wrap" style="display:none">
     <div class="radar-box"><h2>Top 5 Most Vulnerable &mdash; Risk Breakdown</h2><canvas id="radar-chart"></canvas></div>
@@ -98,7 +98,7 @@ tr.high-cost{background:#fef2f2}
 <script>
 /* ---- DATA INJECTION (build script replaces these; fallback fetches JSON) ---- */
 let PIPELINE_DATA = {
-  "generated_at": "2026-04-02T15:15:37.468Z",
+  "generated_at": "2026-04-02T15:22:05.864Z",
   "brent_baseline_usd": 92,
   "country_count": 20,
   "countries": [
@@ -1342,8 +1342,12 @@ function calcCIF(country, brent) {
   const ecDuty = buildEC * dutyRate, wcDuty = buildWC !== null ? buildWC * dutyRate : null;
   const totalEC = buildEC + ecDuty + base.fx_adjustment;
   const totalWC = buildWC !== null ? buildWC + wcDuty + (c.cif.west_coast?.fx_adjustment || 0) : null;
-  const ppu = c.price_per_unit_m3 || OVERRIDES_DATA.price_per_unit?.median_usd_per_m3?.[country.toLowerCase()] || 0;
-  return { country, region: c.region, ppu, totalEC: +totalEC.toFixed(2), totalWC: totalWC !== null ? +totalWC.toFixed(2) : null,
+  const basePpu = c.price_per_unit_m3 || OVERRIDES_DATA.price_per_unit?.median_usd_per_m3?.[country.toLowerCase()] || 0;
+  // Adjust PPU by the same cost delta as CIF — oil/energy cost changes pass through to market price
+  const baselineCIF = c.cif.east_coast.total_cif;
+  const cifDelta = totalEC - baselineCIF;
+  const ppu = basePpu > 0 ? +(basePpu + cifDelta).toFixed(2) : 0;
+  return { country, region: c.region, ppu, basePpu, totalEC: +totalEC.toFixed(2), totalWC: totalWC !== null ? +totalWC.toFixed(2) : null,
     log: +logAdj.toFixed(2), resin: +resinAdj.toFixed(2), elec: +elecAdj.toFixed(2), labor: ov.labor,
     freightEC: +freightECadj.toFixed(2), freightWC: freightWCadj > 0 ? +freightWCadj.toFixed(2) : null,
     duty: +(ecDuty).toFixed(2), fx: base.fx_adjustment, vuln: c.vulnerability_score };
@@ -1353,40 +1357,50 @@ function recalc(brent) {
   document.getElementById('brent-display').textContent = '$' + brent + '/bbl';
   document.getElementById('tbl-brent').textContent = brent !== BASELINE_BRENT ? '(at $' + brent + '/bbl)' : '';
   const rows = PIPELINE_DATA.countries.map(c => calcCIF(c.country, brent)).filter(Boolean);
-  const ecSorted = [...rows].sort((a,b) => a.totalEC - b.totalEC);
-  const wcRows = rows.filter(r => r.totalWC !== null);
-  const wcSorted = [...wcRows].sort((a,b) => a.totalWC - b.totalWC);
-  updateCards(ecSorted, wcSorted);
-  updateCharts(ecSorted, wcSorted);
+  const ppuRows = rows.filter(r => r.ppu > 0);
+  const ppuSorted = [...ppuRows].sort((a,b) => a.ppu - b.ppu);
+  updateCards(ppuSorted, rows);
+  updateCharts(ppuSorted, rows);
   updateTable(rows);
 }
 
-function updateCards(ec, wc) {
-  const best = ec[0], worst = ec[ec.length-1];
-  document.getElementById('ec-best').textContent = best.country + ' $' + best.totalEC;
-  document.getElementById('ec-detail').textContent = 'Saves $' + (worst.totalEC - best.totalEC).toFixed(0) + ' vs ' + worst.country;
-  if (wc.length) {
-    const bw = wc[0], ww = wc[wc.length-1];
-    document.getElementById('wc-best').textContent = bw.country + ' $' + bw.totalWC;
-    document.getElementById('wc-detail').textContent = 'Saves $' + (ww.totalWC - bw.totalWC).toFixed(0) + ' vs ' + ww.country;
+function updateCards(ppuSorted, allRows) {
+  if (ppuSorted.length) {
+    const best = ppuSorted[0], worst = ppuSorted[ppuSorted.length-1];
+    document.getElementById('ec-best').textContent = best.country + ' $' + best.ppu + '/m3';
+    document.getElementById('ec-detail').textContent = 'EC CIF: $' + best.totalEC + ' | Margin: ' + ((best.ppu - best.totalEC) / best.ppu * 100).toFixed(0) + '%';
+    document.getElementById('wc-best').textContent = worst.country + ' $' + worst.ppu + '/m3';
+    document.getElementById('wc-detail').textContent = 'EC CIF: $' + worst.totalEC + ' | Margin: ' + ((worst.ppu - worst.totalEC) / worst.ppu * 100).toFixed(0) + '%';
   }
   const risk = [...PIPELINE_DATA.countries].sort((a,b) => b.vulnerability_score - a.vulnerability_score)[0];
   document.getElementById('risk-name').textContent = risk.country + ' (' + risk.vulnerability_score + '/10)';
   document.getElementById('risk-detail').textContent = 'Region: ' + risk.region;
 }
 
-function updateCharts(ec, wc) {
-  const mkData = (items, key) => ({ labels: items.map(r=>r.country), datasets: [{ data: items.map(r=>r[key]),
-    backgroundColor: items.map(r => REGION_COLORS[r.region] + 'cc'), borderColor: items.map((r,i) => i===0 ? '#eab308' : REGION_COLORS[r.region]),
-    borderWidth: items.map((_,i) => i===0 ? 3 : 1) }] });
-  const opts = (title, items) => ({ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
-    tooltip:{callbacks:{label:ctx=>{ const r = items[ctx.dataIndex]; const ppu = r && r.ppu > 0 ? ' | PPU: $' + r.ppu + '/m3' : ''; return 'CIF: $'+ctx.parsed.x.toFixed(2)+ppu; }}}}, scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} });
-  if (ecChart) { ecChart.data = mkData(ec,'totalEC'); ecChart.options = opts('East Coast', ec); ecChart.update(); }
-  else { ecChart = new Chart(document.getElementById('ec-chart'), { type:'bar', data:mkData(ec,'totalEC'), options:opts('East Coast', ec) });
-    document.getElementById('ec-chart').parentElement.style.height = Math.max(400, ec.length * 28) + 'px'; }
-  if (wcChart) { wcChart.data = mkData(wc,'totalWC'); wcChart.options = opts('West Coast', wc); wcChart.update(); }
-  else { wcChart = new Chart(document.getElementById('wc-chart'), { type:'bar', data:mkData(wc,'totalWC'), options:opts('West Coast', wc) });
-    document.getElementById('wc-chart').parentElement.style.height = Math.max(400, wc.length * 28) + 'px'; }
+function updateCharts(ppuSorted, allRows) {
+  // Left chart: PPU $/m3 ranking
+  const ppuData = { labels: ppuSorted.map(r=>r.country), datasets: [{ label:'PPU $/m3', data: ppuSorted.map(r=>r.ppu),
+    backgroundColor: ppuSorted.map(r => REGION_COLORS[r.region] + 'cc'), borderColor: ppuSorted.map((r,i) => i===0 ? '#eab308' : REGION_COLORS[r.region]),
+    borderWidth: ppuSorted.map((_,i) => i===0 ? 3 : 1) }] };
+  const ppuOpts = { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:ctx=>{ const r = ppuSorted[ctx.dataIndex]; const chg = r.ppu !== r.basePpu ? ' (base: $'+r.basePpu+')' : ''; return 'PPU: $'+r.ppu+'/m3'+chg+' | EC CIF: $'+r.totalEC; }}}},
+    scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} };
+  if (ecChart) { ecChart.data = ppuData; ecChart.options = ppuOpts; ecChart.update(); }
+  else { ecChart = new Chart(document.getElementById('ec-chart'), { type:'bar', data:ppuData, options:ppuOpts });
+    document.getElementById('ec-chart').parentElement.style.height = Math.max(400, ppuSorted.length * 28) + 'px'; }
+
+  // Right chart: PPU vs EC CIF grouped bar (margin analysis)
+  const marginData = { labels: ppuSorted.map(r=>r.country), datasets: [
+    { label:'PPU $/m3', data: ppuSorted.map(r=>r.ppu), backgroundColor:'rgba(37,99,235,0.7)', borderColor:'#2563eb', borderWidth:1 },
+    { label:'EC CIF $/m3', data: ppuSorted.map(r=>r.totalEC), backgroundColor:'rgba(234,88,12,0.7)', borderColor:'#ea580c', borderWidth:1 }
+  ] };
+  const marginOpts = { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{font:{size:11}}},
+    tooltip:{callbacks:{label:ctx=>{ const r = ppuSorted[ctx.dataIndex]; const margin = ((r.ppu - r.totalEC)/r.ppu*100).toFixed(1);
+      return ctx.dataset.label+': $'+ctx.parsed.x.toFixed(0)+' (margin: '+margin+'%)'; }}}},
+    scales:{x:{beginAtZero:false,ticks:{callback:v=>'$'+v}},y:{ticks:{font:{size:11}}}} };
+  if (wcChart) { wcChart.data = marginData; wcChart.options = marginOpts; wcChart.update(); }
+  else { wcChart = new Chart(document.getElementById('wc-chart'), { type:'bar', data:marginData, options:marginOpts });
+    document.getElementById('wc-chart').parentElement.style.height = Math.max(400, ppuSorted.length * 28) + 'px'; }
 }
 
 function buildRadar() {
