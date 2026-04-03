@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-02T15:15:37.468Z",
+  "generated_at": "2026-04-02T15:31:46.397Z",
   "brent_baseline_usd": 92,
   "country_count": 20,
   "countries": [
@@ -31,7 +31,7 @@
           "total_cif": 227.12
         }
       },
-      "price_per_unit_m3": 1745,
+      "price_per_unit_m3": 677,
       "vulnerability_score": 6.5,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -70,7 +70,7 @@
           "total_cif": 236.31
         }
       },
-      "price_per_unit_m3": 608,
+      "price_per_unit_m3": 604,
       "vulnerability_score": 5.7,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -148,7 +148,7 @@
           "total_cif": 266.65
         }
       },
-      "price_per_unit_m3": 1806,
+      "price_per_unit_m3": 1780,
       "vulnerability_score": 6,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -187,7 +187,7 @@
           "total_cif": 201.83
         }
       },
-      "price_per_unit_m3": 970,
+      "price_per_unit_m3": 967,
       "vulnerability_score": 4.8,
       "vulnerability_breakdown": {
         "freight": 8,
@@ -343,7 +343,7 @@
           "total_cif": 246.82
         }
       },
-      "price_per_unit_m3": 828,
+      "price_per_unit_m3": 582,
       "vulnerability_score": 4.6,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -460,7 +460,7 @@
           "total_cif": 416.2
         }
       },
-      "price_per_unit_m3": 2055,
+      "price_per_unit_m3": 0,
       "vulnerability_score": 4.6,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -538,7 +538,7 @@
           "total_cif": 329.27
         }
       },
-      "price_per_unit_m3": 1714,
+      "price_per_unit_m3": 162,
       "vulnerability_score": 6.1,
       "vulnerability_breakdown": {
         "freight": 6,
@@ -577,7 +577,7 @@
           "total_cif": 355.74
         }
       },
-      "price_per_unit_m3": 228,
+      "price_per_unit_m3": 214,
       "vulnerability_score": 6.5,
       "vulnerability_breakdown": {
         "freight": 6,

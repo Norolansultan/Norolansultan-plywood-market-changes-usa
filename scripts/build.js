@@ -87,11 +87,11 @@ function parseMarketCSV(csvPath) {
     const thickMm = thickMatch ? parseFloat(thickMatch[1]) : (isFlooring ? 18 : 12);
     const thickM  = thickMm / 1000;
 
+    // Only use PPU for m3 products. m2 flooring is a different product
+    // category — thickness-based conversion is unreliable.
     let pricePerQty = 0;
     if (rawPpu > 0 && isM3) {
       pricePerQty = Math.round(rawPpu * 100) / 100;
-    } else if (rawPpu > 0 && isM2) {
-      pricePerQty = Math.round((rawPpu / thickM) * 100) / 100;
     }
 
     const key = `${c}|${wt}|${sp}|${t}`;

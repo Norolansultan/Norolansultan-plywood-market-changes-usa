@@ -147,11 +147,11 @@
 
   "price_per_unit": {
     "last_updated": "2026-04-02",
-    "source": "USITC import data 2023-2025, median CIF/qty converted to $/m3",
-    "notes": "m2 products (flooring) converted using 18mm thickness. Only monthly shipments >= 50 units included.",
+    "source": "USITC import data 2023-2025, median CIF/qty for m3-denominated products only",
+    "notes": "m2 flooring products excluded — different product category with incompatible unit conversion. Only HTS codes with explicit (m3) marker used. Monthly shipments >= 50 units, PPU $100-$3000 range.",
     "median_usd_per_m3": {
       "belgium": 206,
-      "brazil": 828,
+      "brazil": 582,
       "cambodia": 1275,
       "canada": 768,
       "chile": 533,
@@ -159,19 +159,17 @@
       "finland": 772,
       "gabon": 0,
       "germany": 478,
-      "guatemala": 1868,
-      "indonesia": 1745,
-      "italy": 228,
-      "malaysia": 1806,
-      "mexico": 581,
+      "indonesia": 677,
+      "italy": 214,
+      "malaysia": 1780,
       "paraguay": 819,
-      "poland": 1714,
+      "poland": 162,
       "spain": 743,
-      "sweden": 2055,
+      "sweden": 0,
       "taiwan": 458,
-      "thailand": 970,
+      "thailand": 967,
       "uruguay": 0,
-      "vietnam": 608
+      "vietnam": 604
     }
   },
 

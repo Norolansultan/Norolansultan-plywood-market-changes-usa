@@ -90,14 +90,12 @@ def compute_ppu(
     thickness_mm = extract_thickness_mm(commodity + " " + spec + " " + wood, is_flooring)
     thickness_m  = thickness_mm / 1000.0
 
+    # Only return PPU for products explicitly measured in m3.
+    # m2 flooring products are a different category — thickness-based
+    # conversion is unreliable and inflates values by 2-10x.
     if is_m3:
         return round(raw_ppu, 2), False, thickness_mm
 
-    if is_m2:
-        ppu_m3 = raw_ppu / thickness_m
-        return round(ppu_m3, 2), True, thickness_mm
-
-    # No unit marker → aggregate heading row; exclude from metric
     return 0.0, False, thickness_mm
 
 
