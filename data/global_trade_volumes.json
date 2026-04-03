@@ -1,0 +1,651 @@
+{
+  "generated_at": "2026-04-03",
+  "description": "Plywood trade volumes (HS 4412) by country, estimated from FAOSTAT, UN Comtrade, ITTO, Eurostat, and national statistics. Annual data 2023 (latest confirmed), with 2024 estimates where available.",
+  "unit": "m3",
+  "confidence_note": "Figures are training-data estimates (pre-May 2025) requiring verification against live databases. Ranges reflect cross-source reconciliation uncertainty.",
+  "data_sources": [
+    "FAOSTAT Forestry Production and Trade (fao.org/faostat)",
+    "UN Comtrade (comtradeplus.un.org) - HS 4412",
+    "ITTO Tropical Timber Market Reports",
+    "Eurostat COMEXT (EU countries)",
+    "National statistics: BPS Indonesia, GSO Vietnam, DOSM Malaysia, MTIB, Statistics Canada, SECEX/MDIC Brazil, INFOR Chile, Destatis Germany, GUS Poland, ISTAT Italy, INE Spain, Statbel Belgium, Tulli Finland"
+  ],
+  "countries": [
+    {
+      "country": "Indonesia",
+      "region": "Asia",
+      "role": "Major tropical plywood exporter",
+      "production_2023_m3": {
+        "low": 4500000,
+        "high": 5000000
+      },
+      "exports_2023_m3": {
+        "low": 2400000,
+        "high": 2600000
+      },
+      "imports_2023_m3": {
+        "low": 30000,
+        "high": 50000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 26.8,
+      "top_destinations": [
+        "Japan (22-26%)",
+        "USA (14-18%)",
+        "South Korea (8-11%)",
+        "China (7-10%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441231 (tropical <=6mm)",
+        "441233 (tropical >6mm)"
+      ],
+      "wood_type": "Meranti/Acacia (tropical hardwood + plantation)",
+      "confidence": "medium-high",
+      "notes": "Log export ban since 2001. No US AD/CVD. SVLK compliance advantage."
+    },
+    {
+      "country": "Vietnam",
+      "region": "Asia",
+      "role": "Major exporter under AD/CVD pressure",
+      "production_2023_m3": {
+        "low": 3500000,
+        "high": 4000000
+      },
+      "exports_2023_m3": {
+        "low": 3500000,
+        "high": 4000000
+      },
+      "imports_2023_m3": {
+        "low": 150000,
+        "high": 200000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 20.5,
+      "top_destinations": [
+        "USA (35-40%)",
+        "South Korea (15-20%)",
+        "Japan (12-15%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441231 (tropical)",
+        "441239 (coniferous, other)",
+        "441299 (other)"
+      ],
+      "wood_type": "Acacia plantation",
+      "confidence": "medium",
+      "notes": "US AD 0-4.34% + CVD 0.81-2.85% since Apr 2022. Transshipment concerns (Chinese origin). Exports to US declining 15-25% since duties."
+    },
+    {
+      "country": "Cambodia",
+      "region": "Asia",
+      "role": "Small but rapidly growing; transshipment risk",
+      "production_2023_m3": {
+        "low": 100000,
+        "high": 150000
+      },
+      "exports_2023_m3": {
+        "low": 180000,
+        "high": 220000
+      },
+      "imports_2023_m3": {
+        "low": 60000,
+        "high": 90000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 60,
+      "top_destinations": [
+        "USA (35-45%)",
+        "China",
+        "Regional ASEAN"
+      ],
+      "dominant_hs_subcodes": [
+        "441231 (tropical)",
+        "441299 (other)"
+      ],
+      "wood_type": "Mixed hardwood",
+      "confidence": "low",
+      "notes": "340% export growth since 2019. HIGH transshipment risk (Chinese plywood relabeling). US CBP surveillance. Exports exceed domestic production capacity \u00e2\u20ac\u201d red flag. ADD investigation probable within 24 months."
+    },
+    {
+      "country": "Malaysia",
+      "region": "Asia",
+      "role": "2nd largest tropical plywood exporter globally",
+      "production_2023_m3": {
+        "low": 3500000,
+        "high": 3800000
+      },
+      "exports_2023_m3": {
+        "low": 2050000,
+        "high": 2200000
+      },
+      "imports_2023_m3": {
+        "low": 160000,
+        "high": 190000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 2.9,
+      "top_destinations": [
+        "Japan (35-40%)",
+        "South Korea (10-12%)",
+        "USA (8-10%)",
+        "Middle East (8-10%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441231 (tropical <=6mm, 40-50%)",
+        "441233 (non-coniferous >6mm, 15-20%)",
+        "441292 (rubberwood)"
+      ],
+      "wood_type": "Mixed tropical (Meranti, Keruing) + Rubberwood",
+      "confidence": "medium",
+      "notes": "Declining from ~4M m3 peak in early 2010s due to Sarawak log constraints. No US AD/CVD."
+    },
+    {
+      "country": "Thailand",
+      "region": "Asia",
+      "role": "Mid-tier rubberwood plywood producer",
+      "production_2023_m3": {
+        "low": 500000,
+        "high": 600000
+      },
+      "exports_2023_m3": {
+        "low": 230000,
+        "high": 260000
+      },
+      "imports_2023_m3": {
+        "low": 85000,
+        "high": 110000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 15,
+      "top_destinations": [
+        "Japan (25-30%)",
+        "South Korea (12-15%)",
+        "USA (10-12%)",
+        "China (8-10%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441233 (non-coniferous/rubberwood, 55-65%)",
+        "441292 (non-coniferous/rubberwood)"
+      ],
+      "wood_type": "Rubberwood (Hevea brasiliensis)",
+      "confidence": "medium",
+      "notes": "Narrowing net export surplus. No US AD/CVD. Biomass drying advantage (70-80% self-sufficient)."
+    },
+    {
+      "country": "Taiwan",
+      "region": "Asia",
+      "role": "Re-processor/re-exporter; net importer",
+      "production_2023_m3": {
+        "low": 150000,
+        "high": 200000
+      },
+      "exports_2023_m3": {
+        "low": 50000,
+        "high": 80000
+      },
+      "imports_2023_m3": {
+        "low": 200000,
+        "high": 350000
+      },
+      "net_position": "net_importer",
+      "export_to_usa_share_pct": 40,
+      "top_destinations": [
+        "USA",
+        "Japan"
+      ],
+      "dominant_hs_subcodes": [
+        "441231 (tropical)",
+        "441292 (non-coniferous)"
+      ],
+      "wood_type": "Imported tropical (100% log import dependency)",
+      "confidence": "low-medium",
+      "notes": "Declining commodity plywood competitiveness. 'Double fuel hit' as re-exporter. Not in UN Comtrade (reports as 'Other Asia, nes' code 490)."
+    },
+    {
+      "country": "Canada",
+      "region": "Americas",
+      "role": "Largest single source of US plywood imports",
+      "production_2023_m3": {
+        "low": 1650000,
+        "high": 1750000
+      },
+      "exports_2023_m3": {
+        "low": 1000000,
+        "high": 1150000
+      },
+      "imports_2023_m3": {
+        "low": 580000,
+        "high": 700000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 70.6,
+      "top_destinations": [
+        "USA (85-90%)",
+        "Japan",
+        "South Korea",
+        "EU"
+      ],
+      "dominant_hs_subcodes": [
+        "441239 (coniferous thin ply)",
+        "441299 (coniferous other)"
+      ],
+      "wood_type": "SPF (Spruce-Pine-Fir)",
+      "confidence": "medium-high",
+      "notes": "USMCA zero duty. BC beetle-kill legacy reducing premium log supply. Mill curtailments in 2023-2024."
+    },
+    {
+      "country": "Chile",
+      "region": "Americas",
+      "role": "Plantation-based exporter; declining export trend",
+      "production_2023_m3": {
+        "low": 1400000,
+        "high": 1600000
+      },
+      "exports_2023_m3": {
+        "low": 900000,
+        "high": 1100000
+      },
+      "imports_2023_m3": {
+        "low": 40000,
+        "high": 60000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 27.2,
+      "top_destinations": [
+        "USA (20-25%)",
+        "Mexico (10-15%)",
+        "Peru/Colombia (15-20%)",
+        "South Korea/Japan (10%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441239 (coniferous, radiata pine)",
+        "441299 (coniferous other)"
+      ],
+      "wood_type": "Radiata Pine (plantation)",
+      "confidence": "medium",
+      "notes": "US-Chile FTA zero duty. 2023 forest fires impacted some plantations. Arauco and CMPC are major producers."
+    },
+    {
+      "country": "Brazil",
+      "region": "Americas",
+      "role": "Top 5 global producer; plantation-based net exporter",
+      "production_2023_m3": {
+        "low": 7200000,
+        "high": 7800000
+      },
+      "exports_2023_m3": {
+        "low": 2200000,
+        "high": 2350000
+      },
+      "imports_2023_m3": {
+        "low": 25000,
+        "high": 45000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 40.8,
+      "top_destinations": [
+        "USA (25-30%)",
+        "UK (8-12%)",
+        "Germany (5-8%)",
+        "Mexico (4-6%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441292 (non-coniferous/eucalyptus)",
+        "441239 (other)",
+        "441231 (tropical)"
+      ],
+      "wood_type": "Eucalyptus/Pine (plantation)",
+      "confidence": "medium",
+      "notes": "Parana state = 50-60% of production. BRL depreciation provides cost shield. Port congestion at Santos/Paranagua seasonal risk."
+    },
+    {
+      "country": "Uruguay",
+      "region": "Americas",
+      "role": "Small emerging exporter; lowest CIF to US East Coast",
+      "production_2023_m3": {
+        "low": 70000,
+        "high": 90000
+      },
+      "exports_2023_m3": {
+        "low": 50000,
+        "high": 70000
+      },
+      "imports_2023_m3": {
+        "low": 5000,
+        "high": 10000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 30,
+      "top_destinations": [
+        "USA",
+        "Argentina",
+        "Brazil"
+      ],
+      "dominant_hs_subcodes": [
+        "441239 (coniferous)"
+      ],
+      "wood_type": "Pine/Eucalyptus (plantation)",
+      "confidence": "low",
+      "notes": "HIDDEN WINNER \u00e2\u20ac\u201d best CIF but production scale risk. UPM/Montes del Plata focus on pulp, not plywood."
+    },
+    {
+      "country": "Ecuador",
+      "region": "Americas",
+      "role": "Minor producer; balsa wood niche",
+      "production_2023_m3": {
+        "low": 30000,
+        "high": 50000
+      },
+      "exports_2023_m3": {
+        "low": 10000,
+        "high": 25000
+      },
+      "imports_2023_m3": {
+        "low": 15000,
+        "high": 30000
+      },
+      "net_position": "mixed",
+      "export_to_usa_share_pct": 40,
+      "top_destinations": [
+        "USA",
+        "Colombia",
+        "Peru"
+      ],
+      "dominant_hs_subcodes": [
+        "441231 (tropical)"
+      ],
+      "wood_type": "Balsa/Tropical hardwood",
+      "confidence": "low",
+      "notes": "Primary wood export is balsa (HS 4407/4408), not plywood panels. Dollarized economy. Political instability risk."
+    },
+    {
+      "country": "Paraguay",
+      "region": "Americas",
+      "role": "Smallest producer in dataset; landlocked",
+      "production_2023_m3": {
+        "low": 30000,
+        "high": 50000
+      },
+      "exports_2023_m3": {
+        "low": 5000,
+        "high": 8000
+      },
+      "imports_2023_m3": {
+        "low": 15000,
+        "high": 25000
+      },
+      "net_position": "net_importer",
+      "export_to_usa_share_pct": 10,
+      "top_destinations": [
+        "Argentina (dominant)",
+        "Brazil",
+        "Uruguay"
+      ],
+      "dominant_hs_subcodes": [
+        "441239 (coniferous)",
+        "441292 (non-coniferous/eucalyptus)",
+        "441231 (tropical)"
+      ],
+      "wood_type": "Pine/Eucalyptus (plantation)",
+      "confidence": "low",
+      "notes": "Landlocked \u00e2\u20ac\u201d river barge adds $200-400/TEU surcharge. Cheapest electricity (Itaipu hydro) but logistics constraint."
+    },
+    {
+      "country": "Finland",
+      "region": "EMEA",
+      "role": "Europe's largest birch plywood producer",
+      "production_2023_m3": {
+        "low": 1000000,
+        "high": 1050000
+      },
+      "exports_2023_m3": {
+        "low": 850000,
+        "high": 950000
+      },
+      "imports_2023_m3": {
+        "low": 30000,
+        "high": 50000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 6.3,
+      "top_destinations": [
+        "Germany",
+        "UK",
+        "Netherlands",
+        "France",
+        "Sweden",
+        "Japan",
+        "USA"
+      ],
+      "dominant_hs_subcodes": [
+        "441292 (non-coniferous/birch, 65-70%)",
+        "441299 (coniferous/spruce, 20-25%)"
+      ],
+      "wood_type": "Birch (70-75%) + Spruce (25-30%)",
+      "confidence": "medium-high",
+      "notes": "UPM + Mets\u00c3\u00a4 Wood dominate. Exports 75-80% of production. EU construction downturn reduced 2023 volumes ~8% vs 2022."
+    },
+    {
+      "country": "Sweden",
+      "region": "EMEA",
+      "role": "Minor producer; net importer",
+      "production_2023_m3": {
+        "low": 80000,
+        "high": 110000
+      },
+      "exports_2023_m3": {
+        "low": 45000,
+        "high": 60000
+      },
+      "imports_2023_m3": {
+        "low": 230000,
+        "high": 270000
+      },
+      "net_position": "net_importer",
+      "export_to_usa_share_pct": 8,
+      "top_destinations": [
+        "Norway",
+        "Denmark",
+        "Nordic neighbors"
+      ],
+      "dominant_hs_subcodes": [
+        "441239 (coniferous/spruce)"
+      ],
+      "wood_type": "Spruce/Pine",
+      "confidence": "medium",
+      "notes": "Capacity ~1/10th of Finland. Russian plywood ban (2022 sanctions) forced supply chain restructuring."
+    },
+    {
+      "country": "Germany",
+      "region": "EMEA",
+      "role": "EU's largest plywood consumer; major importer",
+      "production_2023_m3": {
+        "low": 250000,
+        "high": 270000
+      },
+      "exports_2023_m3": {
+        "low": 300000,
+        "high": 320000
+      },
+      "imports_2023_m3": {
+        "low": 1200000,
+        "high": 1350000
+      },
+      "net_position": "net_importer",
+      "export_to_usa_share_pct": 7.6,
+      "top_destinations": [
+        "Intra-EU (France, Austria, Netherlands)",
+        "UK",
+        "USA (small)"
+      ],
+      "dominant_hs_subcodes": [
+        "441292 (non-coniferous)",
+        "441299 (coniferous)"
+      ],
+      "wood_type": "Spruce/Beech",
+      "confidence": "medium",
+      "notes": "Russian ban created ~200k m3/yr supply gap. Highest energy costs in EU ($122/MWh). Construction slowdown 2023-2024."
+    },
+    {
+      "country": "Poland",
+      "region": "EMEA",
+      "role": "Growing EU exporter; beneficiary of Russian ban",
+      "production_2023_m3": {
+        "low": 540000,
+        "high": 560000
+      },
+      "exports_2023_m3": {
+        "low": 340000,
+        "high": 370000
+      },
+      "imports_2023_m3": {
+        "low": 170000,
+        "high": 200000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 15,
+      "top_destinations": [
+        "Germany (25-30%)",
+        "UK (12-15%)",
+        "France (8-10%)",
+        "Netherlands (6-8%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441299 (coniferous/Scots Pine, 55-65%)",
+        "441292 (non-coniferous/birch, 20-25%)"
+      ],
+      "wood_type": "Scots Pine",
+      "confidence": "medium",
+      "notes": "Biggest EU beneficiary of Russian plywood ban. State forest pricing keeps log costs competitive. Most cost-competitive EU producer."
+    },
+    {
+      "country": "Italy",
+      "region": "EMEA",
+      "role": "Specialized producer (poplar/decorative); net importer",
+      "production_2023_m3": {
+        "low": 270000,
+        "high": 290000
+      },
+      "exports_2023_m3": {
+        "low": 350000,
+        "high": 380000
+      },
+      "imports_2023_m3": {
+        "low": 500000,
+        "high": 550000
+      },
+      "net_position": "net_importer",
+      "export_to_usa_share_pct": 20.6,
+      "top_destinations": [
+        "Germany",
+        "France",
+        "Spain",
+        "UK",
+        "USA"
+      ],
+      "dominant_hs_subcodes": [
+        "441292 (non-coniferous/poplar)",
+        "441299 (other)"
+      ],
+      "wood_type": "Poplar (Europe's largest producer) + Oak/Beech imports",
+      "confidence": "medium",
+      "notes": "Exports exceed production due to re-exports (~70-100k m3/yr Chinese plywood redistributed within EU). Highest energy costs."
+    },
+    {
+      "country": "Spain",
+      "region": "EMEA",
+      "role": "Growing plantation-based producer",
+      "production_2023_m3": {
+        "low": 440000,
+        "high": 460000
+      },
+      "exports_2023_m3": {
+        "low": 290000,
+        "high": 320000
+      },
+      "imports_2023_m3": {
+        "low": 340000,
+        "high": 370000
+      },
+      "net_position": "net_importer",
+      "export_to_usa_share_pct": 30.8,
+      "top_destinations": [
+        "Intra-EU (France, Portugal, Germany)",
+        "Morocco",
+        "USA (small)"
+      ],
+      "dominant_hs_subcodes": [
+        "441239 (coniferous)",
+        "441292 (non-coniferous/eucalyptus)"
+      ],
+      "wood_type": "Radiata Pine/Eucalyptus (plantation)",
+      "confidence": "medium",
+      "notes": "Lowest EU log costs ($45-65/m3). Growing solar/wind reducing electricity sensitivity. Shortest transatlantic route to US."
+    },
+    {
+      "country": "Belgium",
+      "region": "EMEA",
+      "role": "Major re-export/trading hub (Antwerp port)",
+      "production_2023_m3": {
+        "low": 210000,
+        "high": 215000
+      },
+      "exports_2023_m3": {
+        "low": 500000,
+        "high": 560000
+      },
+      "imports_2023_m3": {
+        "low": 650000,
+        "high": 700000
+      },
+      "net_position": "net_importer",
+      "export_to_usa_share_pct": 5.9,
+      "top_destinations": [
+        "Intra-EU dispatch",
+        "UK",
+        "USA"
+      ],
+      "dominant_hs_subcodes": [
+        "441292 (non-coniferous)",
+        "441299 (coniferous)"
+      ],
+      "wood_type": "Imported (mixed)",
+      "confidence": "medium",
+      "notes": "Exports far exceed production \u00e2\u20ac\u201d Antwerp is a major plywood re-export hub. Substantial re-export volumes. Nuclear restart positive signal."
+    },
+    {
+      "country": "Gabon",
+      "region": "EMEA",
+      "role": "Fastest-growing African plywood exporter (okoume)",
+      "production_2023_m3": {
+        "low": 150000,
+        "high": 180000
+      },
+      "exports_2023_m3": {
+        "low": 140000,
+        "high": 170000
+      },
+      "imports_2023_m3": {
+        "low": 2000,
+        "high": 5000
+      },
+      "net_position": "net_exporter",
+      "export_to_usa_share_pct": 10,
+      "_us_share_note": "No USITC CIF data for Gabon; retained original estimate",
+      "top_destinations": [
+        "China (25-35%)",
+        "France (15-20%)",
+        "USA (8-12%)",
+        "West Africa (10-15%)",
+        "India (5-10%)"
+      ],
+      "dominant_hs_subcodes": [
+        "441231 (tropical)",
+        "441291 (tropical outer ply)"
+      ],
+      "wood_type": "Okoume (Aucoumea klaineana)",
+      "confidence": "low-medium",
+      "notes": "Log export ban since 2010 drove 5x plywood growth. NKOK SEZ is processing hub (250-350k m3 capacity). Aug 2023 coup did not disrupt operations."
+    }
+  ]
+}
