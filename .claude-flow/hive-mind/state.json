@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "topology": "hierarchical-mesh",
+  "topology": "hierarchical",
   "workers": [
     "hive-worker-1774684104113-wkhb"
   ],
@@ -9,11 +9,11 @@
     "history": []
   },
   "sharedMemory": {},
-  "createdAt": "2026-03-28T07:48:17.508Z",
-  "updatedAt": "2026-03-28T07:48:24.114Z",
+  "createdAt": "2026-04-02T14:42:49.982Z",
+  "updatedAt": "2026-04-02T14:42:49.982Z",
   "queen": {
-    "agentId": "queen-1774684097508",
-    "electedAt": "2026-03-28T07:48:17.508Z",
+    "agentId": "release-queen",
+    "electedAt": "2026-04-02T14:42:49.982Z",
     "term": 1
   }
 }

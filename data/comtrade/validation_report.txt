@@ -1,0 +1,5 @@
+=== PLYWOOD TRADE DATABASE VALIDATION REPORT ===
+Generated: 2026-04-03
+
+ERROR: master_plywood_trade.csv not found at C:\Users\ksako\Documents\Norolansultan-plywood-market-changes-usa\data\comtrade\master_plywood_trade.csv
+Run the Comtrade transform pipeline first.
